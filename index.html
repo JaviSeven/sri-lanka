@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Lanka Journey · Nov 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:#C8973A; --gold-light:#E8B96A;
+    --deep:#0E1A14; --forest:#1A2E22; --jungle:#2D4A35;
+    --sage:#5A7A60; --mist:#A8C4A0; --sand:#F2E8D5;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--deep);color:var(--sand);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+  /* HEADER */
+  header{position:relative;padding:56px 40px 36px;text-align:center;overflow:hidden;}
+  .header-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(200,151,58,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(42,107,138,.12) 0%,transparent 50%),radial-gradient(ellipse at 50% 100%,rgba(45,74,53,.4) 0%,transparent 60%);}
+  .lotus-bg{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(0,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(45,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(90,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(135,60,60)'/%3E%3Ccircle cx='60' cy='60' r='10' fill='%23C8973A'/%3E%3C/svg%3E");background-size:120px;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,4.2rem);font-weight:400;letter-spacing:.02em;position:relative;line-height:1.1;}
+  header h1 em{color:var(--gold);font-style:italic;}
+  .header-sub{font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mist);margin-top:12px;position:relative;}
+  .header-divider{width:60px;height:1px;background:var(--gold);margin:18px auto;position:relative;}
+
+  /* DAYS BAR */
+  .days-bar{display:flex;gap:3px;justify-content:center;padding:0 30px 32px;flex-wrap:wrap;}
+  .day-tick{width:30px;height:34px;border-radius:6px;font-size:.6rem;font-weight:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;transition:transform .15s;cursor:default;}
+  .day-tick:hover{transform:translateY(-2px);}
+  .day-num{font-size:.72rem;font-weight:700;line-height:1;}
+  .day-label{font-size:.48rem;opacity:.7;line-height:1;}
+
+  /* LEGEND */
+  .legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;padding:0 30px 28px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
+  .legend-item{display:flex;align-items:center;gap:7px;color:var(--mist);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+
+  /* TIMELINE */
+  .timeline{max-width:820px;margin:0 auto;padding:0 16px 40px;position:relative;}
+  .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--jungle) 5%,var(--jungle) 95%,transparent);transform:translateX(-50%);}
+
+  /* DESTINATION */
+  .destination{position:relative;margin-bottom:6px;animation:fadeUp .5s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  .destination:nth-child(1){animation-delay:.08s}.destination:nth-child(2){animation-delay:.16s}.destination:nth-child(3){animation-delay:.24s}.destination:nth-child(4){animation-delay:.32s}.destination:nth-child(5){animation-delay:.40s}.destination:nth-child(6){animation-delay:.48s}
+
+  .timeline-node{position:absolute;left:50%;top:28px;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;border:2px solid var(--deep);z-index:2;transition:transform .2s;}
+  .destination:hover .timeline-node{transform:translateX(-50%) scale(1.4);}
+
+  .dest-header{cursor:pointer;padding:16px 18px;border-radius:12px;position:relative;display:flex;align-items:center;gap:12px;transition:all .25s;border:1px solid transparent;}
+  .dest-header:hover{border-color:rgba(200,151,58,.2);background:rgba(255,255,255,.02);}
+
+  .dest-icon{font-size:1.6rem;flex-shrink:0;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border-radius:10px;}
+  .dest-meta{flex:1;min-width:0;}
+  .dest-dates{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .badge{padding:2px 8px;border-radius:20px;font-size:.62rem;letter-spacing:.07em;font-weight:500;}
+  .badge-optional{background:rgba(122,92,154,.25);color:#B89ED4;border:1px solid rgba(122,92,154,.4);}
+  .badge-uncertain{background:rgba(138,106,58,.25);color:#D4B87A;border:1px solid rgba(138,106,58,.4);}
+  .badge-confirmed{background:rgba(90,154,106,.18);color:#8ED4A0;border:1px solid rgba(90,154,106,.35);}
+  .dest-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;letter-spacing:.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dest-desc{font-size:.74rem;color:var(--mist);margin-top:2px;font-weight:300;}
+
+  .dest-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+  .btn-icon{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:var(--mist);border-radius:7px;width:29px;height:29px;font-size:.82rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+  .btn-icon:hover{background:rgba(200,151,58,.15);border-color:var(--gold);color:var(--gold);}
+  .dest-toggle{color:var(--gold);font-size:.72rem;transition:transform .3s;flex-shrink:0;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:rgba(200,151,58,.1);border-radius:50%;}
+  .dest-toggle.open{transform:rotate(180deg);}
+
+  /* PANEL */
+  .plans-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1);padding:0 8px;}
+  .plans-panel.open{max-height:3000px;}
+  .plans-inner{padding:4px 14px 16px;border-left:1px solid var(--jungle);margin-left:32px;margin-bottom:4px;}
+
+  /* TABS */
+  .tabs{display:flex;margin-bottom:12px;margin-top:8px;border-bottom:1px solid rgba(90,122,96,.3);}
+  .tab-btn{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(168,196,160,.5);padding:7px 15px 9px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;}
+  .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .tab-btn:hover:not(.active){color:var(--mist);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+
+  /* PLAN LIST */
+  .plan-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(90,122,96,.18);animation:slideIn .28s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+  .plan-item:last-child{border-bottom:none;}
+  .plan-bullet{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+  .plan-text{flex:1;font-size:.84rem;line-height:1.5;color:var(--sand);}
+  .plan-delete,.note-delete{background:none;border:none;color:rgba(255,255,255,.17);cursor:pointer;font-size:.82rem;padding:2px 5px;border-radius:4px;transition:all .2s;flex-shrink:0;}
+  .plan-delete:hover,.note-delete:hover{color:#D4714A;background:rgba(212,113,74,.1);}
+  .empty-plans{font-size:.76rem;color:rgba(168,196,160,.32);font-style:italic;padding:10px 0 4px;}
+  .add-plan-row{display:flex;gap:6px;margin-top:10px;align-items:center;}
+  .add-plan-input,.note-text-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--jungle);border-radius:8px;padding:8px 12px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;}
+  .add-plan-input::placeholder,.note-text-input::placeholder{color:rgba(168,196,160,.28);}
+  .add-plan-input:focus,.note-text-input:focus{border-color:var(--gold);}
+  .add-plan-btn,.add-note-btn{border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;padding:8px 13px;cursor:pointer;letter-spacing:.04em;transition:all .2s;white-space:nowrap;}
+  .add-plan-btn{color:var(--deep);}
+  .add-plan-btn:hover,.add-note-btn:hover{filter:brightness(1.14);transform:translateY(-1px);}
+  .add-note-btn{background:rgba(200,151,58,.18);color:var(--gold);border:1px solid rgba(200,151,58,.35);}
+  .add-note-btn:hover{background:rgba(200,151,58,.3);}
+
+  /* NOTES */
+  .notes-grid{display:grid;gap:7px;}
+  .note-item{background:rgba(255,255,255,.04);border-radius:9px;border:1px solid rgba(90,122,96,.22);padding:9px 12px;display:flex;align-items:flex-start;gap:9px;animation:slideIn .28s ease;}
+  .note-icon{font-size:.95rem;flex-shrink:0;margin-top:1px;opacity:.85;}
+  .note-body{flex:1;min-width:0;}
+  .note-cat{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;font-weight:600;}
+  .note-text{font-size:.82rem;color:var(--sand);line-height:1.45;}
+  .add-note-area{margin-top:10px;}
+  .note-input-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .note-cat-select{background:rgba(255,255,255,.06);border:1px solid var(--jungle);border-radius:8px;padding:8px 9px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.76rem;outline:none;cursor:pointer;transition:border-color .2s;flex-shrink:0;}
+  .note-cat-select:focus{border-color:var(--gold);}
+  .note-cat-select option{background:#1A2E22;}
+  .note-text-input{min-width:140px;}
+
+  /* CONNECTOR */
+  .connector{display:flex;align-items:center;justify-content:center;height:32px;}
+  .connector-text{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(90,122,96,.55);background:var(--deep);padding:3px 12px;border:1px solid rgba(90,122,96,.2);border-radius:20px;z-index:1;}
+
+  /* ADD DEST */
+  .add-dest-wrap{display:flex;justify-content:center;margin:8px 0 30px;}
+  .add-dest-btn{background:rgba(200,151,58,.1);border:1px dashed rgba(200,151,58,.38);color:var(--gold);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;padding:9px 22px;cursor:pointer;letter-spacing:.08em;transition:all .22s;}
+  .add-dest-btn:hover{background:rgba(200,151,58,.2);transform:translateY(-1px);}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal{background:var(--forest);border:1px solid var(--jungle);border-radius:16px;padding:26px 26px 22px;width:100%;max-width:470px;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .28s;box-shadow:0 24px 60px rgba(0,0,0,.55);}
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:18px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+  .modal-close{margin-left:auto;background:none;border:none;color:rgba(168,196,160,.45);font-size:1rem;cursor:pointer;transition:color .2s;padding:2px 6px;}
+  .modal-close:hover{color:var(--sand);}
+  .form-row{margin-bottom:13px;}
+  .form-label{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-bottom:5px;font-weight:500;}
+  .form-input,.form-select{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--jungle);border-radius:9px;padding:9px 12px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;}
+  .form-input:focus,.form-select:focus{border-color:var(--gold);}
+  .form-select option{background:#1A2E22;}
+  .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
+  .modal-actions{display:flex;gap:8px;margin-top:18px;}
+  .btn-save{flex:1;background:var(--gold);border:none;border-radius:9px;color:var(--deep);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;padding:10px;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
+  .btn-save:hover{background:var(--gold-light);}
+  .btn-cancel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;color:var(--mist);font-family:'DM Sans',sans-serif;font-size:.84rem;padding:10px 16px;cursor:pointer;transition:all .2s;}
+  .btn-cancel:hover{background:rgba(255,255,255,.1);}
+  .btn-danger{background:rgba(212,113,74,.14);border:1px solid rgba(212,113,74,.28);border-radius:9px;color:#D4714A;font-family:'DM Sans',sans-serif;font-size:.82rem;padding:10px 13px;cursor:pointer;transition:all .2s;}
+  .btn-danger:hover{background:rgba(212,113,74,.24);}
+
+  .emoji-picker{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;}
+  .emoji-opt{width:33px;height:33px;border-radius:7px;font-size:1.05rem;background:rgba(255,255,255,.05);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+  .emoji-opt:hover,.emoji-opt.selected{background:rgba(200,151,58,.2);border-color:var(--gold);}
+
+  /* COLOR PICKER */
+  .color-picker{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;}
+  .color-opt{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s;}
+  .color-opt:hover,.color-opt.selected{border-color:white;transform:scale(1.15);}
+
+  ::-webkit-scrollbar{width:5px;}
+  ::-webkit-scrollbar-track{background:var(--deep);}
+  ::-webkit-scrollbar-thumb{background:var(--jungle);border-radius:3px;}
+
+  footer{text-align:center;padding:26px;font-size:.68rem;color:rgba(90,122,96,.4);letter-spacing:.1em;border-top:1px solid rgba(45,74,53,.3);}
+
+  /* EXPORT BTN */
+  .export-wrap{display:flex;justify-content:center;padding:0 20px 10px;gap:10px;flex-wrap:wrap;}
+  .export-btn{display:flex;align-items:center;gap:8px;background:rgba(200,151,58,.13);border:1px solid rgba(200,151,58,.4);color:var(--gold);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;padding:10px 22px;cursor:pointer;letter-spacing:.07em;transition:all .22s;}
+  .export-btn:hover{background:rgba(200,151,58,.24);transform:translateY(-1px);}
+
+  /* ─── MOBILE RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    header { padding: 36px 20px 24px; }
+    header h1 { font-size: 2rem; }
+    .header-sub { font-size: .7rem; letter-spacing: .18em; }
+
+    .days-bar { padding: 0 12px 24px; gap: 2px; }
+    .day-tick { width: 22px; height: 28px; border-radius: 5px; }
+    .day-num { font-size: .6rem; }
+    .day-label { font-size: .38rem; }
+
+    .legend { gap: 12px; padding: 0 16px 20px; font-size: .68rem; }
+
+    .timeline { padding: 0 8px 30px; }
+    .timeline::before { left: 16px; transform: none; }
+
+    .timeline-node { left: 16px; transform: translateX(-50%); top: 22px; width: 10px; height: 10px; }
+    .destination:hover .timeline-node { transform: translateX(-50%) scale(1.3); }
+
+    .dest-header { padding: 12px 12px 12px 36px; gap: 10px; }
+    .dest-icon { width: 40px; height: 40px; font-size: 1.4rem; border-radius: 9px; flex-shrink: 0; }
+    .dest-name { font-size: 1.05rem; white-space: normal; }
+    .dest-desc { font-size: .7rem; }
+    .dest-dates { font-size: .62rem; gap: 5px; }
+    .badge { font-size: .58rem; padding: 2px 6px; }
+
+    .btn-icon { width: 34px; height: 34px; font-size: .9rem; }
+    .dest-toggle { width: 28px; height: 28px; }
+
+    .plans-inner { margin-left: 8px; padding: 4px 10px 14px; }
+
+    .tab-btn { font-size: .68rem; padding: 7px 12px 9px; letter-spacing: .05em; }
+
+    .plan-text { font-size: .82rem; }
+    .plan-delete, .note-delete { padding: 4px 8px; font-size: .85rem; }
+
+    .add-plan-row { flex-wrap: wrap; }
+    .add-plan-input { font-size: .82rem; padding: 10px 12px; }
+    .add-plan-btn { width: 100%; padding: 11px; font-size: .82rem; text-align: center; }
+
+    .note-input-row { flex-direction: column; align-items: stretch; }
+    .note-cat-select { width: 100%; font-size: .82rem; padding: 10px; }
+    .note-text-input { width: 100%; min-width: unset; font-size: .82rem; padding: 10px 12px; }
+    .add-note-btn { width: 100%; padding: 11px; font-size: .82rem; text-align: center; }
+
+    .note-item { padding: 10px; }
+    .note-text { font-size: .8rem; }
+
+    .connector { height: 26px; }
+    .connector-text { font-size: .58rem; padding: 3px 10px; letter-spacing: .12em; }
+
+    .add-dest-wrap { margin: 6px 8px 24px; }
+    .add-dest-btn { width: 100%; padding: 13px; font-size: .82rem; text-align: center; }
+
+    .export-wrap { padding: 0 8px 8px; }
+    .export-btn { width: 100%; justify-content: center; padding: 13px; font-size: .82rem; }
+
+    /* Modal full screen on mobile */
+    .modal-overlay { padding: 0; align-items: flex-end; }
+    .modal {
+      border-radius: 20px 20px 0 0;
+      max-height: 92vh;
+      padding: 22px 20px 32px;
+      max-width: 100%;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .form-input, .form-select { font-size: .9rem; padding: 11px 13px; }
+    .form-row-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-save { padding: 13px; font-size: .88rem; }
+    .btn-cancel { padding: 13px 14px; font-size: .88rem; }
+    .btn-danger { padding: 13px 12px; font-size: .84rem; }
+    .emoji-opt { width: 36px; height: 36px; font-size: 1.1rem; }
+    .color-opt { width: 30px; height: 30px; }
+
+    footer { font-size: .62rem; padding: 20px 16px; }
+  }
+  @media print {
+    @page { margin: 12mm 14mm; size: A4; }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    body {
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      font-family: 'DM Sans', sans-serif !important;
+    }
+
+    /* Hide interactive elements */
+    .export-wrap, .add-dest-wrap, .dest-actions, .add-plan-row,
+    .add-note-area, .tabs, .modal-overlay, footer,
+    .dest-toggle, .btn-icon, .plan-delete, .note-delete { display: none !important; }
+
+    /* Header */
+    header { background: #ffffff !important; padding: 20px 10px 16px !important; }
+    .header-bg, .lotus-bg { display: none !important; }
+    header h1 { color: #1a1a1a !important; font-size: 2rem !important; }
+    header h1 em { color: #8B6520 !important; }
+    .header-sub { color: #666 !important; }
+    .header-divider { background: #8B6520 !important; }
+
+    /* Days bar */
+    .days-bar { padding-bottom: 14px !important; }
+    .day-tick { border-radius: 5px !important; }
+
+    /* Legend */
+    .legend { color: #444 !important; }
+    .legend-item { color: #444 !important; }
+
+    /* Timeline */
+    .timeline { padding-bottom: 10px !important; }
+    .timeline::before { display: none !important; }
+    .timeline-node { display: none !important; }
+    .connector { height: 18px !important; }
+    .connector-text {
+      color: #888 !important;
+      background: #ffffff !important;
+      border-color: #ccc !important;
+    }
+
+    /* Destination cards */
+    .destination { page-break-inside: avoid; margin-bottom: 8px !important; }
+    .dest-header {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 8px !important;
+      padding: 10px 14px !important;
+    }
+    .dest-icon { background: #efefef !important; border-radius: 8px !important; }
+    .dest-name { color: #1a1a1a !important; font-size: 1.1rem !important; }
+    .dest-desc { color: #555 !important; }
+    .dest-dates { color: #8B6520 !important; }
+
+    /* Badges */
+    .badge-confirmed { background: #e6f4eb !important; color: #2d7a47 !important; border-color: #a8d8bb !important; }
+    .badge-optional  { background: #f0ebf8 !important; color: #6b41a0 !important; border-color: #c9aee8 !important; }
+    .badge-uncertain { background: #fdf3e3 !important; color: #8B6520 !important; border-color: #e0c07a !important; }
+
+    /* Panel */
+    .plans-panel { max-height: none !important; overflow: visible !important; }
+    .tab-content { display: block !important; }
+    .plans-inner {
+      border-left: 2px solid #d4a843 !important;
+      margin-left: 20px !important;
+      padding: 4px 12px 12px !important;
+      background: transparent !important;
+    }
+
+    /* Plan items */
+    .plan-item { border-bottom-color: #e8e8e8 !important; padding: 6px 0 !important; }
+    .plan-text { color: #222 !important; font-size: .82rem !important; }
+    .empty-plans { color: #aaa !important; }
+
+    /* Note items */
+    .note-item {
+      background: #f9f9f9 !important;
+      border-color: #e0e0e0 !important;
+      border-radius: 7px !important;
+      margin-bottom: 5px !important;
+    }
+    .note-cat { color: #8B6520 !important; }
+    .note-text { color: #222 !important; font-size: .8rem !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-bg"></div>
+  <div class="lotus-bg"></div>
+  <p class="header-sub" style="position:relative">Noviembre 2025 · La Perla del Índico</p>
+  <div class="header-divider"></div>
+  <h1 style="position:relative"><em>Sri Lanka</em><br>Journey Planner</h1>
+  <div class="header-divider"></div>
+</header>
+
+<div class="days-bar" id="daysBar"></div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Confirmado</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B89ED4"></div>Opcional</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D4B87A"></div>Por confirmar</div>
+</div>
+
+<div class="timeline" id="timeline"></div>
+
+<div class="add-dest-wrap">
+  <button class="add-dest-btn" onclick="openNewDestModal()">＋ Añadir nuevo destino</button>
+</div>
+
+<div class="export-wrap">
+  <button class="export-btn" onclick="exportPDF()">🖨️ &nbsp;Guardar como PDF</button>
+</div>
+
+<footer>✦ Abre cada destino · añade planes, notas y consejos · edita con ✏️ ✦</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modalTitleText">Editar destino</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Icono</label>
+      <div class="emoji-picker" id="emojiPicker"></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Nombre del destino</label>
+      <input class="form-input" id="editName" placeholder="Ej: Kandy, Galle, Colombo…"/>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Descripción corta</label>
+      <input class="form-input" id="editDesc" placeholder="Ej: Templo del Diente · Ciudad colonial…"/>
+    </div>
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Día inicio (Nov)</label>
+        <input class="form-input" type="number" id="editFrom" min="1" max="30"/>
+      </div>
+      <div>
+        <label class="form-label">Día fin (Nov)</label>
+        <input class="form-input" type="number" id="editTo" min="1" max="30"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Estado</label>
+      <select class="form-select" id="editStatus">
+        <option value="confirmed">✅ Confirmado</option>
+        <option value="optional">🔮 Opcional</option>
+        <option value="uncertain">❓ Por confirmar</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Color</label>
+      <div class="color-picker" id="colorPicker"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveEdit()">Guardar</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-danger" id="btnDelete" onclick="deleteDestModal()">🗑 Borrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EMOJIS = ['🏰','🍃','🌄','🐆','🌊','🐋','🏖️','🌺','🦚','🛕','⛵','🏔️','🌴','🦁','🎑','🚂','🌿','🏝️','🦜','🌅','🎭','🌙','🐘','🕌'];
+const COLORS = ['#C8973A','#5A7A60','#5A9A6A','#7A5C9A','#2A6B8A','#8A6A3A','#D4714A','#4A8A9A','#9A4A6A','#6A8A4A','#4A6A9A','#8A4A4A'];
+const NOTE_CATS = [
+  {key:'logistica', label:'Logística',    icon:'🚗'},
+  {key:'alojamiento', label:'Alojamiento',icon:'🏨'},
+  {key:'consejo',   label:'Consejo',      icon:'💡'},
+  {key:'presupuesto',label:'Presupuesto', icon:'💸'},
+  {key:'comida',    label:'Comida',       icon:'🍜'},
+  {key:'info',      label:'Info útil',    icon:'📌'},
+  {key:'transporte',label:'Transporte',   icon:'🛺'},
+  {key:'salud',     label:'Salud/Seguridad',icon:'🏥'},
+];
+
+let destinations = [
+  {id:'sigiriya',   name:'Sigiriya',   emoji:'🏰',dateFrom:1, dateTo:3, color:'#C8973A',status:'confirmed',
+   plans:['Subir a la Roca del León al amanecer','Visitar las Cuevas de Dambulla'],
+   notes:[{cat:'logistica',text:'Alquilar moto en el pueblo para moverse por la zona'},{cat:'consejo',text:'Llevar mucha agua y protección solar — el ascenso tarda ~1.5h'}],
+   desc:'La Roca del León · Selvas ancestrales · Dambulla'},
+  {id:'nugunariya', name:'Nawalapitiya / Nuwara Eliya',emoji:'🍃',dateFrom:3,dateTo:4,color:'#5A7A60',status:'confirmed',
+   plans:[],notes:[{cat:'info',text:'El tren Kandy–Nuwara Eliya es uno de los más bonitos del mundo — reservar asiento'}],
+   desc:'Plantaciones de té · Colinas neblinosas · Hill Country'},
+  {id:'ella',       name:'Ella',       emoji:'🌄',dateFrom:4, dateTo:7, color:'#5A9A6A',status:'confirmed',
+   plans:['Amanecer en Ella Rock','Foto en Nine Arch Bridge','Tren panorámico Ella–Kandy'],
+   notes:[{cat:'logistica',text:'Moverse en tuk-tuk o moto de alquiler dentro del pueblo'},{cat:'comida',text:'Comer en Café Chill — vistas al valle increíbles'}],
+   desc:'Nine Arch Bridge · Ella Rock · Tren panorámico'},
+  {id:'yala',       name:'Yala National Park',emoji:'🐆',dateFrom:7,dateTo:9,color:'#7A5C9A',status:'optional',
+   plans:['Safari mañana día 8 (zona sur del parque)','Reservar jeep con guía local'],
+   notes:[{cat:'consejo',text:'Reservar safari con antelación — plazas muy limitadas en temporada alta'},{cat:'presupuesto',text:'Jeep + entrada parque ~50–70€/persona'}],
+   desc:'Safari de leopardos · Elefantes salvajes · Naturaleza pura'},
+  {id:'hiriketiya', name:'Hiriketiya', emoji:'🌊',dateFrom:9, dateTo:12,color:'#2A6B8A',status:'uncertain',
+   plans:[],notes:[{cat:'info',text:'Noviembre puede tener lluvias en el sur — revisar previsión antes de ir'}],
+   desc:'Bahía circular · Surf · Playa oculta del sur'},
+  {id:'mirissa',    name:'Mirissa / Otra zona',emoji:'🐋',dateFrom:12,dateTo:15,color:'#8A6A3A',status:'uncertain',
+   plans:[],notes:[{cat:'consejo',text:'Whale watching: la temporada empieza en diciembre — confirmar fechas exactas'}],
+   desc:'Whale watching · Coco Beach · Sunset vibes'},
+];
+
+let editingId   = null;
+let editEmoji   = '🏖️';
+let editColor   = '#C8973A';
+let openPanels  = new Set();
+
+// ─── SAVE / LOAD ───
+function save(){try{localStorage.setItem('slk_v4',JSON.stringify(destinations));}catch(e){}}
+function load(){try{const r=localStorage.getItem('slk_v4');if(r)destinations=JSON.parse(r);}catch(e){}}
+
+// ─── DAYS BAR ───
+function renderDaysBar(){
+  const bar=document.getElementById('daysBar');
+  bar.innerHTML='';
+  if(!destinations.length)return;
+  const mn=Math.min(...destinations.map(d=>d.dateFrom));
+  const mx=Math.max(...destinations.map(d=>d.dateTo));
+  for(let d=mn;d<=mx;d++){
+    const dest=destinations.find(x=>d>=x.dateFrom&&d<x.dateTo)||(d===mx?destinations.find(x=>x.dateTo===mx):null);
+    const t=document.createElement('div');
+    t.className='day-tick';
+    t.title=dest?dest.name:'';
+    t.style.background=dest?dest.color+'28':'rgba(255,255,255,.04)';
+    t.style.border=dest?`1px solid ${dest.color}50`:'1px solid rgba(255,255,255,.07)';
+    t.style.color=dest?dest.color:'rgba(255,255,255,.3)';
+    t.innerHTML=`<span class="day-num">${d}</span><span class="day-label">Nov</span>`;
+    bar.appendChild(t);
+  }
+}
+
+// ─── TIMELINE ───
+function renderTimeline(){
+  // remember open panels
+  openPanels=new Set();
+  document.querySelectorAll('.plans-panel.open').forEach(p=>openPanels.add(p.id.replace('panel-','')));
+
+  const tl=document.getElementById('timeline');
+  tl.innerHTML='';
+  const sorted=[...destinations].sort((a,b)=>a.dateFrom-b.dateFrom);
+
+  sorted.forEach((dest,i)=>{
+    if(i>0){
+      const conn=document.createElement('div');
+      conn.className='connector';
+      conn.innerHTML=`<span class="connector-text">día ${dest.dateFrom} · traslado</span>`;
+      tl.appendChild(conn);
+    }
+    const card=document.createElement('div');
+    card.className='destination';
+    card.dataset.id=dest.id;
+
+    const node=document.createElement('div');
+    node.className='timeline-node';
+    node.style.background=dest.color;
+    node.style.boxShadow=`0 0 0 3px ${dest.color}30`;
+
+    let badge='';
+    if(dest.status==='optional')  badge=`<span class="badge badge-optional">Opcional</span>`;
+    if(dest.status==='uncertain') badge=`<span class="badge badge-uncertain">Por confirmar</span>`;
+    if(dest.status==='confirmed') badge=`<span class="badge badge-confirmed">Confirmado</span>`;
+
+    const hdr=document.createElement('div');
+    hdr.className='dest-header';
+    hdr.style.background=`linear-gradient(135deg,${dest.color}0C,transparent)`;
+    const dLabel=dest.dateFrom===dest.dateTo?`Día ${dest.dateFrom} Nov`:`${dest.dateFrom} — ${dest.dateTo} Nov`;
+    const pCount=dest.plans.length;
+    const nCount=dest.notes.length;
+    const countBadges=(pCount>0?`<span style="font-size:.6rem;opacity:.55">${pCount} plan${pCount>1?'es':''}</span>`:'')
+                     +(nCount>0?`<span style="font-size:.6rem;opacity:.55">${nCount} nota${nCount>1?'s':''}</span>`:'');
+    hdr.innerHTML=`
+      <div class="dest-icon">${dest.emoji}</div>
+      <div class="dest-meta">
+        <div class="dest-dates"><span>${dLabel}</span>${badge}</div>
+        <div class="dest-name">${esc(dest.name)}</div>
+        <div class="dest-desc">${esc(dest.desc)}${countBadges?'&ensp;'+countBadges:''}</div>
+      </div>
+      <div class="dest-actions">
+        <button class="btn-icon edit-btn" title="Editar destino" data-id="${dest.id}">✏️</button>
+        <div class="dest-toggle" id="toggle-${dest.id}">▼</div>
+      </div>`;
+
+    const panel=document.createElement('div');
+    panel.className='plans-panel'+(openPanels.has(dest.id)?' open':'');
+    panel.id=`panel-${dest.id}`;
+
+    const inner=document.createElement('div');
+    inner.className='plans-inner';
+    inner.style.borderColor=dest.color+'40';
+    inner.id=`inner-${dest.id}`;
+    renderInner(inner,dest);
+    panel.appendChild(inner);
+
+    hdr.addEventListener('click',e=>{if(e.target.closest('.edit-btn'))return;togglePanel(dest.id);});
+    hdr.querySelector('.edit-btn').addEventListener('click',e=>{e.stopPropagation();openEditModal(dest.id);});
+
+    if(openPanels.has(dest.id)) hdr.querySelector('.dest-toggle').classList.add('open');
+
+    card.appendChild(node);
+    card.appendChild(hdr);
+    card.appendChild(panel);
+    tl.appendChild(card);
+  });
+}
+
+// ─── INNER (tabs) ───
+function renderInner(container,dest){
+  const pc=dest.plans.length, nc=dest.notes.length;
+  container.innerHTML=`
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="plans-${dest.id}">📋 Planes${pc>0?` <sup style="color:var(--gold)">${pc}</sup>`:''}
+      </button>
+      <button class="tab-btn" data-tab="notes-${dest.id}">📝 Notas${nc>0?` <sup style="color:var(--gold)">${nc}</sup>`:''}
+      </button>
+    </div>
+    <div class="tab-content active" id="plans-${dest.id}">${plansHTML(dest)}</div>
+    <div class="tab-content" id="notes-${dest.id}">${notesHTML(dest)}</div>`;
+
+  container.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      container.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      container.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+  bindPlanEvents(container,dest);
+  bindNoteEvents(container,dest);
+}
+
+function plansHTML(dest){
+  let list=dest.plans.length===0
+    ?`<div class="empty-plans">Sin planes aún — ¡añade el primero!</div>`
+    :dest.plans.map((p,i)=>`
+      <div class="plan-item">
+        <div class="plan-bullet" style="background:${dest.color}"></div>
+        <div class="plan-text">${esc(p)}</div>
+        <button class="plan-delete" data-idx="${i}" data-id="${dest.id}" title="Eliminar">✕</button>
+      </div>`).join('');
+  return `<div id="plan-list-${dest.id}">${list}</div>
+    <div class="add-plan-row">
+      <input class="add-plan-input" id="plan-input-${dest.id}" placeholder="Nueva actividad, lugar o tarea…"/>
+      <button class="add-plan-btn" style="background:${dest.color}" data-id="${dest.id}">+ Añadir</button>
+    </div>`;
+}
+
+function notesHTML(dest){
+  let list=dest.notes.length===0
+    ?`<div class="empty-plans">Sin notas — añade logística, consejos, presupuesto…</div>`
+    :dest.notes.map((n,i)=>{
+      const cat=NOTE_CATS.find(c=>c.key===n.cat)||NOTE_CATS[5];
+      return `<div class="note-item">
+        <div class="note-icon">${cat.icon}</div>
+        <div class="note-body">
+          <div class="note-cat">${cat.label}</div>
+          <div class="note-text">${esc(n.text)}</div>
+        </div>
+        <button class="note-delete" data-idx="${i}" data-id="${dest.id}" title="Eliminar">✕</button>
+      </div>`;
+    }).join('');
+  const opts=NOTE_CATS.map(c=>`<option value="${c.key}">${c.icon} ${c.label}</option>`).join('');
+  return `<div class="notes-grid" id="notes-list-${dest.id}">${list}</div>
+    <div class="add-note-area">
+      <div class="note-input-row">
+        <select class="note-cat-select" id="note-cat-${dest.id}">${opts}</select>
+        <input class="note-text-input" id="note-input-${dest.id}" placeholder="Añadir nota, consejo, recordatorio…"/>
+        <button class="add-note-btn" data-id="${dest.id}">+ Nota</button>
+      </div>
+    </div>`;
+}
+
+function bindPlanEvents(c,dest){
+  c.querySelector(`.add-plan-btn[data-id="${dest.id}"]`)?.addEventListener('click',()=>addPlan(dest.id));
+  c.querySelector(`#plan-input-${dest.id}`)?.addEventListener('keydown',e=>{if(e.key==='Enter')addPlan(dest.id);});
+  c.querySelectorAll(`.plan-delete[data-id="${dest.id}"]`).forEach(b=>b.addEventListener('click',()=>deletePlan(dest.id,+b.dataset.idx)));
+}
+function bindNoteEvents(c,dest){
+  c.querySelector(`.add-note-btn[data-id="${dest.id}"]`)?.addEventListener('click',()=>addNote(dest.id));
+  c.querySelector(`#note-input-${dest.id}`)?.addEventListener('keydown',e=>{if(e.key==='Enter')addNote(dest.id);});
+  c.querySelectorAll(`.note-delete[data-id="${dest.id}"]`).forEach(b=>b.addEventListener('click',()=>deleteNote(dest.id,+b.dataset.idx)));
+}
+
+function addPlan(id){
+  const inp=document.getElementById(`plan-input-${id}`);
+  const txt=inp.value.trim();if(!txt)return;
+  destinations.find(d=>d.id===id).plans.push(txt);inp.value='';
+  refreshInner(id);save();renderDaysBar();
+}
+function deletePlan(id,idx){destinations.find(d=>d.id===id).plans.splice(idx,1);refreshInner(id);save();}
+function addNote(id){
+  const catEl=document.getElementById(`note-cat-${id}`);
+  const inp=document.getElementById(`note-input-${id}`);
+  const txt=inp.value.trim();if(!txt)return;
+  destinations.find(d=>d.id===id).notes.push({cat:catEl.value,text:txt});inp.value='';
+  refreshInner(id);save();
+}
+function deleteNote(id,idx){destinations.find(d=>d.id===id).notes.splice(idx,1);refreshInner(id);save();}
+
+function refreshInner(id){
+  const dest=destinations.find(d=>d.id===id);
+  const inner=document.getElementById(`inner-${id}`);
+  if(!inner)return;
+  const activeTab=inner.querySelector('.tab-btn.active')?.dataset.tab;
+  renderInner(inner,dest);
+  if(activeTab){
+    inner.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    inner.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    const btn=inner.querySelector(`.tab-btn[data-tab="${activeTab}"]`);
+    const cont=document.getElementById(activeTab);
+    if(btn)btn.classList.add('active');
+    if(cont)cont.classList.add('active');
+  }
+  // update header count badges without full re-render
+  const d=destinations.find(x=>x.id===id);
+  const hdr=document.querySelector(`.destination[data-id="${id}"] .dest-header`);
+  if(hdr){
+    const pc=d.plans.length,nc=d.notes.length;
+    const badges=(pc>0?`<span style="font-size:.6rem;opacity:.55">${pc} plan${pc>1?'es':''}</span>`:'')+
+                 (nc>0?`<span style="font-size:.6rem;opacity:.55">${nc} nota${nc>1?'s':''}</span>`:'');
+    const descEl=hdr.querySelector('.dest-desc');
+    if(descEl) descEl.innerHTML=esc(d.desc)+(badges?'&ensp;'+badges:'');
+  }
+}
+
+function togglePanel(id){
+  const p=document.getElementById(`panel-${id}`);
+  const t=document.getElementById(`toggle-${id}`);
+  const open=p.classList.toggle('open');
+  t.classList.toggle('open',open);
+}
+
+// ─── MODAL ───
+function buildPickers(selEmoji,selColor){
+  const ep=document.getElementById('emojiPicker');
+  ep.innerHTML='';
+  EMOJIS.forEach(e=>{
+    const b=document.createElement('button');
+    b.className='emoji-opt'+(e===selEmoji?' selected':'');
+    b.textContent=e;
+    b.onclick=()=>{ep.querySelectorAll('.emoji-opt').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');editEmoji=e;};
+    ep.appendChild(b);
+  });
+  const cp=document.getElementById('colorPicker');
+  cp.innerHTML='';
+  COLORS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='color-opt'+(c===selColor?' selected':'');
+    b.style.background=c;
+    b.title=c;
+    b.onclick=()=>{cp.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');editColor=c;};
+    cp.appendChild(b);
+  });
+}
+
+function openEditModal(id){
+  const dest=destinations.find(d=>d.id===id);
+  editingId=id; editEmoji=dest.emoji; editColor=dest.color;
+  document.getElementById('modalTitleText').textContent='Editar destino';
+  document.getElementById('editName').value=dest.name;
+  document.getElementById('editDesc').value=dest.desc;
+  document.getElementById('editFrom').value=dest.dateFrom;
+  document.getElementById('editTo').value=dest.dateTo;
+  document.getElementById('editStatus').value=dest.status;
+  document.getElementById('btnDelete').style.display='';
+  buildPickers(dest.emoji,dest.color);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openNewDestModal(){
+  editingId=null; editEmoji='🏖️'; editColor='#4A8A9A';
+  document.getElementById('modalTitleText').textContent='Nuevo destino';
+  document.getElementById('editName').value='';
+  document.getElementById('editDesc').value='';
+  const last=destinations.length?Math.max(...destinations.map(d=>d.dateTo)):15;
+  document.getElementById('editFrom').value=last;
+  document.getElementById('editTo').value=last+2;
+  document.getElementById('editStatus').value='confirmed';
+  document.getElementById('btnDelete').style.display='none';
+  buildPickers(editEmoji,editColor);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');editingId=null;}
+
+function saveEdit(){
+  const name=document.getElementById('editName').value.trim();
+  const desc=document.getElementById('editDesc').value.trim();
+  const from=parseInt(document.getElementById('editFrom').value);
+  const to=parseInt(document.getElementById('editTo').value);
+  const status=document.getElementById('editStatus').value;
+  if(!name||isNaN(from)||isNaN(to)||from>to)return;
+  if(editingId){
+    const dest=destinations.find(d=>d.id===editingId);
+    Object.assign(dest,{name,desc,emoji:editEmoji,dateFrom:from,dateTo:to,status,color:editColor});
+  }else{
+    destinations.push({id:'dest_'+Date.now(),name,desc,emoji:editEmoji,dateFrom:from,dateTo:to,status,color:editColor,plans:[],notes:[]});
+  }
+  closeModal();save();renderDaysBar();renderTimeline();
+}
+
+function deleteDestModal(){
+  if(!editingId)return;
+  if(!confirm('¿Eliminar este destino con todos sus planes y notas?'))return;
+  destinations=destinations.filter(d=>d.id!==editingId);
+  closeModal();save();renderDaysBar();renderTimeline();
+}
+
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ─── EXPORT PDF ───
+function exportPDF(){
+  // 1. Open all panels
+  destinations.forEach(dest=>{
+    const p=document.getElementById(`panel-${dest.id}`);
+    const t=document.getElementById(`toggle-${dest.id}`);
+    if(p) p.classList.add('open');
+    if(t) t.classList.add('open');
+  });
+
+  // 2. Show ALL tab contents simultaneously for print
+  document.querySelectorAll('.tab-content').forEach(c=>{
+    c.classList.add('_print_shown');
+    c.style.setProperty('display','block','important');
+  });
+
+  // 3. Print after a short delay so DOM settles
+  setTimeout(()=>{
+    window.print();
+    // 4. Restore state after dialog
+    setTimeout(()=>{
+      document.querySelectorAll('._print_shown').forEach(c=>{
+        c.style.removeProperty('display');
+        c.classList.remove('_print_shown');
+      });
+      // hide non-active tabs again
+      document.querySelectorAll('.tab-content:not(.active)').forEach(c=>{
+        c.style.display='none';
+      });
+    }, 800);
+  }, 350);
+}
+
+load();renderDaysBar();renderTimeline();
+</script>
+</body>
+</html>
