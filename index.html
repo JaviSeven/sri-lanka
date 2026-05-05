@@ -455,10 +455,10 @@ let saveTimer   = null;
 // ─── FIREBASE CONFIG ───
 const FB_URL = 'https://sri-lanka-planner-default-rtdb.europe-west1.firebasedatabase.app/data.json';
 
-// Datos por defecto — solo se usan si Firebase está vacío
+// Copia de seguridad de los datos originales
 const DEFAULT_DESTINATIONS = JSON.parse(JSON.stringify(destinations));
 
-// A partir de aquí destinations es la variable de trabajo — NO la tocamos hasta que load() termine
+// Vaciamos destinations — se rellenará desde Firebase
 destinations = [];
 
 function showStatus(msg, color='#C8973A'){
@@ -468,22 +468,24 @@ function showStatus(msg, color='#C8973A'){
   el.style.color=color;
   el.style.opacity='1';
   clearTimeout(el._t);
-  el._t=setTimeout(()=>el.style.opacity='0', 3000);
+  el._t=setTimeout(()=>el.style.opacity='0', 3500);
 }
 
-// ─── SAVE ───
+// ─── SAVE — siempre guarda TODO el array destinations ───
 function save(){
-  clearTimeout(saveTimer);
+  if(!destinations.length){ showStatus('⚠ Nada que guardar','#D4714A'); return; }
+  clearTimeout(window._saveTimer);
   showStatus('💾 Guardando…');
-  saveTimer=setTimeout(async()=>{
+  window._saveTimer=setTimeout(async()=>{
     try{
+      const body = JSON.stringify({ destinations: destinations });
       const res=await fetch(FB_URL,{
         method:'PUT',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({destinations})
+        body: body
       });
-      if(res.ok){ showStatus('✓ Guardado','#8ED4A0'); }
-      else { showStatus('⚠ Error al guardar','#D4714A'); }
+      if(res.ok){ showStatus('✓ Guardado ('+destinations.length+' destinos)','#8ED4A0'); }
+      else { showStatus('⚠ Error HTTP '+res.status,'#D4714A'); }
     }catch(e){ showStatus('⚠ Sin conexión','#D4714A'); }
   }, 1000);
 }
@@ -492,31 +494,30 @@ function save(){
 async function load(){
   showStatus('⟳ Cargando…');
   try{
-    const res=await fetch(FB_URL);
+    const res=await fetch(FB_URL+'?t='+Date.now()); // evitar caché
     if(res.ok){
       const data=await res.json();
-      if(data && data.destinations && data.destinations.length > 0){
-        // Firebase tiene datos — usarlos siempre
+      if(data && Array.isArray(data.destinations) && data.destinations.length > 0){
         destinations = data.destinations;
-        showStatus('✓ Datos cargados','#8ED4A0');
+        showStatus('✓ '+destinations.length+' destinos cargados','#8ED4A0');
       } else {
-        // Firebase vacío — subir los 6 destinos por defecto
-        destinations = DEFAULT_DESTINATIONS;
-        showStatus('☁ Iniciando por primera vez…');
+        // Firebase vacío o estructura incorrecta — subir datos por defecto
+        destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
+        showStatus('☁ Primera vez, iniciando…');
         await fetch(FB_URL,{
           method:'PUT',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({destinations})
+          body: JSON.stringify({ destinations: destinations })
         });
-        showStatus('✓ Listo','#8ED4A0');
+        showStatus('✓ Datos iniciales subidos','#8ED4A0');
       }
     } else {
-      destinations = DEFAULT_DESTINATIONS;
-      showStatus('⚠ Error al conectar','#D4714A');
+      destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
+      showStatus('⚠ Error de red, usando datos locales','#D4714A');
     }
   }catch(e){
-    destinations = DEFAULT_DESTINATIONS;
-    showStatus('⚠ Sin conexión','#D4714A');
+    destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
+    showStatus('⚠ Sin conexión, datos locales','#D4714A');
   }
 }
 
