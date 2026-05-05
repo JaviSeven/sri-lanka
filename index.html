@@ -452,10 +452,8 @@ let editColor   = '#C8973A';
 let openPanels  = new Set();
 let saveTimer   = null;
 
-// ─── JSONBIN CONFIG ───
-const BIN_ID  = '69f993cf36566621a827e58f';
-const API_KEY = '$2a$10$ZHIA4e0CMh80XL5sJc8hUe21YGO7YBR8y6LngIHs9eXh3QOBP45eS';
-const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+// ─── FIREBASE CONFIG ───
+const FB_URL = 'https://sri-lanka-planner-default-rtdb.europe-west1.firebasedatabase.app/data.json';
 
 function showStatus(msg, color='#C8973A'){
   const el=document.getElementById('syncStatus');
@@ -467,45 +465,47 @@ function showStatus(msg, color='#C8973A'){
   el._t=setTimeout(()=>el.style.opacity='0', 3000);
 }
 
-// ─── SAVE (debounced) ───
+// ─── SAVE (debounced 1s) ───
 function save(){
   clearTimeout(saveTimer);
   showStatus('💾 Guardando…');
   saveTimer=setTimeout(async()=>{
     try{
-      const res=await fetch(BIN_URL,{
+      const res=await fetch(FB_URL,{
         method:'PUT',
-        headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'},
+        headers:{'Content-Type':'application/json'},
         body:JSON.stringify({destinations})
       });
       if(res.ok){ showStatus('✓ Guardado', '#8ED4A0'); }
       else { showStatus('⚠ Error al guardar','#D4714A'); }
     }catch(e){ showStatus('⚠ Sin conexión','#D4714A'); }
-  }, 800);
+  }, 1000);
 }
 
 // ─── LOAD ───
 async function load(){
   showStatus('⟳ Cargando…');
   try{
-    const res=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY}});
+    const res=await fetch(FB_URL);
     if(res.ok){
       const data=await res.json();
-      if(data.record && data.record.destinations && data.record.destinations.length>0){
-        destinations=data.record.destinations;
+      if(data && data.destinations && data.destinations.length>0){
+        destinations=data.destinations;
         showStatus('✓ Datos cargados','#8ED4A0');
       } else {
-        // First time: save the default data
-        showStatus('☁ Iniciando…');
-        await fetch(BIN_URL,{
+        // Primera vez: subir datos por defecto
+        showStatus('☁ Iniciando por primera vez…');
+        await fetch(FB_URL,{
           method:'PUT',
-          headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'},
+          headers:{'Content-Type':'application/json'},
           body:JSON.stringify({destinations})
         });
         showStatus('✓ Listo','#8ED4A0');
       }
     }
-  }catch(e){ showStatus('⚠ Sin conexión — datos locales','#D4714A'); }
+  }catch(e){
+    showStatus('⚠ Sin conexión','#D4714A');
+  }
 }
 
 // ─── DAYS BAR ───
