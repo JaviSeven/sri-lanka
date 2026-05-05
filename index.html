@@ -455,6 +455,12 @@ let saveTimer   = null;
 // ─── FIREBASE CONFIG ───
 const FB_URL = 'https://sri-lanka-planner-default-rtdb.europe-west1.firebasedatabase.app/data.json';
 
+// Datos por defecto — solo se usan si Firebase está vacío
+const DEFAULT_DESTINATIONS = JSON.parse(JSON.stringify(destinations));
+
+// A partir de aquí destinations es la variable de trabajo — NO la tocamos hasta que load() termine
+destinations = [];
+
 function showStatus(msg, color='#C8973A'){
   const el=document.getElementById('syncStatus');
   if(!el)return;
@@ -465,7 +471,7 @@ function showStatus(msg, color='#C8973A'){
   el._t=setTimeout(()=>el.style.opacity='0', 3000);
 }
 
-// ─── SAVE (debounced 1s) ───
+// ─── SAVE ───
 function save(){
   clearTimeout(saveTimer);
   showStatus('💾 Guardando…');
@@ -476,7 +482,7 @@ function save(){
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({destinations})
       });
-      if(res.ok){ showStatus('✓ Guardado', '#8ED4A0'); }
+      if(res.ok){ showStatus('✓ Guardado','#8ED4A0'); }
       else { showStatus('⚠ Error al guardar','#D4714A'); }
     }catch(e){ showStatus('⚠ Sin conexión','#D4714A'); }
   }, 1000);
@@ -489,12 +495,14 @@ async function load(){
     const res=await fetch(FB_URL);
     if(res.ok){
       const data=await res.json();
-      if(data && data.destinations && data.destinations.length >= 6){
-        destinations=data.destinations;
+      if(data && data.destinations && data.destinations.length > 0){
+        // Firebase tiene datos — usarlos siempre
+        destinations = data.destinations;
         showStatus('✓ Datos cargados','#8ED4A0');
       } else {
-        // Datos incompletos — subir los correctos
-        showStatus('☁ Iniciando datos…');
+        // Firebase vacío — subir los 6 destinos por defecto
+        destinations = DEFAULT_DESTINATIONS;
+        showStatus('☁ Iniciando por primera vez…');
         await fetch(FB_URL,{
           method:'PUT',
           headers:{'Content-Type':'application/json'},
@@ -502,8 +510,12 @@ async function load(){
         });
         showStatus('✓ Listo','#8ED4A0');
       }
+    } else {
+      destinations = DEFAULT_DESTINATIONS;
+      showStatus('⚠ Error al conectar','#D4714A');
     }
   }catch(e){
+    destinations = DEFAULT_DESTINATIONS;
     showStatus('⚠ Sin conexión','#D4714A');
   }
 }
