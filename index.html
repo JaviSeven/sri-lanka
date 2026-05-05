@@ -580,8 +580,8 @@ function renderTimeline(){
     hdr.className='dest-header';
     hdr.style.background=`linear-gradient(135deg,${dest.color}0C,transparent)`;
     const dLabel=dest.dateFrom===dest.dateTo?`Día ${dest.dateFrom} Nov`:`${dest.dateFrom} — ${dest.dateTo} Nov`;
-    const pCount=dest.plans.length;
-    const nCount=dest.notes.length;
+    const pCount=(dest.plans||[]).length;
+    const nCount=(dest.notes||[]).length;
     const countBadges=(pCount>0?`<span style="font-size:.6rem;opacity:.55">${pCount} plan${pCount>1?'es':''}</span>`:'')
                      +(nCount>0?`<span style="font-size:.6rem;opacity:.55">${nCount} nota${nCount>1?'s':''}</span>`:'');
     hdr.innerHTML=`
@@ -621,6 +621,8 @@ function renderTimeline(){
 
 // ─── INNER (tabs) ───
 function renderInner(container,dest){
+  if(!dest.plans) dest.plans=[];
+  if(!dest.notes) dest.notes=[];
   const pc=dest.plans.length, nc=dest.notes.length;
   container.innerHTML=`
     <div class="tabs">
@@ -645,9 +647,10 @@ function renderInner(container,dest){
 }
 
 function plansHTML(dest){
-  let list=dest.plans.length===0
+  const plans = dest.plans || [];
+  let list=plans.length===0
     ?`<div class="empty-plans">Sin planes aún — ¡añade el primero!</div>`
-    :dest.plans.map((p,i)=>`
+    :plans.map((p,i)=>`
       <div class="plan-item">
         <div class="plan-bullet" style="background:${dest.color}"></div>
         <div class="plan-text">${esc(p)}</div>
@@ -661,9 +664,10 @@ function plansHTML(dest){
 }
 
 function notesHTML(dest){
-  let list=dest.notes.length===0
+  const notes = dest.notes || [];
+  let list=notes.length===0
     ?`<div class="empty-plans">Sin notas — añade logística, consejos, presupuesto…</div>`
-    :dest.notes.map((n,i)=>{
+    :notes.map((n,i)=>{
       const cat=NOTE_CATS.find(c=>c.key===n.cat)||NOTE_CATS[5];
       return `<div class="note-item">
         <div class="note-icon">${cat.icon}</div>
