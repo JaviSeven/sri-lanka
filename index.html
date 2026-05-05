@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sri Lanka Journey · Nov 2025</title>
+<title>Sri Lanka 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -489,12 +489,12 @@ async function load(){
     const res=await fetch(FB_URL);
     if(res.ok){
       const data=await res.json();
-      if(data && data.destinations && data.destinations.length>0){
+      if(data && data.destinations && data.destinations.length >= 6){
         destinations=data.destinations;
         showStatus('✓ Datos cargados','#8ED4A0');
       } else {
-        // Primera vez: subir datos por defecto
-        showStatus('☁ Iniciando por primera vez…');
+        // Datos incompletos — subir los correctos
+        showStatus('☁ Iniciando datos…');
         await fetch(FB_URL,{
           method:'PUT',
           headers:{'Content-Type':'application/json'},
@@ -845,4 +845,3 @@ load().then(()=>{ renderDaysBar(); renderTimeline(); });
 </script>
 </body>
 </html>
-
