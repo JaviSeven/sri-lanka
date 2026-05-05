@@ -347,7 +347,11 @@
   <div class="legend-item"><div class="legend-dot" style="background:#D4B87A"></div>Por confirmar</div>
 </div>
 
-<div class="timeline" id="timeline"></div>
+<div class="timeline" id="timeline">
+  <div id="loadingMsg" style="text-align:center;padding:60px 20px;color:var(--mist);font-size:.85rem;letter-spacing:.1em;">
+    ⟳ Cargando destinos…
+  </div>
+</div>
 
 <div class="add-dest-wrap">
   <button class="add-dest-btn" onclick="openNewDestModal()">＋ Añadir nuevo destino</button>
@@ -422,7 +426,8 @@ const NOTE_CATS = [
   {key:'salud',     label:'Salud/Seguridad',icon:'🏥'},
 ];
 
-let destinations = [
+// Datos por defecto (solo si Firebase está vacío)
+const DEFAULT_DESTINATIONS = [
   {id:'sigiriya',   name:'Sigiriya',   emoji:'🏰',dateFrom:1, dateTo:3, color:'#C8973A',status:'confirmed',
    plans:['Subir a la Roca del León al amanecer','Visitar las Cuevas de Dambulla'],
    notes:[{cat:'logistica',text:'Alquilar moto en el pueblo para moverse por la zona'},{cat:'consejo',text:'Llevar mucha agua y protección solar — el ascenso tarda ~1.5h'}],
@@ -446,6 +451,9 @@ let destinations = [
    desc:'Whale watching · Coco Beach · Sunset vibes'},
 ];
 
+// Variable de trabajo — SIEMPRE vacía al inicio
+let destinations = [];
+
 let editingId   = null;
 let editEmoji   = '🏖️';
 let editColor   = '#C8973A';
@@ -454,12 +462,6 @@ let saveTimer   = null;
 
 // ─── FIREBASE CONFIG ───
 const FB_URL = 'https://sri-lanka-planner-default-rtdb.europe-west1.firebasedatabase.app/data.json';
-
-// Copia de seguridad de los datos originales
-const DEFAULT_DESTINATIONS = JSON.parse(JSON.stringify(destinations));
-
-// Vaciamos destinations — se rellenará desde Firebase
-destinations = [];
 
 function showStatus(msg, color='#C8973A'){
   const el=document.getElementById('syncStatus');
@@ -494,14 +496,13 @@ function save(){
 async function load(){
   showStatus('⟳ Cargando…');
   try{
-    const res=await fetch(FB_URL+'?t='+Date.now()); // evitar caché
+    const res=await fetch(FB_URL+'?t='+Date.now());
     if(res.ok){
       const data=await res.json();
       if(data && Array.isArray(data.destinations) && data.destinations.length > 0){
         destinations = data.destinations;
         showStatus('✓ '+destinations.length+' destinos cargados','#8ED4A0');
       } else {
-        // Firebase vacío o estructura incorrecta — subir datos por defecto
         destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
         showStatus('☁ Primera vez, iniciando…');
         await fetch(FB_URL,{
@@ -519,6 +520,9 @@ async function load(){
     destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
     showStatus('⚠ Sin conexión, datos locales','#D4714A');
   }
+  // Quitar mensaje de carga
+  const msg = document.getElementById('loadingMsg');
+  if(msg) msg.remove();
 }
 
 // ─── DAYS BAR ───
@@ -854,7 +858,17 @@ function exportPDF(){
   }, 350);
 }
 
-load().then(()=>{ renderDaysBar(); renderTimeline(); });
+load().then(()=>{
+  renderDaysBar();
+  renderTimeline();
+  // Si tras 2s sigue vacío, reintentar
+  setTimeout(()=>{
+    if(destinations.length > 0 && document.getElementById('timeline').children.length === 0){
+      renderDaysBar();
+      renderTimeline();
+    }
+  }, 2000);
+});
 </script>
 </body>
 </html>
