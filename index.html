@@ -336,6 +336,7 @@
   <div class="header-divider"></div>
   <h1 style="position:relative"><em>Sri Lanka</em><br>Journey Planner</h1>
   <div class="header-divider"></div>
+  <p id="syncStatus" style="position:relative;font-size:.7rem;letter-spacing:.1em;color:var(--gold);opacity:0;transition:opacity .4s;margin-top:-8px;padding-bottom:4px;"></p>
 </header>
 
 <div class="days-bar" id="daysBar"></div>
@@ -449,10 +450,63 @@ let editingId   = null;
 let editEmoji   = '🏖️';
 let editColor   = '#C8973A';
 let openPanels  = new Set();
+let saveTimer   = null;
 
-// ─── SAVE / LOAD ───
-function save(){try{localStorage.setItem('slk_v4',JSON.stringify(destinations));}catch(e){}}
-function load(){try{const r=localStorage.getItem('slk_v4');if(r)destinations=JSON.parse(r);}catch(e){}}
+// ─── JSONBIN CONFIG ───
+const BIN_ID  = '69f993cf36566621a827e58f';
+const API_KEY = '$2a$10$ZHIA4e0CMh80XL5sJc8hUe21YGO7YBR8y6LngIHs9eXh3QOBP45eS';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+function showStatus(msg, color='#C8973A'){
+  const el=document.getElementById('syncStatus');
+  if(!el)return;
+  el.textContent=msg;
+  el.style.color=color;
+  el.style.opacity='1';
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.style.opacity='0', 3000);
+}
+
+// ─── SAVE (debounced) ───
+function save(){
+  clearTimeout(saveTimer);
+  showStatus('💾 Guardando…');
+  saveTimer=setTimeout(async()=>{
+    try{
+      const res=await fetch(BIN_URL,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'},
+        body:JSON.stringify({destinations})
+      });
+      if(res.ok){ showStatus('✓ Guardado', '#8ED4A0'); }
+      else { showStatus('⚠ Error al guardar','#D4714A'); }
+    }catch(e){ showStatus('⚠ Sin conexión','#D4714A'); }
+  }, 800);
+}
+
+// ─── LOAD ───
+async function load(){
+  showStatus('⟳ Cargando…');
+  try{
+    const res=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY}});
+    if(res.ok){
+      const data=await res.json();
+      if(data.record && data.record.destinations && data.record.destinations.length>0){
+        destinations=data.record.destinations;
+        showStatus('✓ Datos cargados','#8ED4A0');
+      } else {
+        // First time: save the default data
+        showStatus('☁ Iniciando…');
+        await fetch(BIN_URL,{
+          method:'PUT',
+          headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'},
+          body:JSON.stringify({destinations})
+        });
+        showStatus('✓ Listo','#8ED4A0');
+      }
+    }
+  }catch(e){ showStatus('⚠ Sin conexión — datos locales','#D4714A'); }
+}
 
 // ─── DAYS BAR ───
 function renderDaysBar(){
@@ -787,7 +841,7 @@ function exportPDF(){
   }, 350);
 }
 
-load();renderDaysBar();renderTimeline();
+load().then(()=>{ renderDaysBar(); renderTimeline(); });
 </script>
 </body>
 </html>
