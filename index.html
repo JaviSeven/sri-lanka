@@ -203,6 +203,9 @@ dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
 .toast.on{opacity:1;transform:translateX(-50%)}
 .foot{text-align:center;color:var(--mu2);font-size:.75rem;padding:8px 20px 20px}
 @media (min-width:700px){.hero{min-height:240px}}
+.sync{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;margin-left:6px;color:var(--mu2)}
+.sync::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.sync.ok{color:var(--ok)} .sync.wait{color:var(--warn)} .sync.bad{color:var(--bad)} .sync.off{color:var(--mu2)}
 
 </style>
 </head>
@@ -210,7 +213,7 @@ dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
 <header class="top">
   <div class="hd">
     <img class="logo" src="icon-180.png" alt="">
-    <div class="sp"><h1>Sri <em>Lanka</em> <span class="pill" id="pill"></span></h1><div class="sub">1 – 15 nov 2026 · Colombo a la costa sur</div></div>
+    <div class="sp"><h1>Sri <em>Lanka</em> <span class="pill" id="pill"></span></h1><div class="sub">1 – 15 nov 2026 <span class="sync" id="sync"></span></div></div>
   </div>
   <div class="chips" id="chips"></div>
 </header>
@@ -561,7 +564,7 @@ const st = {
   nombres: LS.get("nombres", ["Javi", "Pareja"]), cambio: LS.get("cambio", { LKR: 372.96, USD: 1.1243, fecha: "2026-10-21", fuente: "referencia" }),
   tiempo: LS.get("tiempo", {})
 };
-const guardar = k => LS.set(k, st[k]);
+function guardar(k) { LS.set(k, st[k]); Sync.cambio(k); }
 
 /* ============================ cabecera ============================ */
 function cabecera() {
@@ -571,6 +574,7 @@ function cabecera() {
   else if (fin >= 0) pill = `Día ${diffDias(VIAJE.inicio, h) + 1}`;
   else pill = "Viaje hecho";
   $("#pill").textContent = pill;
+  Sync.pintarEstado();
   const hoyP = (n > 0 ? PARADAS[0] : fin < 0 ? null : paradaDe(h));
   const actual = diaSel != null ? DIAS[diaSel].p : hoyP?.id;
   $("#chips").innerHTML = PARADAS.map(p => `<button class="chip ${p.id === actual && tab === "hoy" ? "on" : ""}" style="--c:${p.color}" data-parada="${p.id}">${esc(p.nombre)}</button>`).join("");
@@ -605,6 +609,8 @@ function hoy() {
     return `<button class="dd ${i === diaSel ? "on" : ""} ${d.f === h ? "hoy" : ""}" data-dia="${i}"><div class="w">${DSEM3[dd.getUTCDay()]}</div><div class="n">${dd.getUTCDate()}</div><div class="dot" style="background:${i === diaSel ? "#0E1A14" : c}"></div></button>`;
   }).join("")}</div></div>`;
 
+  if (!Sync.codigo) html += `<div class="hint">Lo que apuntéis se guarda solo en este móvil. Para compartirlo entre los dos, abre el enlace del viaje o pega aquí el código:
+    <div class="row" style="margin-top:8px"><input class="inp" id="hCod" placeholder="Código del viaje" autocapitalize="off" autocomplete="off" style="margin:0"><button class="btn pri" data-activar>Activar</button></div></div>`;
   // Antes del viaje: lo pendiente
   if (h < VIAJE.inicio) {
     const pend = POR_HACER.filter(t => !st.todo[t.id]).sort((a, b) => a.fecha.localeCompare(b.fecha));
@@ -883,19 +889,20 @@ function kit() {
     html += `<div class="card"><h2>Frases en cingalés</h2><p class="mu sm">Toca una frase para oírla (si el móvil tiene la voz instalada) o enséñala en pantalla.</p>
       ${FRASES.map((f, i) => `<div class="fr" data-frase="${i}" style="cursor:pointer"><span>${esc(f.es)}</span><div class="s"><b>${esc(f.si)}</b><i>${esc(f.r)}</i></div></div>`).join("")}</div>`;
   } else {
-    html += `<div class="card"><h2>Viajeros</h2><p class="mu sm">Para repartir los gastos.</p>
+    html += syncCardHTML() + `<div class="card"><h2>Viajeros</h2><p class="mu sm">Para repartir los gastos.</p>
       <input class="inp" id="n0" value="${esc(st.nombres[0])}"><input class="inp" id="n1" value="${esc(st.nombres[1])}"></div>
       <div class="card"><h2>Copia de seguridad</h2><p class="mu sm">Todo (gastos, notas, checklist) se guarda en este móvil. Exporta una copia para pasarla a otro móvil o por si acaso. Los archivos adjuntos no se incluyen.</p>
       <div class="btns"><button class="btn pri" id="bExp">Exportar</button><label class="btn" style="margin:0;color:inherit">Importar<input type="file" id="bImp" accept="application/json" hidden></label></div></div>
       <div class="card"><h2>Tipo de cambio</h2><p class="mu sm">1 € = ${num(st.cambio.LKR)} LKR · 1 € = ${num(st.cambio.USD)} $ (${fCorta(st.cambio.fecha)}). Se actualiza solo cuando hay conexión.</p></div>
-      <div class="card"><h2>Empezar de cero</h2><p class="mu sm">Borra gastos, notas, diario y marcas de este móvil.</p><button class="btn full" id="bReset" style="margin-top:10px;color:var(--bad)">Borrar datos</button></div>`;
+      <div class="card"><h2>Empezar de cero</h2><p class="mu sm">Borra lo guardado en este móvil. Si la sincronización está activa, se vuelve a descargar lo que hay en la nube.</p><button class="btn full" id="bReset" style="margin-top:10px;color:var(--bad)">Borrar datos</button></div>`;
   }
   $("#s-kit").innerHTML = html;
+  syncCardEventos();
   const seg = $("#segT"); if (seg) seg.oninput = e => { st.seguro = e.target.value; guardar("seguro"); };
   [0, 1].forEach(i => { const el = $("#n" + i); if (el) el.onchange = e => { st.nombres[i] = e.target.value.trim() || ["Javi", "Pareja"][i]; guardar("nombres"); toast("Guardado"); }; });
   const ex = $("#bExp"); if (ex) ex.onclick = () => { const o = {}; Object.keys(localStorage).filter(k => k.startsWith("sl-")).forEach(k => o[k] = localStorage.getItem(k)); descargar("sri-lanka-copia.json", JSON.stringify(o), "application/json"); };
-  const im = $("#bImp"); if (im) im.onchange = async e => { try { const o = JSON.parse(await e.target.files[0].text()); Object.entries(o).forEach(([k, v]) => k.startsWith("sl-") && localStorage.setItem(k, v)); location.reload(); } catch (err) { toast("Archivo no válido"); } };
-  const rs = $("#bReset"); if (rs) rs.onclick = () => { if (confirm("¿Borrar todos los datos de este móvil?")) { Object.keys(localStorage).filter(k => k.startsWith("sl-")).forEach(k => localStorage.removeItem(k)); location.reload(); } };
+  const im = $("#bImp"); if (im) im.onchange = async e => { try { const o = JSON.parse(await e.target.files[0].text()); Object.entries(o).forEach(([k, v]) => k.startsWith("sl-") && !["sl-codigo", "sl-cola", "sl-desde"].includes(k) && localStorage.setItem(k, v)); LS.set("subirTodo", true); location.reload(); } catch (err) { toast("Archivo no válido"); } };
+  const rs = $("#bReset"); if (rs) rs.onclick = () => { if (confirm("¿Borrar todos los datos de este móvil?")) { Object.keys(localStorage).filter(k => k.startsWith("sl-") && k !== "sl-codigo").forEach(k => localStorage.removeItem(k)); location.reload(); } };
 }
 
 /* ============================ diálogo y acciones ============================ */
@@ -911,11 +918,11 @@ function irTab(t) {
 function pintar() { cabecera(); ({ hoy, viaje, reservas, gastos, kit })[tab](); }
 
 document.addEventListener("click", async e => {
-  const t = e.target.closest("[data-tab],[data-dia],[data-parada],[data-hecho],[data-add],[data-delx],[data-share],[data-guia],[data-irdia],[data-restab],[data-estado],[data-editres],[data-docver],[data-doc],[data-mon],[data-cat],[data-pago],[data-delg],[data-kittab],[data-todo],[data-equip],[data-frase],[data-go],[data-cerrar]");
+  const t = e.target.closest("[data-tab],[data-dia],[data-parada],[data-hecho],[data-add],[data-delx],[data-share],[data-guia],[data-irdia],[data-restab],[data-estado],[data-editres],[data-docver],[data-doc],[data-mon],[data-cat],[data-pago],[data-delg],[data-kittab],[data-todo],[data-equip],[data-frase],[data-go],[data-cerrar],[data-activar]");
   if (!t) { if (e.target.id === "dlg") cerrar(); return; }
   const ds = t.dataset;
   if (ds.tab) irTab(ds.tab);
-  else if (ds.go) irTab(ds.go);
+  else if (ds.go) { if (ds.kit) kitTab = ds.kit; irTab(ds.go); }
   else if (ds.dia != null) { diaSel = +ds.dia; pintar(); }
   else if (ds.parada) { diaSel = DIAS.findIndex(d => d.p === ds.parada); if (tab !== "hoy") irTab("hoy"); else pintar(); }
   else if (ds.hecho) { st.hechos[ds.hecho] = !st.hechos[ds.hecho]; if (!st.hechos[ds.hecho]) delete st.hechos[ds.hecho]; guardar("hechos"); hoy(); }
@@ -938,6 +945,7 @@ document.addEventListener("click", async e => {
   else if (ds.equip != null) { st.equip[ds.equip] = !st.equip[ds.equip]; guardar("equip"); kit(); }
   else if (ds.frase != null) { const f = FRASES[+ds.frase]; try { const u = new SpeechSynthesisUtterance(f.si); u.lang = /[஀-௿]/.test(f.si) ? "ta-LK" : "si-LK"; speechSynthesis.speak(u); } catch (err) {} abrir(`<div style="text-align:center;padding:20px 0"><div class="mu">${esc(f.es)}</div><div style="font-size:2.6rem;font-weight:700;margin:16px 0">${esc(f.si)}</div><div style="color:var(--gold2);font-size:1.2rem">${esc(f.r)}</div></div>`); }
   else if ("cerrar" in ds) cerrar();
+  else if ("activar" in ds) { const v = $("#hCod").value; if (v.trim().length < 10) { toast("Código no válido"); return; } Sync.activar(v); await Sync.ya(); toast(Sync.error === "codigo" ? "Código incorrecto" : "Sincronización activada"); if (Sync.error === "codigo") Sync.desactivar(); pintar(); }
 });
 function nuevoItem(f) {
   abrir(`<h2 class="h2">Añadir a la agenda</h2><div class="mu sm">${fLarga(f)}</div>
@@ -986,7 +994,139 @@ async function actualizarCambio() {
   } catch (e) {}
 }
 
+
+/* ============================ sincronización (Supabase) ============================
+   Todo se guarda primero en el móvil. Los cambios van a una cola que se envía cuando hay
+   conexión; cada 20 s (con la app abierta) se descargan los cambios del otro móvil.
+   Para leer o escribir hace falta el código del viaje, que llega en el enlace (#c=...). */
+const NUBE = { url: "https://joirhbutezhhcfohkfui.supabase.co/rest/v1/rpc/", key: "sb_publishable_ER8_8aV6QDONzHrXinTz1g_Z2lRFvvG" };
+const MAPA_SYNC = { hechos: "hecho", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", gastos: "gasto", ppto: "ajuste", seguro: "ajuste", nombres: "ajuste" };
+const AJUSTES = ["ppto", "seguro", "nombres"];
+
+function filasDe(k) {                         // estado -> { id: valor }
+  const v = st[k];
+  if (k === "gastos") return Object.fromEntries(v.map(x => [x.id, x]));
+  if (AJUSTES.includes(k)) return { [k]: v };
+  return { ...v };
+}
+const Sync = {
+  codigo: LS.get("codigo", ""), cola: LS.get("cola", []), desde: LS.get("desde", null),
+  snap: {}, enviando: false, error: "", ultima: LS.get("ultima", 0), t: null,
+
+  iniciar() {
+    const m = location.hash.match(/c=([a-z0-9-]{10,})/i);
+    if (m) this.activar(m[1]);           // el enlace se queda con el código, por si lo añadís a la pantalla de inicio
+    for (const k in MAPA_SYNC) this.snap[k] = JSON.parse(JSON.stringify(filasDe(k)));
+    if (LS.get("subirTodo", false)) { this.subirTodo(); LS.set("subirTodo", false); }
+    addEventListener("online", () => this.ya());
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) this.ya(); });
+    setInterval(() => { if (!document.hidden) this.ya(); }, 20000);
+    this.ya();
+  },
+  activar(c) {
+    c = c.trim().toLowerCase();
+    if (c === this.codigo) return;
+    this.codigo = c; LS.set("codigo", c); this.desde = null; LS.set("desde", null); this.error = "";
+    this.subirTodo();
+  },
+  desactivar() { this.codigo = ""; LS.set("codigo", ""); this.cola = []; LS.set("cola", []); this.desde = null; LS.set("desde", null); this.pintarEstado(); },
+  subirTodo() {                                 // lo que ya hubiera en este móvil se suma a la nube
+    const porDefecto = { ppto: 0, seguro: "", nombres: ["Javi", "Pareja"] };       // no pisar lo que ya haya puesto el otro móvil
+    for (const k in MAPA_SYNC) {
+      if (AJUSTES.includes(k) && JSON.stringify(st[k]) === JSON.stringify(porDefecto[k])) continue;
+      const f = filasDe(k); for (const id in f) if (f[id] !== false && f[id] !== "") this.encolar(MAPA_SYNC[k], id, f[id], false);
+    }
+  },
+  encolar(tipo, id, valor, borrado) {
+    this.cola = this.cola.filter(o => !(o.tipo === tipo && o.id === id));
+    this.cola.push({ tipo, id: String(id), valor: borrado ? null : valor, borrado, v: Date.now() + Math.random() });
+    LS.set("cola", this.cola);
+  },
+  cambio(k) {                                  // llamado desde guardar(k): manda solo lo que ha cambiado
+    if (!MAPA_SYNC[k]) return;
+    const prev = this.snap[k] || {}, cur = filasDe(k);
+    for (const id of new Set([...Object.keys(prev), ...Object.keys(cur)])) {
+      const a = JSON.stringify(prev[id]), b = JSON.stringify(cur[id]);
+      if (a !== b) this.encolar(MAPA_SYNC[k], id, cur[id], !(id in cur));
+    }
+    this.snap[k] = JSON.parse(JSON.stringify(cur));
+    this.pintarEstado();
+    clearTimeout(this.t); this.t = setTimeout(() => this.ya(), 1200);
+  },
+  async rpc(fn, body) {
+    const r = await fetch(NUBE.url + fn, { method: "POST", headers: { apikey: NUBE.key, Authorization: "Bearer " + NUBE.key, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!r.ok) { const t = await r.text(); throw new Error(/codigo_incorrecto/.test(t) ? "codigo" : "http " + r.status); }
+    return r.json();
+  },
+  async ya() {
+    if (!this.codigo || this.enviando || navigator.onLine === false) { this.pintarEstado(); return; }
+    this.enviando = true;
+    try {
+      while (this.cola.length) {
+        const lote = this.cola.slice(0, 200);
+        await this.rpc("sl_guardar", { p_codigo: this.codigo, p_filas: lote.map(({ tipo, id, valor, borrado }) => ({ tipo, id, valor, borrado })) });
+        const enviados = new Set(lote.map(o => o.v));
+        this.cola = this.cola.filter(o => !enviados.has(o.v)); LS.set("cola", this.cola);
+      }
+      const filas = await this.rpc("sl_leer", { p_codigo: this.codigo, p_desde: this.desde });
+      if (filas.length) { this.aplicar(filas); this.desde = filas[filas.length - 1].actualizado; LS.set("desde", this.desde); }
+      this.error = ""; this.ultima = Date.now(); LS.set("ultima", this.ultima);
+    } catch (e) { this.error = e.message === "codigo" ? "codigo" : "red"; }
+    this.enviando = false; this.pintarEstado();
+  },
+  aplicar(filas) {
+    const tocados = new Set();
+    const k2 = { hecho: "hechos", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", gasto: "gastos" };
+    for (const f of filas) {
+      if (this.cola.some(o => o.tipo === f.tipo && o.id === f.id)) continue;        // lo de este móvil aún no enviado manda
+      let k;
+      if (f.tipo === "ajuste") { if (!AJUSTES.includes(f.id) || f.borrado) continue; k = f.id; st[k] = f.valor; }
+      else if (f.tipo === "gasto") { k = "gastos"; st.gastos = st.gastos.filter(x => x.id !== f.id); if (!f.borrado && f.valor) st.gastos.push(f.valor); }
+      else if (k2[f.tipo]) { k = k2[f.tipo]; if (f.borrado) delete st[k][f.id]; else st[k][f.id] = f.valor; }
+      else continue;
+      tocados.add(k);
+    }
+    if (!tocados.size) return;
+    tocados.forEach(k => { LS.set(k, st[k]); this.snap[k] = JSON.parse(JSON.stringify(filasDe(k))); });
+    const escribiendo = ["TEXTAREA", "INPUT"].includes(document.activeElement?.tagName);
+    if (!$("#dlg").open && !escribiendo) pintar();
+  },
+  pintarEstado() {
+    const el = $("#sync"); if (!el) return;
+    let t = "", c = "";
+    if (!this.codigo) { t = "Solo en este móvil"; c = "off"; }
+    else if (this.error === "codigo") { t = "Código incorrecto"; c = "bad"; }
+    else if (navigator.onLine === false || this.error === "red") { t = this.cola.length ? `Sin conexión · ${this.cola.length} por enviar` : "Sin conexión"; c = "off"; }
+    else if (this.cola.length) { t = `Enviando ${this.cola.length}…`; c = "wait"; }
+    else { t = "Sincronizado"; c = "ok"; }
+    el.textContent = t; el.className = "sync " + c;
+    const d = $("#syncDet"); if (d) d.textContent = t + (this.ultima && this.codigo ? ` · última vez ${new Date(this.ultima).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}` : "");
+  }
+};
+function enlaceViaje() { return location.origin + location.pathname + "#c=" + Sync.codigo; }
+function syncCardHTML() {
+  return `<div class="card"><h2>Compartir entre móviles</h2>
+    ${Sync.codigo ? `<p class="mu sm">Gastos, diario, marcas, notas y reservas se guardan también en la nube y se ven en los dos móviles. Las fotos y PDFs adjuntos se quedan solo en cada móvil.</p>
+      <div class="hint" style="margin:12px 0 0" id="syncDet"></div>
+      <div class="btns"><button class="btn pri" id="sShare">Enviar enlace a ${esc(st.nombres[1])}</button><button class="btn" id="sAhora">Sincronizar ahora</button></div>
+      <button class="btn full" id="sOff" style="margin-top:8px;color:var(--mu)">Desactivar en este móvil</button>`
+    : `<p class="mu sm">Ahora todo se guarda solo en este móvil. Abre el enlace del viaje (el que lleva <b>#c=</b> al final) o pega aquí el código.</p>
+      <input class="inp" id="sCod" placeholder="Código del viaje" autocapitalize="off" autocomplete="off">
+      <button class="btn pri full" id="sOn" style="margin-top:10px">Activar</button>`}</div>`;
+}
+function syncCardEventos() {
+  Sync.pintarEstado();
+  const on = $("#sOn"); if (on) on.onclick = () => { const v = $("#sCod").value; if (v.trim().length < 10) { toast("Código no válido"); return; } Sync.activar(v); Sync.ya().then(() => { toast(Sync.error === "codigo" ? "Código incorrecto" : "Sincronización activada"); if (Sync.error === "codigo") Sync.desactivar(); kit(); }); };
+  const sh = $("#sShare"); if (sh) sh.onclick = () => {
+    const txt = `Nuestra app del viaje a Sri Lanka. Ábrelo en el móvil y añádelo a la pantalla de inicio: ${enlaceViaje()}`;
+    if (navigator.share) navigator.share({ title: "Sri Lanka 2026", text: txt }).catch(() => {}); else navigator.clipboard?.writeText(enlaceViaje()).then(() => toast("Enlace copiado"));
+  };
+  const ah = $("#sAhora"); if (ah) ah.onclick = () => Sync.ya().then(() => toast(Sync.error ? "No se ha podido" : "Al día"));
+  const off = $("#sOff"); if (off) off.onclick = () => { if (confirm("Este móvil dejará de compartir los cambios. Lo ya guardado se queda aquí.")) { Sync.desactivar(); kit(); } };
+}
+
 /* ============================ arranque ============================ */
+Sync.iniciar();
 irTab(["hoy", "viaje", "reservas", "gastos", "kit"].includes(tab) ? tab : "hoy");
 setInterval(() => { if (tab === "hoy" && !$("#dlg").open && document.activeElement?.id !== "diarioT") hoy(); }, 60000);
 actualizarTiempo(); actualizarCambio();
