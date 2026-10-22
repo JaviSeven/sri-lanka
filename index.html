@@ -2,877 +2,999 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sri Lanka 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="Nuestro viaje a Sri Lanka, del 1 al 15 de noviembre de 2026">
+<meta name="theme-color" content="#0E1A14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sri Lanka">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-180.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold:#C8973A; --gold-light:#E8B96A;
-    --deep:#0E1A14; --forest:#1A2E22; --jungle:#2D4A35;
-    --sage:#5A7A60; --mist:#A8C4A0; --sand:#F2E8D5;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--deep);color:var(--sand);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+[hidden]{display:none!important}
+:root{
+  --bg:#0E1A14; --bg2:#122219; --card:#15271D; --card2:#1B3226; --line:rgba(232,185,106,.13); --line2:rgba(168,196,160,.14);
+  --tx:#F2E8D5; --mu:#A8C4A0; --mu2:#7E9A82; --gold:#C8973A; --gold2:#E8B96A; --ok:#7FCB95; --warn:#E8B96A; --bad:#E07A55; --blue:#6FB7D6;
+  --r:22px; --sh:0 10px 30px rgba(0,0,0,.28);
+  --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:15px;line-height:1.45;min-height:100vh;padding-bottom:calc(84px + env(safe-area-inset-bottom));overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(ellipse at 20% 0%,rgba(200,151,58,.10),transparent 55%),radial-gradient(ellipse at 90% 30%,rgba(42,107,138,.08),transparent 50%)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,textarea,select{font:inherit;color:var(--tx)}
+a{color:var(--gold2);text-decoration:none}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px}
 
-  /* HEADER */
-  header{position:relative;padding:56px 40px 36px;text-align:center;overflow:hidden;}
-  .header-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(200,151,58,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(42,107,138,.12) 0%,transparent 50%),radial-gradient(ellipse at 50% 100%,rgba(45,74,53,.4) 0%,transparent 60%);}
-  .lotus-bg{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(0,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(45,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(90,60,60)'/%3E%3Cellipse cx='60' cy='80' rx='18' ry='35' fill='%23C8973A' transform='rotate(135,60,60)'/%3E%3Ccircle cx='60' cy='60' r='10' fill='%23C8973A'/%3E%3C/svg%3E");background-size:120px;}
-  header h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,4.2rem);font-weight:400;letter-spacing:.02em;position:relative;line-height:1.1;}
-  header h1 em{color:var(--gold);font-style:italic;}
-  .header-sub{font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mist);margin-top:12px;position:relative;}
-  .header-divider{width:60px;height:1px;background:var(--gold);margin:18px auto;position:relative;}
+/* Cabecera */
+header.top{position:sticky;top:0;z-index:20;background:rgba(14,26,20,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.hd{display:flex;align-items:center;gap:12px;padding:12px 16px 10px;max-width:640px;margin:0 auto}
+.logo{width:44px;height:44px;border-radius:13px;flex:none;box-shadow:0 0 0 1px var(--line)}
+.hd h1{font-family:var(--serif);font-weight:700;font-size:1.32rem;letter-spacing:.01em;display:flex;align-items:center;gap:8px;line-height:1.1}
+.hd h1 em{color:var(--gold2);font-style:italic;font-weight:400}
+.hd .sub{color:var(--mu);font-size:.8rem;margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:.68rem;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(200,151,58,.16);color:var(--gold2);border:1px solid rgba(200,151,58,.3);white-space:nowrap}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;max-width:640px;margin:0 auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 15px;border-radius:12px;border:1px solid var(--c,var(--line));color:var(--c,var(--tx));font-weight:600;font-size:.86rem;background:transparent;transition:.15s}
+.chip.on{background:var(--c);color:#0E1A14;border-color:var(--c)}
 
-  /* DAYS BAR */
-  .days-bar{display:flex;gap:3px;justify-content:center;padding:0 30px 32px;flex-wrap:wrap;}
-  .day-tick{width:30px;height:34px;border-radius:6px;font-size:.6rem;font-weight:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;transition:transform .15s;cursor:default;}
-  .day-tick:hover{transform:translateY(-2px);}
-  .day-num{font-size:.72rem;font-weight:700;line-height:1;}
-  .day-label{font-size:.48rem;opacity:.7;line-height:1;}
+/* Tarjetas */
+section.tab{display:none;padding-top:14px}
+section.tab.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
+.card h2,.h2{font-family:var(--serif);font-size:1.28rem;font-weight:700;margin-bottom:4px}
+.card h3{font-size:1rem;font-weight:700}
+.kick{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin:4px 4px 8px}
+.mu{color:var(--mu)} .sm{font-size:.84rem} .xs{font-size:.74rem}
+.row{display:flex;align-items:center;gap:10px}
+.sp{flex:1}
+.hr{height:1px;background:var(--line);margin:12px 0}
+.count{font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--card2);color:var(--mu);border:1px solid var(--line2)}
 
-  /* LEGEND */
-  .legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;padding:0 30px 28px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
-  .legend-item{display:flex;align-items:center;gap:7px;color:var(--mist);}
-  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+/* Hero */
+.hero{position:relative;border-radius:26px;overflow:hidden;min-height:205px;padding:16px 18px 14px;display:flex;flex-direction:column;justify-content:flex-end;margin-bottom:14px;box-shadow:var(--sh);border:1px solid var(--line);background-size:cover;background-position:center}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(6,14,10,.78) 100%);z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero .big{position:absolute;right:14px;top:30px;font-size:5.4rem;opacity:.9;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4));z-index:0}
+.hero .sinh{position:absolute;left:16px;top:56px;font-size:2.5rem;opacity:.13;font-weight:700;z-index:0;white-space:nowrap}
+.hero .tl{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;z-index:2}
+.glass{background:rgba(14,26,20,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:99px;padding:6px 13px;font-size:.8rem;font-weight:600}
+.hero .badge{align-self:flex-start;background:var(--gold);color:#0E1A14;font-weight:700;font-size:.68rem;letter-spacing:.06em;padding:4px 10px;border-radius:99px;margin-bottom:8px;text-transform:uppercase}
+.hero h2{font-family:var(--serif);font-size:2.15rem;font-weight:700;line-height:1;color:#fff}
+.hero .date{color:#F2E8D5;opacity:.92;margin-top:4px}
+.hero .meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.8rem;font-weight:600;color:#fff;opacity:.92}
 
-  /* TIMELINE */
-  .timeline{max-width:820px;margin:0 auto;padding:0 16px 40px;position:relative;}
-  .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--jungle) 5%,var(--jungle) 95%,transparent);transform:translateX(-50%);}
+/* Tira de días */
+.strip{display:flex;gap:4px;overflow-x:auto;padding:10px;scrollbar-width:none;scroll-snap-type:x proximity}
+.strip::-webkit-scrollbar{display:none}
+.dd{flex:none;width:46px;padding:7px 0 8px;border-radius:14px;text-align:center;scroll-snap-align:center}
+.dd .w{font-size:.62rem;font-weight:700;text-transform:uppercase;color:var(--mu2)}
+.dd .n{font-size:1.25rem;font-weight:700;line-height:1.2}
+.dd .dot{width:6px;height:6px;border-radius:50%;margin:3px auto 0}
+.dd.on{background:var(--gold)} .dd.on .w,.dd.on .n{color:#0E1A14}
+.dd.hoy:not(.on){box-shadow:inset 0 0 0 1.5px var(--gold)}
 
-  /* DESTINATION */
-  .destination{position:relative;margin-bottom:6px;animation:fadeUp .5s ease both;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-  .destination:nth-child(1){animation-delay:.08s}.destination:nth-child(2){animation-delay:.16s}.destination:nth-child(3){animation-delay:.24s}.destination:nth-child(4){animation-delay:.32s}.destination:nth-child(5){animation-delay:.40s}.destination:nth-child(6){animation-delay:.48s}
+/* Agenda */
+.dayhd{display:flex;gap:12px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.dnum{flex:none;width:46px;border-radius:12px;background:var(--gold);color:#0E1A14;text-align:center;padding:4px 0;font-weight:800;line-height:1.05}
+.dnum small{display:block;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase}
+.dnum b{font-size:1.25rem}
+.tipo{font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:rgba(111,183,214,.16);color:var(--blue);white-space:nowrap}
+.wx{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:3px 10px;border-radius:99px;border:1px solid var(--line2);color:var(--mu);margin-top:6px}
+.it{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2);position:relative}
+.it:last-of-type{border-bottom:0}
+.it .h{flex:none;width:50px;text-align:right;font-weight:700;font-size:.92rem;padding-top:8px;font-variant-numeric:tabular-nums}
+.it .h small{display:block;font-weight:500;font-size:.68rem;color:var(--mu2)}
+.it .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--card2);display:grid;place-items:center;font-size:1.3rem;border:1px solid var(--line2)}
+.it .tx{flex:1;min-width:0;padding-top:2px}
+.it .tx b{display:block;font-weight:700;line-height:1.25}
+.it .tx p{color:var(--mu);font-size:.85rem;margin-top:3px}
+.it.done .tx b{text-decoration:line-through;opacity:.55} .it.done .ic{opacity:.45}
+.it.now{background:linear-gradient(90deg,rgba(200,151,58,.12),transparent);border-radius:12px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.tag{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--card2);color:var(--mu);border:1px solid var(--line2)}
+.tag.reservado{background:rgba(127,203,149,.14);color:var(--ok);border-color:rgba(127,203,149,.3)}
+.tag.pagado{background:rgba(111,183,214,.15);color:var(--blue);border-color:rgba(111,183,214,.3)}
+.tag.pendiente{background:rgba(224,122,85,.15);color:var(--bad);border-color:rgba(224,122,85,.35)}
+.tag.precio{color:var(--gold2);border-color:rgba(200,151,58,.3)}
+a.tag{cursor:pointer}
+.chk{flex:none;width:24px;height:24px;border-radius:8px;border:1.5px solid var(--mu2);display:grid;place-items:center;margin-top:9px}
+.chk.on{background:var(--gold);border-color:var(--gold)}
+.chk.on::after{content:"";width:6px;height:11px;border:solid #0E1A14;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
 
-  .timeline-node{position:absolute;left:50%;top:28px;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;border:2px solid var(--deep);z-index:2;transition:transform .2s;}
-  .destination:hover .timeline-node{transform:translateX(-50%) scale(1.4);}
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:13px;background:var(--card2);border:1px solid var(--line2);font-weight:600;font-size:.86rem}
+.btn.pri{background:var(--gold);border-color:var(--gold);color:#0E1A14;font-weight:700}
+.btn.full{width:100%}
+.btn.dash{background:transparent;border:1.5px dashed var(--line2);color:var(--mu);width:100%;margin-top:8px}
+.btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:12px}
+.lnk{display:block;text-align:center;color:var(--gold2);font-weight:600;padding:12px;font-size:.9rem}
 
-  .dest-header{cursor:pointer;padding:16px 18px;border-radius:12px;position:relative;display:flex;align-items:center;gap:12px;transition:all .25s;border:1px solid transparent;}
-  .dest-header:hover{border-color:rgba(200,151,58,.2);background:rgba(255,255,255,.02);}
+/* Hotel / reservas */
+.addr{background:rgba(200,151,58,.1);border:1px solid rgba(200,151,58,.3);border-radius:13px;padding:10px 12px;color:var(--gold2);font-weight:600;margin:10px 0}
+.rc .top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.city{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:.74rem;padding:3px 9px;border-radius:99px;background:var(--card2);color:var(--mu);border:1px solid var(--line2);white-space:nowrap}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:4px;gap:4px;margin-top:12px}
+.seg button{flex:1;padding:9px 6px;border-radius:10px;font-weight:600;font-size:.86rem;color:var(--mu)}
+.seg button.on{background:var(--card2);color:var(--tx);box-shadow:0 1px 0 var(--line)}
+.seg.mini{margin-top:0}
 
-  .dest-icon{font-size:1.6rem;flex-shrink:0;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border-radius:10px;}
-  .dest-meta{flex:1;min-width:0;}
-  .dest-dates{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-  .badge{padding:2px 8px;border-radius:20px;font-size:.62rem;letter-spacing:.07em;font-weight:500;}
-  .badge-optional{background:rgba(122,92,154,.25);color:#B89ED4;border:1px solid rgba(122,92,154,.4);}
-  .badge-uncertain{background:rgba(138,106,58,.25);color:#D4B87A;border:1px solid rgba(138,106,58,.4);}
-  .badge-confirmed{background:rgba(90,154,106,.18);color:#8ED4A0;border:1px solid rgba(90,154,106,.35);}
-  .dest-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;letter-spacing:.01em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .dest-desc{font-size:.74rem;color:var(--mist);margin-top:2px;font-weight:300;}
+/* Viaje */
+.mapa{display:block;width:100%;max-width:300px;margin:0 auto}
+.mapa .isla{fill:#1B3226;stroke:rgba(232,185,106,.35);stroke-width:1}
+.mapa text{font-family:var(--sans);font-size:9px;font-weight:700;fill:var(--tx)}
+.mapa .si{font-size:7px;fill:var(--mu);font-weight:400}
+.leg{display:flex;justify-content:center;gap:18px;color:var(--mu);font-size:.78rem;margin-top:6px}
+.stop{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line2)}
+.stop:last-child{border-bottom:0}
+.stop .num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#0E1A14;font-size:.9rem}
+.stop .pic{flex:none;width:62px;height:62px;border-radius:14px;display:grid;place-items:center;font-size:1.9rem;background-size:cover;background-position:center}
+.chipsm{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chipsm span{font-size:.72rem;padding:3px 9px;border-radius:99px;background:var(--card2);color:var(--mu);border:1px solid var(--line2)}
 
-  .dest-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-  .btn-icon{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:var(--mist);border-radius:7px;width:29px;height:29px;font-size:.82rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
-  .btn-icon:hover{background:rgba(200,151,58,.15);border-color:var(--gold);color:var(--gold);}
-  .dest-toggle{color:var(--gold);font-size:.72rem;transition:transform .3s;flex-shrink:0;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:rgba(200,151,58,.1);border-radius:50%;}
-  .dest-toggle.open{transform:rotate(180deg);}
+/* Gastos */
+.amt{display:flex;align-items:center;gap:10px}
+.amt input{flex:1;min-width:0;background:transparent;border:0;font-size:2.4rem;font-weight:700;outline:none;font-family:var(--serif)}
+.amt input::placeholder{color:var(--mu2)}
+.inp{width:100%;background:var(--bg2);border:1px solid var(--line2);border-radius:13px;padding:12px 14px;outline:none;margin-top:10px}
+.inp:focus{border-color:var(--gold)}
+textarea.inp{min-height:96px;resize:vertical}
+.cats{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.cats button{padding:7px 13px;border-radius:99px;border:1px solid var(--line2);font-weight:600;font-size:.84rem;color:var(--mu)}
+.cats button.on{background:var(--gold);color:#0E1A14;border-color:var(--gold)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat div{background:var(--bg2);border:1px solid var(--line2);border-radius:15px;padding:12px}
+.stat b{display:block;font-size:1.35rem;font-family:var(--serif)}
+.bar{height:8px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:99px}
+.gx{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)}
+.gx:last-child{border-bottom:0}
+.gx .ic{width:36px;height:36px;border-radius:11px;background:var(--card2);display:grid;place-items:center;flex:none}
 
-  /* PANEL */
-  .plans-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1);padding:0 8px;}
-  .plans-panel.open{max-height:3000px;}
-  .plans-inner{padding:4px 14px 16px;border-left:1px solid var(--jungle);margin-left:32px;margin-bottom:4px;}
+/* Kit */
+.todo{display:flex;gap:12px;padding:12px;border-radius:16px;background:var(--bg2);border:1px solid var(--line2);margin-top:8px}
+.todo.done{opacity:.55} .todo.done b{text-decoration:line-through}
+.todo.urg{border-color:rgba(224,122,85,.45);background:rgba(224,122,85,.07)}
+.todo .chk{margin-top:0}
+.prog{height:8px;border-radius:99px;background:var(--bg2);overflow:hidden;margin:8px 0 4px}
+.prog i{display:block;height:100%;background:var(--gold)}
+.chkrow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)}
+.chkrow .chk{margin-top:0}
+.chkrow.done span{text-decoration:line-through;opacity:.55}
+.sos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sos a{border-radius:16px;padding:14px;border:1px solid;display:block}
+.sos b{font-size:1.7rem;font-family:var(--serif);display:block;line-height:1.1}
+.sos span{font-size:.8rem;font-weight:600}
+.fr{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line2)}
+.fr:last-child{border-bottom:0}
+.fr .s{text-align:right}
+.fr .s b{display:block;font-size:1.05rem}
+.fr .s i{font-size:.78rem;color:var(--gold2)}
+.ap{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2)}
+.ap:last-child{border-bottom:0}
+.ap .ic{font-size:1.5rem;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--card2);flex:none}
+.hint{background:rgba(200,151,58,.1);border:1px solid rgba(200,151,58,.3);color:var(--gold2);border-radius:16px;padding:12px 14px;font-size:.88rem;margin-bottom:14px}
 
-  /* TABS */
-  .tabs{display:flex;margin-bottom:12px;margin-top:8px;border-bottom:1px solid rgba(90,122,96,.3);}
-  .tab-btn{background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(168,196,160,.5);padding:7px 15px 9px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;}
-  .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
-  .tab-btn:hover:not(.active){color:var(--mist);}
-  .tab-content{display:none;}
-  .tab-content.active{display:block;}
+/* Navegación inferior */
+nav.bot{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(14,26,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+nav.bot .in{display:flex;max-width:640px;margin:0 auto;gap:4px}
+nav.bot button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0;border-radius:14px;font-size:.7rem;font-weight:600;color:var(--mu2)}
+nav.bot svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav.bot button.on{color:var(--gold2);background:rgba(200,151,58,.12)}
 
-  /* PLAN LIST */
-  .plan-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(90,122,96,.18);animation:slideIn .28s ease;}
-  @keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
-  .plan-item:last-child{border-bottom:none;}
-  .plan-bullet{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0;}
-  .plan-text{flex:1;font-size:.84rem;line-height:1.5;color:var(--sand);}
-  .plan-delete,.note-delete{background:none;border:none;color:rgba(255,255,255,.17);cursor:pointer;font-size:.82rem;padding:2px 5px;border-radius:4px;transition:all .2s;flex-shrink:0;}
-  .plan-delete:hover,.note-delete:hover{color:#D4714A;background:rgba(212,113,74,.1);}
-  .empty-plans{font-size:.76rem;color:rgba(168,196,160,.32);font-style:italic;padding:10px 0 4px;}
-  .add-plan-row{display:flex;gap:6px;margin-top:10px;align-items:center;}
-  .add-plan-input,.note-text-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--jungle);border-radius:8px;padding:8px 12px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;}
-  .add-plan-input::placeholder,.note-text-input::placeholder{color:rgba(168,196,160,.28);}
-  .add-plan-input:focus,.note-text-input:focus{border-color:var(--gold);}
-  .add-plan-btn,.add-note-btn{border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;padding:8px 13px;cursor:pointer;letter-spacing:.04em;transition:all .2s;white-space:nowrap;}
-  .add-plan-btn{color:var(--deep);}
-  .add-plan-btn:hover,.add-note-btn:hover{filter:brightness(1.14);transform:translateY(-1px);}
-  .add-note-btn{background:rgba(200,151,58,.18);color:var(--gold);border:1px solid rgba(200,151,58,.35);}
-  .add-note-btn:hover{background:rgba(200,151,58,.3);}
+/* Diálogo */
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;color:var(--tx)}
+dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--bg2);border-radius:24px 24px 0 0;border-top:1px solid var(--line);padding:10px 18px calc(22px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto}
+.sheet .grab{width:42px;height:5px;border-radius:9px;background:var(--line2);margin:0 auto 12px}
+.sheet label{display:block;font-size:.76rem;font-weight:700;color:var(--mu);margin-top:12px}
+.sheet label .inp{margin-top:5px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--gold);color:#0E1A14;font-weight:700;padding:10px 18px;border-radius:99px;opacity:0;transition:.25s;z-index:60;pointer-events:none;font-size:.88rem}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.foot{text-align:center;color:var(--mu2);font-size:.75rem;padding:8px 20px 20px}
+@media (min-width:700px){.hero{min-height:240px}}
 
-  /* NOTES */
-  .notes-grid{display:grid;gap:7px;}
-  .note-item{background:rgba(255,255,255,.04);border-radius:9px;border:1px solid rgba(90,122,96,.22);padding:9px 12px;display:flex;align-items:flex-start;gap:9px;animation:slideIn .28s ease;}
-  .note-icon{font-size:.95rem;flex-shrink:0;margin-top:1px;opacity:.85;}
-  .note-body{flex:1;min-width:0;}
-  .note-cat{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;font-weight:600;}
-  .note-text{font-size:.82rem;color:var(--sand);line-height:1.45;}
-  .add-note-area{margin-top:10px;}
-  .note-input-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-  .note-cat-select{background:rgba(255,255,255,.06);border:1px solid var(--jungle);border-radius:8px;padding:8px 9px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.76rem;outline:none;cursor:pointer;transition:border-color .2s;flex-shrink:0;}
-  .note-cat-select:focus{border-color:var(--gold);}
-  .note-cat-select option{background:#1A2E22;}
-  .note-text-input{min-width:140px;}
-
-  /* CONNECTOR */
-  .connector{display:flex;align-items:center;justify-content:center;height:32px;}
-  .connector-text{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(90,122,96,.55);background:var(--deep);padding:3px 12px;border:1px solid rgba(90,122,96,.2);border-radius:20px;z-index:1;}
-
-  /* ADD DEST */
-  .add-dest-wrap{display:flex;justify-content:center;margin:8px 0 30px;}
-  .add-dest-btn{background:rgba(200,151,58,.1);border:1px dashed rgba(200,151,58,.38);color:var(--gold);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;padding:9px 22px;cursor:pointer;letter-spacing:.08em;transition:all .22s;}
-  .add-dest-btn:hover{background:rgba(200,151,58,.2);transform:translateY(-1px);}
-
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
-  .modal-overlay.open{opacity:1;pointer-events:all;}
-  .modal{background:var(--forest);border:1px solid var(--jungle);border-radius:16px;padding:26px 26px 22px;width:100%;max-width:470px;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .28s;box-shadow:0 24px 60px rgba(0,0,0,.55);}
-  .modal-overlay.open .modal{transform:translateY(0);}
-  .modal-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:18px;color:var(--gold);display:flex;align-items:center;gap:8px;}
-  .modal-close{margin-left:auto;background:none;border:none;color:rgba(168,196,160,.45);font-size:1rem;cursor:pointer;transition:color .2s;padding:2px 6px;}
-  .modal-close:hover{color:var(--sand);}
-  .form-row{margin-bottom:13px;}
-  .form-label{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);margin-bottom:5px;font-weight:500;}
-  .form-input,.form-select{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--jungle);border-radius:9px;padding:9px 12px;color:var(--sand);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;}
-  .form-input:focus,.form-select:focus{border-color:var(--gold);}
-  .form-select option{background:#1A2E22;}
-  .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
-  .modal-actions{display:flex;gap:8px;margin-top:18px;}
-  .btn-save{flex:1;background:var(--gold);border:none;border-radius:9px;color:var(--deep);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;padding:10px;cursor:pointer;transition:all .2s;letter-spacing:.04em;}
-  .btn-save:hover{background:var(--gold-light);}
-  .btn-cancel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;color:var(--mist);font-family:'DM Sans',sans-serif;font-size:.84rem;padding:10px 16px;cursor:pointer;transition:all .2s;}
-  .btn-cancel:hover{background:rgba(255,255,255,.1);}
-  .btn-danger{background:rgba(212,113,74,.14);border:1px solid rgba(212,113,74,.28);border-radius:9px;color:#D4714A;font-family:'DM Sans',sans-serif;font-size:.82rem;padding:10px 13px;cursor:pointer;transition:all .2s;}
-  .btn-danger:hover{background:rgba(212,113,74,.24);}
-
-  .emoji-picker{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;}
-  .emoji-opt{width:33px;height:33px;border-radius:7px;font-size:1.05rem;background:rgba(255,255,255,.05);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-  .emoji-opt:hover,.emoji-opt.selected{background:rgba(200,151,58,.2);border-color:var(--gold);}
-
-  /* COLOR PICKER */
-  .color-picker{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;}
-  .color-opt{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s;}
-  .color-opt:hover,.color-opt.selected{border-color:white;transform:scale(1.15);}
-
-  ::-webkit-scrollbar{width:5px;}
-  ::-webkit-scrollbar-track{background:var(--deep);}
-  ::-webkit-scrollbar-thumb{background:var(--jungle);border-radius:3px;}
-
-  footer{text-align:center;padding:26px;font-size:.68rem;color:rgba(90,122,96,.4);letter-spacing:.1em;border-top:1px solid rgba(45,74,53,.3);}
-
-  /* EXPORT BTN */
-  .export-wrap{display:flex;justify-content:center;padding:0 20px 10px;gap:10px;flex-wrap:wrap;}
-  .export-btn{display:flex;align-items:center;gap:8px;background:rgba(200,151,58,.13);border:1px solid rgba(200,151,58,.4);color:var(--gold);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;padding:10px 22px;cursor:pointer;letter-spacing:.07em;transition:all .22s;}
-  .export-btn:hover{background:rgba(200,151,58,.24);transform:translateY(-1px);}
-
-  /* ─── MOBILE RESPONSIVE ─── */
-  @media (max-width: 600px) {
-    header { padding: 36px 20px 24px; }
-    header h1 { font-size: 2rem; }
-    .header-sub { font-size: .7rem; letter-spacing: .18em; }
-
-    .days-bar { padding: 0 12px 24px; gap: 2px; }
-    .day-tick { width: 22px; height: 28px; border-radius: 5px; }
-    .day-num { font-size: .6rem; }
-    .day-label { font-size: .38rem; }
-
-    .legend { gap: 12px; padding: 0 16px 20px; font-size: .68rem; }
-
-    .timeline { padding: 0 8px 30px; }
-    .timeline::before { left: 16px; transform: none; }
-
-    .timeline-node { left: 16px; transform: translateX(-50%); top: 22px; width: 10px; height: 10px; }
-    .destination:hover .timeline-node { transform: translateX(-50%) scale(1.3); }
-
-    .dest-header { padding: 12px 12px 12px 36px; gap: 10px; }
-    .dest-icon { width: 40px; height: 40px; font-size: 1.4rem; border-radius: 9px; flex-shrink: 0; }
-    .dest-name { font-size: 1.05rem; white-space: normal; }
-    .dest-desc { font-size: .7rem; }
-    .dest-dates { font-size: .62rem; gap: 5px; }
-    .badge { font-size: .58rem; padding: 2px 6px; }
-
-    .btn-icon { width: 34px; height: 34px; font-size: .9rem; }
-    .dest-toggle { width: 28px; height: 28px; }
-
-    .plans-inner { margin-left: 8px; padding: 4px 10px 14px; }
-
-    .tab-btn { font-size: .68rem; padding: 7px 12px 9px; letter-spacing: .05em; }
-
-    .plan-text { font-size: .82rem; }
-    .plan-delete, .note-delete { padding: 4px 8px; font-size: .85rem; }
-
-    .add-plan-row { flex-wrap: wrap; }
-    .add-plan-input { font-size: .82rem; padding: 10px 12px; }
-    .add-plan-btn { width: 100%; padding: 11px; font-size: .82rem; text-align: center; }
-
-    .note-input-row { flex-direction: column; align-items: stretch; }
-    .note-cat-select { width: 100%; font-size: .82rem; padding: 10px; }
-    .note-text-input { width: 100%; min-width: unset; font-size: .82rem; padding: 10px 12px; }
-    .add-note-btn { width: 100%; padding: 11px; font-size: .82rem; text-align: center; }
-
-    .note-item { padding: 10px; }
-    .note-text { font-size: .8rem; }
-
-    .connector { height: 26px; }
-    .connector-text { font-size: .58rem; padding: 3px 10px; letter-spacing: .12em; }
-
-    .add-dest-wrap { margin: 6px 8px 24px; }
-    .add-dest-btn { width: 100%; padding: 13px; font-size: .82rem; text-align: center; }
-
-    .export-wrap { padding: 0 8px 8px; }
-    .export-btn { width: 100%; justify-content: center; padding: 13px; font-size: .82rem; }
-
-    /* Modal full screen on mobile */
-    .modal-overlay { padding: 0; align-items: flex-end; }
-    .modal {
-      border-radius: 20px 20px 0 0;
-      max-height: 92vh;
-      padding: 22px 20px 32px;
-      max-width: 100%;
-    }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .form-input, .form-select { font-size: .9rem; padding: 11px 13px; }
-    .form-row-2 { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .btn-save { padding: 13px; font-size: .88rem; }
-    .btn-cancel { padding: 13px 14px; font-size: .88rem; }
-    .btn-danger { padding: 13px 12px; font-size: .84rem; }
-    .emoji-opt { width: 36px; height: 36px; font-size: 1.1rem; }
-    .color-opt { width: 30px; height: 30px; }
-
-    footer { font-size: .62rem; padding: 20px 16px; }
-  }
-  @media print {
-    @page { margin: 12mm 14mm; size: A4; }
-
-    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-
-    body {
-      background: #ffffff !important;
-      color: #1a1a1a !important;
-      font-family: 'DM Sans', sans-serif !important;
-    }
-
-    /* Hide interactive elements */
-    .export-wrap, .add-dest-wrap, .dest-actions, .add-plan-row,
-    .add-note-area, .tabs, .modal-overlay, footer,
-    .dest-toggle, .btn-icon, .plan-delete, .note-delete { display: none !important; }
-
-    /* Header */
-    header { background: #ffffff !important; padding: 20px 10px 16px !important; }
-    .header-bg, .lotus-bg { display: none !important; }
-    header h1 { color: #1a1a1a !important; font-size: 2rem !important; }
-    header h1 em { color: #8B6520 !important; }
-    .header-sub { color: #666 !important; }
-    .header-divider { background: #8B6520 !important; }
-
-    /* Days bar */
-    .days-bar { padding-bottom: 14px !important; }
-    .day-tick { border-radius: 5px !important; }
-
-    /* Legend */
-    .legend { color: #444 !important; }
-    .legend-item { color: #444 !important; }
-
-    /* Timeline */
-    .timeline { padding-bottom: 10px !important; }
-    .timeline::before { display: none !important; }
-    .timeline-node { display: none !important; }
-    .connector { height: 18px !important; }
-    .connector-text {
-      color: #888 !important;
-      background: #ffffff !important;
-      border-color: #ccc !important;
-    }
-
-    /* Destination cards */
-    .destination { page-break-inside: avoid; margin-bottom: 8px !important; }
-    .dest-header {
-      background: #f8f8f8 !important;
-      border: 1px solid #ddd !important;
-      border-radius: 8px !important;
-      padding: 10px 14px !important;
-    }
-    .dest-icon { background: #efefef !important; border-radius: 8px !important; }
-    .dest-name { color: #1a1a1a !important; font-size: 1.1rem !important; }
-    .dest-desc { color: #555 !important; }
-    .dest-dates { color: #8B6520 !important; }
-
-    /* Badges */
-    .badge-confirmed { background: #e6f4eb !important; color: #2d7a47 !important; border-color: #a8d8bb !important; }
-    .badge-optional  { background: #f0ebf8 !important; color: #6b41a0 !important; border-color: #c9aee8 !important; }
-    .badge-uncertain { background: #fdf3e3 !important; color: #8B6520 !important; border-color: #e0c07a !important; }
-
-    /* Panel */
-    .plans-panel { max-height: none !important; overflow: visible !important; }
-    .tab-content { display: block !important; }
-    .plans-inner {
-      border-left: 2px solid #d4a843 !important;
-      margin-left: 20px !important;
-      padding: 4px 12px 12px !important;
-      background: transparent !important;
-    }
-
-    /* Plan items */
-    .plan-item { border-bottom-color: #e8e8e8 !important; padding: 6px 0 !important; }
-    .plan-text { color: #222 !important; font-size: .82rem !important; }
-    .empty-plans { color: #aaa !important; }
-
-    /* Note items */
-    .note-item {
-      background: #f9f9f9 !important;
-      border-color: #e0e0e0 !important;
-      border-radius: 7px !important;
-      margin-bottom: 5px !important;
-    }
-    .note-cat { color: #8B6520 !important; }
-    .note-text { color: #222 !important; font-size: .8rem !important; }
-  }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="header-bg"></div>
-  <div class="lotus-bg"></div>
-  <p class="header-sub" style="position:relative">Noviembre 2026 · La Perla del Índico</p>
-  <div class="header-divider"></div>
-  <h1 style="position:relative"><em>Sri Lanka</em><br>Journey Planner</h1>
-  <div class="header-divider"></div>
-  <p id="syncStatus" style="position:relative;font-size:.7rem;letter-spacing:.1em;color:var(--gold);opacity:0;transition:opacity .4s;margin-top:-8px;padding-bottom:4px;"></p>
+<header class="top">
+  <div class="hd">
+    <img class="logo" src="icon-180.png" alt="">
+    <div class="sp"><h1>Sri <em>Lanka</em> <span class="pill" id="pill"></span></h1><div class="sub">1 – 15 nov 2026 · Colombo a la costa sur</div></div>
+  </div>
+  <div class="chips" id="chips"></div>
 </header>
-
-<div class="days-bar" id="daysBar"></div>
-
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Confirmado</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#B89ED4"></div>Opcional</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#D4B87A"></div>Por confirmar</div>
-</div>
-
-<div class="timeline" id="timeline">
-  <div id="loadingMsg" style="text-align:center;padding:60px 20px;color:var(--mist);font-size:.85rem;letter-spacing:.1em;">
-    ⟳ Cargando destinos…
-  </div>
-</div>
-
-<div class="add-dest-wrap">
-  <button class="add-dest-btn" onclick="openNewDestModal()">＋ Añadir nuevo destino</button>
-</div>
-
-<div class="export-wrap">
-  <button class="export-btn" onclick="exportPDF()">🖨️ &nbsp;Guardar como PDF</button>
-</div>
-
-<footer>✦ Abre cada destino · añade planes, notas y consejos · edita con ✏️ ✦</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-title">
-      <span id="modalTitleText">Editar destino</span>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Icono</label>
-      <div class="emoji-picker" id="emojiPicker"></div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Nombre del destino</label>
-      <input class="form-input" id="editName" placeholder="Ej: Kandy, Galle, Colombo…"/>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Descripción corta</label>
-      <input class="form-input" id="editDesc" placeholder="Ej: Templo del Diente · Ciudad colonial…"/>
-    </div>
-    <div class="form-row-2">
-      <div>
-        <label class="form-label">Día inicio (Nov)</label>
-        <input class="form-input" type="number" id="editFrom" min="1" max="30"/>
-      </div>
-      <div>
-        <label class="form-label">Día fin (Nov)</label>
-        <input class="form-input" type="number" id="editTo" min="1" max="30"/>
-      </div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Estado</label>
-      <select class="form-select" id="editStatus">
-        <option value="confirmed">✅ Confirmado</option>
-        <option value="optional">🔮 Opcional</option>
-        <option value="uncertain">❓ Por confirmar</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Color</label>
-      <div class="color-picker" id="colorPicker"></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-save" onclick="saveEdit()">Guardar</button>
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-danger" id="btnDelete" onclick="deleteDestModal()">🗑 Borrar</button>
-    </div>
-  </div>
-</div>
-
+<main class="wrap">
+  <section class="tab" id="s-hoy"></section>
+  <section class="tab" id="s-viaje"></section>
+  <section class="tab" id="s-reservas"></section>
+  <section class="tab" id="s-gastos"></section>
+  <section class="tab" id="s-kit"></section>
+</main>
+<button id="nueva" class="pill" hidden onclick="location.reload()" style="position:fixed;top:calc(80px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:40;padding:8px 14px;background:var(--gold);color:#0E1A14">Hay una versión nueva · tocar para actualizar</button>
+<nav class="bot"><div class="in">
+  <button data-tab="hoy"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Hoy</button>
+  <button data-tab="viaje"><svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Viaje</button>
+  <button data-tab="reservas"><svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 5v12" stroke-dasharray="2 2"/></svg>Reservas</button>
+  <button data-tab="gastos"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg>Gastos</button>
+  <button data-tab="kit"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M12 11v5M9.5 13.5h5"/></svg>Kit</button>
+</div></nav>
+<dialog id="dlg"><div class="sheet" id="dlgB"></div></dialog>
+<div class="toast" id="toast"></div>
 <script>
-const EMOJIS = ['🏰','🍃','🌄','🐆','🌊','🐋','🏖️','🌺','🦚','🛕','⛵','🏔️','🌴','🦁','🎑','🚂','🌿','🏝️','🦜','🌅','🎭','🌙','🐘','🕌'];
-const COLORS = ['#C8973A','#5A7A60','#5A9A6A','#7A5C9A','#2A6B8A','#8A6A3A','#D4714A','#4A8A9A','#9A4A6A','#6A8A4A','#4A6A9A','#8A4A4A'];
-const NOTE_CATS = [
-  {key:'logistica', label:'Logística',    icon:'🚗'},
-  {key:'alojamiento', label:'Alojamiento',icon:'🏨'},
-  {key:'consejo',   label:'Consejo',      icon:'💡'},
-  {key:'presupuesto',label:'Presupuesto', icon:'💸'},
-  {key:'comida',    label:'Comida',       icon:'🍜'},
-  {key:'info',      label:'Info útil',    icon:'📌'},
-  {key:'transporte',label:'Transporte',   icon:'🛺'},
-  {key:'salud',     label:'Salud/Seguridad',icon:'🏥'},
+const LK_PATH = "M235.5,280.7L235.5,282.4L236.6,286.0L237.0,288.0L236.3,292.1L231.6,307.9L231.3,309.4L231.3,311.6L230.9,313.5L229.5,316.2L229.1,317.6L228.8,319.2L226.6,322.3L225.9,323.6L226.6,326.0L225.6,329.0L216.3,343.7L213.1,346.9L207.4,351.0L205.2,351.7L202.7,353.0L184.5,367.5L181.0,369.4L168.8,373.8L168.8,372.3L168.1,371.6L167.8,371.8L167.1,371.9L166.7,372.6L166.7,374.3L166.0,375.0L165.3,375.1L164.2,375.6L162.1,377.0L159.9,378.0L149.6,380.2L144.6,381.9L138.9,382.9L136.4,383.9L135.0,385.9L132.5,385.4L130.7,386.1L129.6,386.4L126.0,389.3L122.1,392.2L120.3,394.2L116.4,394.0L114.6,394.2L113.2,394.7L111.8,395.6L109.6,397.3L108.9,397.4L108.2,397.6L106.4,396.9L104.6,396.1L103.6,395.7L102.9,395.6L97.2,396.2L95.7,395.9L94.7,395.1L94.3,394.0L93.9,393.4L93.6,392.9L91.8,393.9L90.4,394.0L87.5,393.5L87.2,393.5L86.5,393.4L86.1,392.9L85.7,392.4L85.0,392.2L84.7,392.4L84.3,392.7L84.0,392.9L83.2,392.9L83.2,392.7L82.9,392.7L82.5,391.7L82.2,391.5L81.8,391.5L81.1,391.2L77.2,389.7L75.4,389.3L74.0,389.1L71.8,387.3L71.5,387.1L70.4,386.6L69.7,387.5L67.9,385.9L59.7,377.3L59.0,376.8L59.0,376.7L59.0,376.3L58.6,376.0L58.6,375.1L58.6,374.6L58.3,374.3L57.2,373.1L52.6,363.3L52.6,362.5L52.6,361.6L52.6,360.8L52.6,360.3L51.5,358.6L50.8,353.9L49.0,350.6L47.9,345.9L47.2,344.2L47.2,344.1L46.9,343.7L46.1,343.4L46.1,342.9L46.1,342.2L46.5,342.0L47.2,342.2L46.5,336.8L46.5,336.5L44.4,331.1L35.8,309.3L34.7,301.7L34.4,301.0L34.4,293.7L34.7,293.6L35.4,291.2L35.8,290.0L35.8,288.8L31.2,272.0L31.9,269.4L31.5,270.9L32.2,272.0L32.6,272.6L33.0,273.5L34.0,276.9L34.4,277.7L35.1,277.7L35.1,276.7L35.4,276.4L35.8,276.4L35.8,273.3L35.4,272.0L35.1,270.8L34.7,270.4L33.3,270.3L32.6,269.8L32.6,269.6L32.2,268.9L32.6,268.2L33.0,267.4L33.0,266.7L28.3,231.1L27.6,229.7L28.0,229.2L28.3,229.2L29.0,229.7L29.0,228.1L29.7,226.0L29.7,225.0L30.1,224.0L29.4,222.5L28.7,221.1L28.3,220.3L28.3,219.3L28.3,215.7L26.2,204.4L25.8,203.2L24.7,200.7L23.7,195.5L21.9,191.4L19.4,180.1L19.4,176.9L19.8,177.2L20.1,177.2L20.1,177.6L20.5,175.7L20.1,169.8L19.4,168.1L21.2,167.1L22.6,165.1L23.7,162.7L24.4,160.9L24.7,159.7L27.6,154.9L27.6,155.1L26.2,158.5L24.4,161.9L24.7,162.7L24.7,162.9L25.5,163.6L26.5,164.1L27.6,164.1L26.5,166.8L25.8,168.8L25.1,169.1L24.7,169.1L24.4,169.5L24.4,170.5L24.4,172.8L24.4,173.5L22.6,178.9L22.6,179.9L22.6,182.0L24.4,184.0L25.1,184.5L23.0,188.7L26.2,190.9L30.8,191.4L33.0,189.7L32.6,187.9L31.9,186.5L31.5,186.0L31.2,185.5L30.5,184.5L29.4,183.8L29.0,182.6L32.2,176.4L32.2,175.2L31.9,174.4L31.5,173.7L31.2,172.8L30.8,171.7L31.2,169.6L31.2,168.8L31.2,168.6L30.8,167.8L30.5,167.6L30.5,167.4L30.1,167.1L30.5,165.9L30.8,165.1L32.2,163.4L32.2,162.2L32.6,160.2L33.7,156.0L34.4,146.2L35.1,145.1L35.8,144.5L36.2,143.8L36.5,142.4L36.5,138.2L36.9,136.2L38.3,134.8L40.1,133.8L41.2,132.5L41.5,132.0L42.6,128.8L42.6,128.6L42.9,127.8L43.7,125.7L44.7,115.9L42.2,109.9L42.6,108.7L42.6,101.6L42.2,99.2L42.2,98.0L41.5,97.2L41.2,96.2L42.2,95.7L43.3,95.3L44.4,95.2L50.1,89.9L52.9,88.4L54.4,87.4L55.1,84.9L56.1,82.5L56.8,79.0L60.1,70.7L60.1,70.2L60.4,69.0L61.1,66.6L61.1,60.9L61.1,59.9L61.1,59.4L60.1,59.2L57.2,57.7L56.1,56.7L55.4,54.8L55.4,54.5L54.7,52.1L54.7,50.9L56.1,49.6L58.3,48.6L60.8,47.7L62.6,47.4L63.6,47.0L65.8,44.0L65.8,43.8L66.1,43.7L67.2,43.2L67.9,42.8L69.0,42.7L68.3,41.0L67.5,40.1L66.8,39.4L65.4,37.9L63.6,36.6L56.1,32.2L54.7,30.3L57.9,30.5L61.1,31.7L66.8,35.2L72.5,36.6L74.3,37.6L76.5,39.6L77.2,40.6L75.8,41.3L76.1,42.0L76.5,42.7L75.8,43.3L77.9,44.7L82.9,43.5L91.8,40.0L94.3,40.3L99.6,41.6L105.7,44.5L110.4,45.4L103.6,40.8L101.4,39.6L99.3,39.3L98.9,39.1L98.6,38.9L96.8,37.6L96.1,37.2L95.7,37.1L94.7,37.1L93.6,37.2L92.9,37.4L92.5,37.6L92.5,38.1L92.2,38.3L90.7,37.2L90.4,37.1L86.8,37.2L86.1,36.9L79.0,30.8L76.1,29.0L75.0,28.5L69.7,26.3L67.9,25.1L66.8,25.1L66.8,27.6L67.5,28.3L68.6,29.1L69.3,30.2L68.6,31.3L67.9,31.5L67.2,31.2L66.5,30.7L64.7,29.7L61.1,26.4L59.0,25.6L60.1,26.8L61.8,28.5L62.9,29.7L60.4,29.1L58.3,28.1L53.3,25.6L49.7,22.6L47.2,21.7L47.2,21.5L46.1,21.0L45.4,20.7L45.4,21.4L44.4,20.7L44.0,19.7L43.7,18.5L43.3,17.3L42.6,16.1L42.2,15.6L41.2,14.3L40.4,13.1L42.6,12.1L46.5,8.5L48.3,7.7L56.1,8.4L60.1,7.9L61.5,8.0L62.2,9.4L62.2,11.6L62.6,12.3L63.3,12.6L64.0,12.6L66.5,13.3L66.8,13.6L67.5,14.5L68.6,14.5L69.3,14.1L69.7,13.9L70.0,13.9L70.4,13.9L71.1,14.3L71.5,14.6L74.3,17.5L83.2,27.1L86.1,29.0L93.2,32.4L93.6,32.4L93.6,31.7L90.0,29.8L81.1,22.7L74.0,14.5L70.4,12.6L64.7,11.2L63.3,10.1L62.9,8.5L65.1,7.7L65.8,7.5L67.9,7.2L72.2,7.0L74.0,7.4L75.4,8.4L76.1,11.6L77.2,12.9L90.0,28.3L92.2,29.7L96.1,31.8L123.2,54.0L123.5,54.1L124.3,55.3L125.3,56.8L127.5,58.7L128.5,60.6L127.5,61.2L126.8,60.9L126.8,60.7L125.7,59.5L125.0,59.2L123.2,58.9L122.5,59.0L122.8,59.9L123.2,60.2L128.2,64.9L130.3,66.1L129.3,64.8L128.9,63.6L129.3,62.9L130.7,62.6L131.0,62.9L132.1,66.1L133.2,68.0L137.1,75.4L136.0,75.2L134.2,74.4L132.8,74.4L132.1,75.7L132.8,76.3L134.6,76.4L136.0,77.4L136.4,79.6L137.1,79.6L137.1,79.1L137.5,78.8L137.8,78.6L138.5,78.3L138.9,80.3L138.9,80.6L140.3,83.9L142.1,86.7L144.2,87.9L144.2,88.1L144.6,88.2L144.6,88.9L143.9,89.6L143.2,89.9L142.8,89.6L141.7,87.9L140.7,87.2L137.8,86.6L136.4,85.9L137.1,86.9L137.5,87.4L141.0,90.8L141.0,92.6L142.1,93.5L141.0,94.5L140.3,95.7L141.7,96.9L143.5,96.7L144.9,95.5L145.7,93.6L146.4,92.0L149.9,96.3L153.2,101.8L154.6,103.1L156.4,103.6L157.8,104.8L159.9,110.0L160.6,110.5L161.0,111.2L163.5,112.2L164.6,114.9L166.0,120.2L166.3,119.1L166.7,118.8L167.1,119.0L168.1,119.5L167.8,120.3L170.6,123.4L171.7,124.9L171.7,126.7L171.0,127.4L169.9,127.9L168.8,128.9L169.6,128.8L170.3,128.6L170.6,128.4L171.0,128.3L173.1,133.0L173.5,135.4L171.0,135.9L171.3,134.2L170.6,133.0L169.6,132.7L168.8,134.5L169.2,135.9L169.9,136.7L170.3,137.7L169.6,139.2L168.8,138.9L167.8,138.1L166.0,136.9L164.2,136.5L162.8,137.2L161.4,138.9L161.7,139.9L163.5,139.6L165.6,137.9L167.1,139.4L168.1,141.3L169.6,142.8L172.1,143.5L176.3,143.3L178.1,142.3L177.0,139.9L179.5,138.7L180.6,138.4L181.7,138.6L182.8,139.2L184.2,140.4L184.9,141.8L185.6,145.8L187.0,150.9L187.0,152.2L187.0,153.6L186.0,152.7L184.5,150.0L183.5,149.5L183.5,150.2L183.8,153.4L183.8,153.8L184.5,154.9L185.3,155.3L185.6,155.6L187.0,155.6L188.1,156.1L188.8,159.8L189.5,162.5L189.5,163.0L189.9,164.6L190.2,165.6L192.4,172.7L193.1,177.2L191.3,179.8L190.2,175.5L190.2,175.0L188.5,170.8L187.7,170.8L187.7,174.0L187.7,175.0L187.7,175.2L187.7,175.7L187.7,176.4L188.1,176.7L189.2,177.1L189.2,177.2L189.9,179.4L191.7,180.6L193.5,180.6L194.2,178.4L194.5,178.4L195.2,179.6L195.6,179.9L196.3,183.5L197.0,184.8L198.1,186.0L198.8,187.2L200.2,190.1L200.6,189.6L201.3,189.1L201.7,188.7L202.0,189.6L201.7,190.1L201.7,190.4L202.0,190.7L202.0,190.9L202.0,191.4L202.7,190.9L203.8,190.4L204.2,190.1L204.5,190.6L204.5,191.2L204.5,192.1L204.2,192.9L204.2,193.6L204.2,194.1L204.9,195.5L205.9,196.5L207.0,197.0L207.7,198.3L207.0,198.3L207.0,198.5L206.7,198.7L206.3,198.8L205.9,200.0L205.6,201.0L206.7,204.4L207.4,205.3L208.8,206.8L210.9,206.4L211.6,206.4L212.4,208.5L213.1,209.8L213.4,210.2L217.7,214.7L219.1,216.9L219.1,218.8L217.0,219.4L215.9,218.8L213.8,215.7L212.4,214.5L210.6,214.0L209.5,214.0L208.4,215.2L207.7,217.4L208.8,217.9L209.9,218.1L210.9,217.8L211.6,216.7L212.7,217.1L213.8,217.6L214.1,218.1L214.5,218.4L214.5,219.4L215.6,220.8L217.0,222.0L218.1,223.2L219.1,225.0L218.4,225.5L218.4,226.0L218.8,226.9L219.1,227.7L219.8,227.0L219.5,225.7L220.6,226.0L222.7,227.7L223.4,228.6L225.2,233.1L225.2,233.5L224.5,236.0L224.5,236.2L224.5,236.3L225.2,237.2L225.2,237.7L224.8,238.4L224.1,238.9L223.8,239.5L224.1,240.4L224.5,241.1L224.8,241.6L225.2,242.1L225.9,242.7L224.8,243.6L224.8,243.9L224.8,244.3L225.9,244.4L226.6,243.4L227.3,243.4L228.1,247.5L228.1,249.0L228.8,249.0L228.8,247.5L229.1,246.1L229.5,244.9L229.8,244.1L229.8,243.4L229.8,243.3L229.8,242.6L229.8,242.4L230.5,242.6L231.3,243.4L231.6,244.3L232.0,246.3L233.4,248.8L235.9,257.3L235.5,280.7ZM39.4,28.3L37.6,27.1L36.2,24.9L33.7,20.0L34.7,18.3L35.1,16.1L35.8,14.5L37.9,13.9L39.0,14.3L39.0,15.1L38.7,16.3L38.7,17.7L38.7,19.0L38.7,20.0L38.7,20.2L38.7,20.4L39.0,21.2L39.7,21.7L40.1,22.1L40.4,22.2L42.2,22.1L42.6,22.4L42.6,23.9L42.9,24.6L44.0,25.3L45.8,25.9L46.9,26.6L46.9,26.8L47.2,27.6L46.5,28.3L45.4,28.3L44.0,27.8L42.9,27.3L42.2,27.1L40.4,28.1L39.4,28.3ZM221.6,224.0L221.6,222.8L221.3,222.1L220.9,221.1L220.6,220.1L220.6,219.1L220.9,218.1L220.9,217.3L220.6,216.1L221.6,217.3L223.1,220.1L223.8,221.5L224.1,222.0L224.8,224.5L227.3,228.4L228.4,230.1L230.2,238.9L230.2,240.9L228.8,242.1L227.3,241.1L227.0,240.6L226.6,240.4L226.6,239.9L226.6,239.4L226.6,239.2L227.0,232.8L226.6,230.6L225.6,229.7L225.2,228.9L221.6,224.0ZM21.2,82.5L20.1,82.0L19.8,81.0L19.8,80.1L21.2,79.6L25.8,79.6L27.6,80.1L29.7,80.6L34.0,82.3L37.9,84.7L41.2,87.9L39.7,87.6L36.9,86.2L35.1,85.9L37.6,88.8L39.7,91.1L40.4,92.6L38.3,92.3L36.5,91.1L35.4,89.9L34.7,89.3L33.7,88.8L29.7,85.0L27.6,84.2L25.8,83.3L24.0,82.8L23.3,82.7L21.2,82.5Z";
+/* ============================================================
+   DATOS DEL VIAJE — edita aquí y vuelve a subir index.html
+   ============================================================ */
+const VIAJE = { titulo: "Sri Lanka 2026", inicio: "2026-11-01", fin: "2026-11-15", sub: "1 – 15 nov · Colombo a la costa sur" };
+
+const PARADAS = [
+  { id: "sigiriya", nombre: "Sigiriya", si: "සීගිරිය", desde: "2026-11-01", hasta: "2026-11-03", hotel: "Atha Resort",
+    color: "#C8973A", emoji: "🦁", lat: 7.957, lon: 80.760, x: 124.8, y: 194.3,
+    grad: "linear-gradient(160deg,#5b3d16 0%,#2D4A35 55%,#0E1A14 100%)",
+    lema: "La Roca del León, templos en cuevas y arrozales",
+    ver: ["Roca del León", "Pidurangala", "Dambulla", "Sigiriya Wewa", "Audangawa"],
+    notas: "Moto de alquiler para moverse por la zona. Llevad mucha agua y protección solar: la Roca del León lleva 1,5–2 h ida y vuelta. Para Dambulla y templos: hombros y rodillas cubiertos." },
+  { id: "nuwara", nombre: "Nuwara Eliya", si: "නුවරඑළිය", desde: "2026-11-03", hasta: "2026-11-04", hotel: "Langdale Boutique Hotel by Amaya",
+    color: "#8FBF7F", emoji: "🍃", lat: 6.970, lon: 80.780, x: 126.8, y: 293.0,
+    grad: "linear-gradient(160deg,#3f6b45 0%,#1A2E22 60%,#0E1A14 100%)",
+    lema: "Plantaciones de té y colinas con niebla",
+    ver: ["Ramboda Falls", "Plantaciones de té", "Gregory Lake"],
+    notas: "Hace fresco, sobre todo de noche y al amanecer: llevad una sudadera. La estación de tren de la zona es Nanu Oya." },
+  { id: "ella", nombre: "Ella", si: "ඇල්ල", desde: "2026-11-04", hasta: "2026-11-07", hotel: "Arawe Retreat",
+    color: "#5FB08A", emoji: "🚂", lat: 6.867, lon: 81.046, x: 153.2, y: 303.3,
+    grad: "linear-gradient(160deg,#245c4a 0%,#1A2E22 60%,#0E1A14 100%)",
+    lema: "El tren más bonito, Nine Arch Bridge y Ella Rock",
+    ver: ["Nine Arch Bridge", "Ella Rock", "Mahamevnawa", "Buduruwagala", "Diyaluma Falls"],
+    notas: "Calzado con agarre para Ella Rock: el sendero puede estar embarrado. En Nine Arch Bridge, colocaos unos 15 min antes de que pase el tren." },
+  { id: "yala", nombre: "Yala", si: "යාල", desde: "2026-11-07", hasta: "2026-11-09", hotel: "Yakaduru Yala Safari Camp",
+    color: "#D9A05B", emoji: "🐆", lat: 6.370, lon: 81.400, x: 188.2, y: 353.0,
+    grad: "linear-gradient(160deg,#7a4a1e 0%,#3b2a17 55%,#0E1A14 100%)",
+    lema: "Safari de leopardos, elefantes y búfalos",
+    ver: ["Safari día completo", "Cena BBQ"],
+    notas: "Ropa de colores neutros, gorra, crema solar, prismáticos y batería extra. Los jeeps van muy expuestos al sol y al polvo." },
+  { id: "hiriketiya", nombre: "Hiriketiya", si: "හිරිකැටිය", desde: "2026-11-09", hasta: "2026-11-12", hotel: "Cielo Hiriketiya",
+    color: "#4FA3C4", emoji: "🌊", lat: 5.963, lon: 80.708, x: 119.7, y: 393.7,
+    grad: "linear-gradient(160deg,#1e5d78 0%,#1A2E22 65%,#0E1A14 100%)",
+    lema: "Bahía de surf, tortugas y templos en la roca",
+    ver: ["Hiriketiya Beach", "Dickwella", "Mulgirigala", "Turtle Point", "Silent Beach", "Kalametiya"],
+    notas: "Bahía en forma de herradura con olas para principiantes. Tortugas en Turtle Point (Batheegama): no tocarlas ni darles de comer." },
+  { id: "ahangama", nombre: "Ahangama", si: "අහංගම", desde: "2026-11-12", hasta: "2026-11-15", hotel: "Soul House",
+    color: "#E07A55", emoji: "🌅", lat: 5.973, lon: 80.366, x: 85.8, y: 392.7,
+    grad: "linear-gradient(160deg,#8a3f2a 0%,#3a2a20 55%,#0E1A14 100%)",
+    lema: "Atardeceres, pescadores en zancos y snorkel",
+    ver: ["Dalawella", "Mirissa", "Secret Beach", "Unawatuna", "Canela", "Galle"],
+    notas: "Base para recorrer la costa sur en moto: Mirissa al este, Unawatuna y Galle al oeste." }
+];
+/* Fotos propias: sube img/<id>.jpg (p. ej. img/ella.jpg) y añade el id aquí */
+const FOTOS = [];
+const AEROPUERTO = { nombre: "Colombo (CMB)", x: 37.6, y: 272.0 };
+
+/* Cada día: t = hora, e = emoji, q = qué, d = detalle, m = búsqueda en Google Maps,
+   p = precio, r = reservado/pagado/pendiente, tel / mail / web = contacto */
+const DIAS = [
+  { f: "2026-11-01", p: "sigiriya", tit: "Llegada a Colombo y traslado a Sigiriya", tipo: "Vuelo", items: [
+    { t: "16:30", e: "✈️", q: "Llegada a Colombo", d: "Aeropuerto Internacional Bandaranaike (CMB).", m: "Bandaranaike International Airport" },
+    { t: "17:00", e: "💶", q: "Cambiar dinero", d: "En la zona de llegadas. Cambiad lo justo para los primeros días y sacad del cajero después." },
+    { t: "17:20", e: "🛂", q: "Permiso de conducción temporal", d: "Department of Motor Traffic (DMT), zona de llegadas (Arrival Walkway), junto al supermercado SPAR. Abierto 24 h. Llevad pasaporte, carnet español y el permiso internacional o una traducción al inglés. Unos 2.000 LKR, válido 30 días; aceptan tarjeta o rupias.", tel: "+94 70 304 5888", m: "DMT counter Bandaranaike Airport arrivals" },
+    { t: "18:00", e: "🚘", q: "Traslado Colombo → Sigiriya", d: "Unas 3 h 30 min hasta Atha Resort." },
+    { t: "21:30", e: "🏠", q: "Check-in en Atha Resort", m: "Atha Resort Sigiriya", r: "reservado", p: "27.000 LKR" },
+    { t: "21:30", e: "🍛", q: "Cena en el hotel", d: "La cocina cierra a las 22:00: avisad al hotel de que llegáis tarde." }
+  ]},
+  { f: "2026-11-02", p: "sigiriya", tit: "Roca del León, arrozales y Dambulla", tipo: "Moto", items: [
+    { t: "06:00", e: "☕️", q: "Desayuno", d: "De 06:00 a 11:00." },
+    { t: "06:30", e: "🛵", q: "Alquilar moto", d: "Nisala Scooter Rent, abre a las 06:00.", m: "Nisala scooter rent Sigiriya" },
+    { t: "08:30", e: "🦁", q: "Roca del León (Sigiriya)", d: "Abierto de 05:00 a 18:30. A 15 min en moto. Se paga en taquilla.", p: "35 $", m: "Sigiriya Lion Rock" },
+    { t: "12:00", e: "🌾", q: "Lagos y arrozales", d: "Sigiriya Wewa (embalse, a 10 min), carretera de Pidurangala y Audangawa (pueblo rural).", m: "Sigiriya Wewa" },
+    { t: "14:30", e: "🪷", q: "Golden Temple / Dambulla Cave Temple", d: "Abierto de 07:00 a 17:00. A 30 min en moto. Hombros y rodillas cubiertos, descalzos dentro.", p: "3.000 LKR (≈ 8 €)", m: "Dambulla Cave Temple" },
+    { t: "18:00", e: "🍛", q: "Jenu's Place: clase de cocina y cena", d: "Preguntar si hay clase sobre las 18:00.", mail: "jenusplaceccr@gmail.com", tel: "+94 74 354 7328", m: "Jenu's Place Cooking Class Sigiriya", r: "pendiente" }
+  ]},
+  { f: "2026-11-03", p: "nuwara", tit: "Amanecer en Pidurangala y viaje a Nuwara Eliya", tipo: "Traslado", items: [
+    { t: "04:30", e: "🌅", q: "Amanecer en Pidurangala Rock", d: "15 min en moto o tuk-tuk. Subida de 20–40 min, el último tramo trepando por rocas. Amanece a las 05:55. Llevad linterna.", p: "1.000 LKR (≈ 3 €)", m: "Pidurangala Rock" },
+    { t: "08:00", e: "🥞", q: "Desayuno", d: "Devolved la moto antes de salir." },
+    { t: "10:00", e: "🚘", q: "Traslado Sigiriya → Nuwara Eliya", d: "Unas 5 h, con parada en Ramboda Falls.", m: "Ramboda Falls" },
+    { t: "15:00", e: "🏠", q: "Langdale Boutique Hotel by Amaya", d: "Check-in.", m: "Langdale Boutique Hotel by Amaya" },
+    { t: "16:00", e: "🌱", q: "Paseo por las plantaciones de té del hotel" },
+    { t: "21:00", e: "🍛", q: "Cena en The Grand Indian", d: "Reservado a las 21:00 (cierra 22:30). A 35 min en tuk-tuk. Si hay tiempo, antes paseo por Gregory Lake al atardecer.", r: "reservado", m: "The Grand Indian Nuwara Eliya" }
+  ]},
+  { f: "2026-11-04", p: "ella", tit: "Tren a Ella y Nine Arch Bridge", tipo: "Tren", items: [
+    { t: "07:00", e: "🥞", q: "Desayuno" },
+    { t: "08:00", e: "🚘", q: "Traslado a la estación", d: "Reservado con el hotel.", p: "2.500 LKR", r: "reservado" },
+    { t: "08:15", e: "🚉", q: "Llegada a la estación", d: "Nanu Oya, la estación de Nuwara Eliya.", m: "Nanu Oya Railway Station" },
+    { t: "09:00", e: "🚂", q: "Tren a Ella", d: "De 09:00 a 11:27. El mejor paisaje va a la derecha en dirección a Ella.", fin: "11:27" },
+    { t: "11:27", e: "🚞", q: "Llegada a Ella", m: "Ella Railway Station" },
+    { t: "12:00", e: "🏠", q: "Arawe Retreat", d: "Dejar maletas.", m: "Arawe Retreat Ella" },
+    { t: "12:30", e: "🛵", q: "Alquilar moto", d: "Scooter Rental 4U (Ella Bikes).", m: "Scooter Rental 4U Ella Bikes" },
+    { t: "13:30", e: "🌴", q: "Comida en Sintha Bara Lonthe", m: "Sintha Bara Lonthe Ella" },
+    { t: "15:30", e: "🛤️", q: "Nine Arch Bridge", d: "El tren pasa a las 15:52.", m: "Nine Arch Bridge" },
+    { t: "17:00", e: "🌾", q: "Paseo por los arrozales del hotel" },
+    { t: "19:30", e: "🏮", q: "Ella town", d: "Cena y paseo por el pueblo.", m: "Ella town" }
+  ]},
+  { f: "2026-11-05", p: "ella", tit: "Ella Rock, masaje ayurvédico y clase de cocina", tipo: "Moto", items: [
+    { t: "08:00", e: "⛰️", q: "Ella Rock", d: "A 10 min en moto. Unas 5 h en total.", m: "Ella Rock" },
+    { t: "14:00", e: "💆🏽‍♀️", q: "Masaje: Āyur Shiro Sparśa", d: "Centro ayurvédico del hotel. 90 min.", p: "80 $", r: "reservado" },
+    { t: "17:00", e: "👩‍🍳", q: "Clase de cocina en el hotel", p: "25 $", r: "reservado" }
+  ]},
+  { f: "2026-11-06", p: "ella", tit: "Meditación, té artesanal y Buduruwagala", tipo: "Moto", items: [
+    { t: "09:15", e: "🧘", q: "Mahamevnawa Buddhist Monastery", d: "Meditación de 09:45 a 10:45. A 26 min en moto. Ropa blanca o clara, hombros y rodillas cubiertos.", m: "Mahamevnawa Buddhist Monastery Ella" },
+    { t: "12:30", e: "🍵", q: "Organic Tea Queen: masterclass de té", d: "Handmade tea masterclass a las 13:00, 2 h. A 35 min en moto. Reservado y pagado en GetYourGuide.", p: "10 €", r: "pagado", m: "Organic Tea Queen Ella" },
+    { t: "15:30", e: "🪷", q: "Buduruwagala Temple", d: "A 1 h en moto, abierto hasta las 18:00. Alternativa opcional: Dowa Ancient Rock Temple.", m: "Buduruwagala Temple" }
+  ]},
+  { f: "2026-11-07", p: "yala", tit: "Diyaluma Falls y viaje a Yala", tipo: "Traslado", items: [
+    { t: "08:00", e: "💦", q: "Upper Diyaluma Falls", d: "A 1 h 30 min en moto. Volved con tiempo para devolver la moto antes de las 14:00.", m: "Upper Diyaluma Falls" },
+    { t: "14:00", e: "🚘", q: "Traslado Ella → Yala", d: "Unas 2 h 20 min." },
+    { t: "16:30", e: "🏠", q: "Yakaduru Yala Safari Camp", m: "Yakaduru Yala Safari Camp" },
+    { t: "17:40", e: "🌅", q: "Atardecer" },
+    { t: "19:30", e: "🍛", q: "Cena en el camp" }
+  ]},
+  { f: "2026-11-08", p: "yala", tit: "Safari de día completo en Yala", tipo: "Safari", items: [
+    { t: "05:30", e: "🐆", q: "Safari de día completo", d: "De 05:30 a 18:30. Reservado en el hotel (Yakaduru).", fin: "18:30", p: "110 $", r: "reservado", m: "Yala National Park" },
+    { t: "19:30", e: "🍖", q: "Cena BBQ", d: "Reservada en el hotel.", p: "30 $", r: "reservado" }
+  ]},
+  { f: "2026-11-09", p: "hiriketiya", tit: "Llegada a la costa: Hiriketiya", tipo: "Traslado", items: [
+    { t: "10:00", e: "🚘", q: "Traslado Yala → Hiriketiya", d: "Unas 2 h." },
+    { t: "12:00", e: "🏠", q: "Cielo Hiriketiya", m: "Cielo Hiriketiya" },
+    { t: "13:00", e: "💦", q: "Piscina del hotel" },
+    { t: "15:00", e: "🛵", q: "Alquilar moto", d: "Grand Scooter Rental.", m: "Grand scooter rental Hiriketiya" },
+    { t: "16:00", e: "🌊", q: "Hiriketiya Beach y Dickwella Beach", m: "Hiriketiya Beach" },
+    { t: "19:30", e: "💖", q: "Cena en Mirissa", m: "Mirissa" }
+  ]},
+  { f: "2026-11-10", p: "hiriketiya", tit: "Surf, masaje y Mulgirigala", tipo: "Playa", items: [
+    { t: "09:00", e: "🏄‍♀️", q: "Clase de surf: Ocean & Om Surf School", d: "Reservar en su web.", p: "23 $", r: "pendiente", m: "Ocean & Om Surf School Hiriketiya" },
+    { t: "11:30", e: "💆🏼‍♀️", q: "Tonic masajes", d: "Abierto de 09:00 a 19:00. A 4 min andando.", m: "Tonic Hiriketiya" },
+    { t: "14:30", e: "🪷", q: "Mulgirigala Raja Maha Viharaya", d: "A 37 min en moto. Bastantes escalones: mejor sin el calor del mediodía.", m: "Mulgirigala Raja Maha Viharaya" },
+    { t: "17:48", e: "🌅", q: "Atardecer en la playa" },
+    { t: "20:00", e: "🍽️", q: "Cena en Smoke & Bitters", d: "Reservar por WhatsApp.", r: "pendiente", m: "Smoke and Bitters Hiriketiya" }
+  ]},
+  { f: "2026-11-11", p: "hiriketiya", tit: "Tortugas, Tangalle y laguna de Kalametiya", tipo: "Moto", items: [
+    { t: "08:30", e: "🐢", q: "Turtle Point Dickwella", d: "En Batheegama (Dickwella). Allí se alquilan gafas de snorkel.", m: "Turtle Point Batheegama Dickwella" },
+    { t: "11:30", e: "🌊", q: "Silent Beach (Tangalle)", d: "A 21 min en moto.", m: "Silent Beach Tangalle" },
+    { t: "15:30", e: "🦩", q: "Kalametiya: aves y safari en la laguna", d: "Kalametiya Eco Birdwatching & Lagoon Safari.", m: "Kalametiya Eco Birdwatching Lagoon Safari" }
+  ]},
+  { f: "2026-11-12", p: "ahangama", tit: "Traslado a Ahangama y atardecer en Dalawella", tipo: "Traslado", items: [
+    { t: "11:00", e: "🚘", q: "Traslado Hiriketiya → Ahangama", d: "Unas 1 h 15 min. Devolved antes la moto." },
+    { t: "12:30", e: "🏠", q: "Soul House", m: "Soul House Ahangama" },
+    { t: "13:30", e: "🛵", q: "Alquilar moto", d: "Rent a Bike Ahangama.", m: "Rent a bike Ahangama" },
+    { t: "14:30", e: "🌊", q: "Ahangama Beach", m: "Ahangama Beach" },
+    { t: "17:00", e: "🌅", q: "Dalawella Beach: columpio y atardecer", m: "Dalawella Beach rope swing" },
+    { t: "19:30", e: "🛹", q: "Lamana Skate Club", m: "Lamana skate club Ahangama" }
+  ]},
+  { f: "2026-11-13", p: "ahangama", tit: "Pescadores al amanecer y día en Mirissa", tipo: "Moto", items: [
+    { t: "05:45", e: "🌅", q: "Amanecer con los pescadores (Welliwama)", d: "Los pescadores sobre zancos." },
+    { t: "09:00", e: "🌯", q: "Desayuno: No. 1 Dewmini Roti Shop", d: "En Mirissa, a 30 min en moto.", m: "No. 1 Dewmini Roti Shop Mirissa" },
+    { t: "10:30", e: "🌴", q: "Coconut Tree Hill", m: "Coconut Tree Hill Mirissa" },
+    { t: "12:00", e: "🌊", q: "Mirissa Beach y Secret Beach", m: "Secret Beach Mirissa" },
+    { t: "17:30", e: "🌅", q: "Atardecer en Secret Beach" },
+    { t: "19:30", e: "🏮", q: "Cena en Zouk Mirissa", m: "Zouk Mirissa" }
+  ]},
+  { f: "2026-11-14", p: "ahangama", tit: "Snorkel en Unawatuna y ruta de la canela", tipo: "Mar", items: [
+    { t: "08:30", e: "🐠", q: "Snorkel con Pearl Divers (Unawatuna)", d: "A 32 min en moto.", p: "80 $", r: "reservado", m: "Pearl Divers Unawatuna" },
+    { t: "16:00", e: "🛖", q: "Cinnamon village tour (canela)", d: "2 h.", p: "15 $", r: "reservado" },
+    { t: "18:30", e: "🏮", q: "Galle o The Cliff (opcional)", d: "Paseo por el fuerte de Galle o atardecer en The Cliff.", m: "Galle Fort" }
+  ]},
+  { f: "2026-11-15", p: "ahangama", tit: "Vuelta a casa", tipo: "Vuelo", items: [
+    { t: "11:00", e: "🛵", q: "Devolver la moto y check-out" },
+    { t: "12:30", e: "🚘", q: "Traslado al aeropuerto", d: "Unas 2 h por la autopista del sur." },
+    { t: "19:30", e: "✈️", q: "Vuelo de vuelta", d: "Estad en el aeropuerto unas 3 h antes.", m: "Bandaranaike International Airport" }
+  ]}
 ];
 
-// Datos por defecto (solo si Firebase está vacío)
-const DEFAULT_DESTINATIONS = [
-  {id:'sigiriya',   name:'Sigiriya',   emoji:'🏰',dateFrom:1, dateTo:3, color:'#C8973A',status:'confirmed',
-   plans:['Subir a la Roca del León al amanecer','Visitar las Cuevas de Dambulla'],
-   notes:[{cat:'logistica',text:'Alquilar moto en el pueblo para moverse por la zona'},{cat:'consejo',text:'Llevar mucha agua y protección solar — el ascenso tarda ~1.5h'}],
-   desc:'La Roca del León · Selvas ancestrales · Dambulla'},
-  {id:'nugunariya', name:'Nawalapitiya / Nuwara Eliya',emoji:'🍃',dateFrom:3,dateTo:4,color:'#5A7A60',status:'confirmed',
-   plans:[],notes:[{cat:'info',text:'El tren Kandy–Nuwara Eliya es uno de los más bonitos del mundo — reservar asiento'}],
-   desc:'Plantaciones de té · Colinas neblinosas · Hill Country'},
-  {id:'ella',       name:'Ella',       emoji:'🌄',dateFrom:4, dateTo:7, color:'#5A9A6A',status:'confirmed',
-   plans:['Amanecer en Ella Rock','Foto en Nine Arch Bridge','Tren panorámico Ella–Kandy'],
-   notes:[{cat:'logistica',text:'Moverse en tuk-tuk o moto de alquiler dentro del pueblo'},{cat:'comida',text:'Comer en Café Chill — vistas al valle increíbles'}],
-   desc:'Nine Arch Bridge · Ella Rock · Tren panorámico'},
-  {id:'yala',       name:'Yala National Park',emoji:'🐆',dateFrom:7,dateTo:9,color:'#7A5C9A',status:'optional',
-   plans:['Safari mañana día 8 (zona sur del parque)','Reservar jeep con guía local'],
-   notes:[{cat:'consejo',text:'Reservar safari con antelación — plazas muy limitadas en temporada alta'},{cat:'presupuesto',text:'Jeep + entrada parque ~50–70€/persona'}],
-   desc:'Safari de leopardos · Elefantes salvajes · Naturaleza pura'},
-  {id:'hiriketiya', name:'Hiriketiya', emoji:'🌊',dateFrom:9, dateTo:12,color:'#2A6B8A',status:'uncertain',
-   plans:[],notes:[{cat:'info',text:'Noviembre puede tener lluvias en el sur — revisar previsión antes de ir'}],
-   desc:'Bahía circular · Surf · Playa oculta del sur'},
-  {id:'mirissa',    name:'Mirissa / Otra zona',emoji:'🐋',dateFrom:12,dateTo:15,color:'#8A6A3A',status:'uncertain',
-   plans:[],notes:[{cat:'consejo',text:'Whale watching: la temporada empieza en diciembre — confirmar fechas exactas'}],
-   desc:'Whale watching · Coco Beach · Sunset vibes'},
+/* Reservas: hoteles, transporte y actividades */
+const RESERVAS = {
+  hoteles: [
+    { id: "h-atha", p: "sigiriya", nombre: "Atha Resort", fechas: ["2026-11-01", "2026-11-03"], precio: "27.000 LKR", estado: "reservado", m: "Atha Resort Sigiriya", d: "Cena en el hotel hasta las 22:00." },
+    { id: "h-langdale", p: "nuwara", nombre: "Langdale Boutique Hotel by Amaya", fechas: ["2026-11-03", "2026-11-04"], estado: "", m: "Langdale Boutique Hotel by Amaya", d: "El hotel organiza el traslado a la estación (2.500 LKR)." },
+    { id: "h-arawe", p: "ella", nombre: "Arawe Retreat", fechas: ["2026-11-04", "2026-11-07"], estado: "", m: "Arawe Retreat Ella", d: "Masaje y clase de cocina reservados con el hotel." },
+    { id: "h-yakaduru", p: "yala", nombre: "Yakaduru Yala Safari Camp", fechas: ["2026-11-07", "2026-11-09"], estado: "", m: "Yakaduru Yala Safari Camp", d: "Safari y cena BBQ reservados con el camp." },
+    { id: "h-cielo", p: "hiriketiya", nombre: "Cielo Hiriketiya", fechas: ["2026-11-09", "2026-11-12"], estado: "", m: "Cielo Hiriketiya" },
+    { id: "h-soul", p: "ahangama", nombre: "Soul House", fechas: ["2026-11-12", "2026-11-15"], estado: "", m: "Soul House Ahangama" }
+  ],
+  transporte: [
+    { id: "t-ida", p: "sigiriya", nombre: "Vuelo de ida", fecha: "2026-11-01", hora: "16:30", d: "Llegada a Colombo (CMB).", estado: "reservado" },
+    { id: "t-sig", p: "sigiriya", nombre: "Traslado Colombo → Sigiriya", fecha: "2026-11-01", hora: "18:00", d: "3 h 30 min.", estado: "" },
+    { id: "t-nuw", p: "nuwara", nombre: "Traslado Sigiriya → Nuwara Eliya", fecha: "2026-11-03", hora: "10:00", d: "5 h, parada en Ramboda Falls.", estado: "" },
+    { id: "t-est", p: "nuwara", nombre: "Hotel → estación de Nanu Oya", fecha: "2026-11-04", hora: "08:00", d: "Con el hotel.", precio: "2.500 LKR", estado: "reservado" },
+    { id: "t-tren", p: "ella", nombre: "Tren Nanu Oya → Ella", fecha: "2026-11-04", hora: "09:00", d: "Llega a las 11:27.", estado: "" },
+    { id: "t-yala", p: "yala", nombre: "Traslado Ella → Yala", fecha: "2026-11-07", hora: "14:00", d: "2 h 20 min.", estado: "" },
+    { id: "t-hiri", p: "hiriketiya", nombre: "Traslado Yala → Hiriketiya", fecha: "2026-11-09", hora: "10:00", d: "2 h.", estado: "" },
+    { id: "t-aha", p: "ahangama", nombre: "Traslado Hiriketiya → Ahangama", fecha: "2026-11-12", hora: "11:00", d: "1 h 15 min.", estado: "" },
+    { id: "t-cmb", p: "ahangama", nombre: "Traslado Ahangama → aeropuerto", fecha: "2026-11-15", hora: "12:30", d: "2 h.", estado: "" },
+    { id: "t-vuelta", p: "ahangama", nombre: "Vuelo de vuelta", fecha: "2026-11-15", hora: "19:30", d: "Desde Colombo (CMB).", estado: "reservado" },
+    { id: "m-sig", p: "sigiriya", nombre: "Moto: Nisala Scooter Rent", fecha: "2026-11-02", hora: "06:00", d: "Sigiriya, del 2 al 3 nov.", m: "Nisala scooter rent Sigiriya", estado: "" },
+    { id: "m-ella", p: "ella", nombre: "Moto: Scooter Rental 4U (Ella Bikes)", fecha: "2026-11-04", hora: "12:30", d: "Ella, del 4 al 7 nov.", m: "Scooter Rental 4U Ella Bikes", estado: "" },
+    { id: "m-hiri", p: "hiriketiya", nombre: "Moto: Grand Scooter Rental", fecha: "2026-11-09", hora: "15:00", d: "Hiriketiya, del 9 al 12 nov.", m: "Grand scooter rental Hiriketiya", estado: "" },
+    { id: "m-aha", p: "ahangama", nombre: "Moto: Rent a Bike Ahangama", fecha: "2026-11-12", hora: "13:30", d: "Ahangama, del 12 al 15 nov.", m: "Rent a bike Ahangama", estado: "" }
+  ],
+  actividades: [
+    { id: "a-roca", p: "sigiriya", nombre: "Roca del León", fecha: "2026-11-02", hora: "08:30", precio: "35 $", d: "Se paga en taquilla.", estado: "", m: "Sigiriya Lion Rock" },
+    { id: "a-dambulla", p: "sigiriya", nombre: "Dambulla Cave Temple", fecha: "2026-11-02", hora: "14:30", precio: "3.000 LKR", d: "Se paga en taquilla.", estado: "", m: "Dambulla Cave Temple" },
+    { id: "a-jenu", p: "sigiriya", nombre: "Jenu's Place: clase de cocina", fecha: "2026-11-02", hora: "18:00", d: "Preguntar disponibilidad.", estado: "pendiente", mail: "jenusplaceccr@gmail.com", tel: "+94 74 354 7328", m: "Jenu's Place Cooking Class Sigiriya" },
+    { id: "a-pidu", p: "nuwara", nombre: "Pidurangala Rock", fecha: "2026-11-03", hora: "04:30", precio: "1.000 LKR", d: "Se paga en la entrada.", estado: "", m: "Pidurangala Rock" },
+    { id: "a-grand", p: "nuwara", nombre: "Cena en The Grand Indian", fecha: "2026-11-03", hora: "21:00", estado: "reservado", m: "The Grand Indian Nuwara Eliya" },
+    { id: "a-masaje", p: "ella", nombre: "Masaje Āyur Shiro Sparśa", fecha: "2026-11-05", hora: "14:00", precio: "80 $", d: "Centro ayurvédico del hotel, 90 min.", estado: "reservado" },
+    { id: "a-cocina", p: "ella", nombre: "Clase de cocina (hotel)", fecha: "2026-11-05", hora: "17:00", precio: "25 $", estado: "reservado" },
+    { id: "a-te", p: "ella", nombre: "Organic Tea Queen: masterclass", fecha: "2026-11-06", hora: "13:00", precio: "10 €", d: "GetYourGuide.", estado: "pagado", m: "Organic Tea Queen Ella" },
+    { id: "a-safari", p: "yala", nombre: "Safari día completo en Yala", fecha: "2026-11-08", hora: "05:30", precio: "110 $", d: "Con Yakaduru.", estado: "reservado", m: "Yala National Park" },
+    { id: "a-bbq", p: "yala", nombre: "Cena BBQ", fecha: "2026-11-08", hora: "19:30", precio: "30 $", estado: "reservado" },
+    { id: "a-surf", p: "hiriketiya", nombre: "Ocean & Om Surf School", fecha: "2026-11-10", hora: "09:00", precio: "23 $", d: "Reservar en su web.", estado: "pendiente", m: "Ocean & Om Surf School Hiriketiya" },
+    { id: "a-smoke", p: "hiriketiya", nombre: "Cena en Smoke & Bitters", fecha: "2026-11-10", hora: "20:00", d: "Reservar por WhatsApp.", estado: "pendiente", m: "Smoke and Bitters Hiriketiya" },
+    { id: "a-snorkel", p: "ahangama", nombre: "Snorkel con Pearl Divers", fecha: "2026-11-14", hora: "08:30", precio: "80 $", d: "Unawatuna.", estado: "reservado", m: "Pearl Divers Unawatuna" },
+    { id: "a-canela", p: "ahangama", nombre: "Cinnamon village tour", fecha: "2026-11-14", hora: "16:00", precio: "15 $", d: "2 h.", estado: "reservado" }
+  ]
+};
+
+/* Antes de salir: fecha = día límite recomendado */
+const POR_HACER = [
+  { id: "eta", q: "Pedir la ETA de Sri Lanka", fecha: "2026-10-28", d: "Obligatoria antes de volar. Para españoles el visado de turista de 30 días es gratuito desde mayo de 2026, pero hay que solicitar la ETA igualmente.", web: "https://www.eta.gov.lk" },
+  { id: "carnet", q: "Permiso internacional o traducción del carnet", fecha: "2026-10-28", d: "Para el permiso temporal del DMT en el aeropuerto piden el carnet y una traducción al inglés si no está en inglés." },
+  { id: "jenu", q: "Preguntar en Jenu's Place por la clase de cocina", fecha: "2026-10-29", d: "Para el 2 nov sobre las 18:00.", mail: "jenusplaceccr@gmail.com", tel: "+94 74 354 7328" },
+  { id: "surf", q: "Reservar la clase de surf en Ocean & Om", fecha: "2026-10-30", d: "Para el 10 nov a las 09:00. Reservar en su web." },
+  { id: "smoke", q: "Reservar mesa en Smoke & Bitters", fecha: "2026-10-30", d: "Para el 10 nov, por WhatsApp." },
+  { id: "atha", q: "Avisar a Atha Resort de que llegáis tarde", fecha: "2026-10-30", d: "Llegaréis hacia las 21:30 y la cocina cierra a las 22:00." },
+  { id: "seguro", q: "Seguro de viaje", fecha: "2026-10-29", d: "Comprobad que cubra moto y actividades acuáticas." },
+  { id: "registro", q: "Registro de viajeros (Exteriores)", fecha: "2026-10-30", web: "https://registroviajeros.exteriores.gob.es" },
+  { id: "checkin1", q: "Check-in online del vuelo de ida", fecha: "2026-10-31", d: "Suele abrir 24–48 h antes." },
+  { id: "esim", q: "eSIM o tarjeta SIM con datos", fecha: "2026-10-31", d: "También se compra en el aeropuerto al llegar (Dialog o SLTMobitel)." },
+  { id: "mapas", q: "Descargar mapas sin conexión", fecha: "2026-10-31", d: "Google Maps: descargad la zona de cada parada." },
+  { id: "checkin2", q: "Check-in online del vuelo de vuelta", fecha: "2026-11-14", d: "Suele abrir 24–48 h antes." }
 ];
 
-// Variable de trabajo — SIEMPRE vacía al inicio
-let destinations = [];
+const EQUIPAJE = [
+  "Pasaportes con al menos 6 meses de validez", "Carnet de conducir + traducción o permiso internacional", "Ropa que cubra hombros y rodillas (templos)",
+  "Sudadera para Nuwara Eliya y amaneceres", "Calzado con agarre para Ella Rock y Pidurangala", "Linterna frontal (Pidurangala a las 04:30)",
+  "Repelente de mosquitos", "Protector solar y gorra", "Chubasquero ligero", "Bañador, chanclas y toalla de microfibra",
+  "Adaptador de enchufe (tipos D y G)", "Batería externa", "Botiquín y medicación habitual", "Prismáticos para el safari",
+  "Algo de dólares en efectivo", "Copias de pasaportes y reservas"
+];
 
-let editingId   = null;
-let editEmoji   = '🏖️';
-let editColor   = '#C8973A';
-let openPanels  = new Set();
-let saveTimer   = null;
+const EMERGENCIAS = [
+  { n: "119", q: "Policía", c: "#E07A55" }, { n: "1990", q: "Ambulancia (Suwa Seriya)", c: "#D9A05B" },
+  { n: "110", q: "Bomberos", c: "#C8973A" }, { n: "1912", q: "Información turística", c: "#4FA3C4" }
+];
+const CONTACTOS = [
+  { q: "Consulado honorario de España en Colombo", d: "Aitken Spence Building, Tower 1, 315 Vauxhall Street, Colombo 2. L–V 08:30–15:00.", tel: "+94 11 247 8197", mail: "consul_spain@sltnet.lk" },
+  { q: "Emergencia consular (Embajada en Nueva Delhi)", d: "Solo para emergencias graves de ciudadanos españoles.", tel: "+91 98101 74160" },
+  { q: "DMT aeropuerto (permiso de conducir)", d: "Mostrador de llegadas, 24 h.", tel: "+94 70 304 5888" }
+];
 
-// ─── FIREBASE CONFIG ───
-const FB_URL = 'https://sri-lanka-planner-default-rtdb.europe-west1.firebasedatabase.app/data.json';
+const APPS = [
+  { n: "PickMe", d: "La app local de tuk-tuks y taxis. Precio cerrado antes de subir.", e: "🛺" },
+  { n: "Uber", d: "Funciona en Colombo y alrededores; fuera, PickMe tiene más coches.", e: "🚗" },
+  { n: "Google Maps", d: "Descargad cada zona sin conexión. Todos los botones «Mapa» de esta app abren aquí.", e: "🗺️" },
+  { n: "WhatsApp", d: "Hoteles, motos y restaurantes se reservan casi siempre por aquí.", e: "💬" },
+  { n: "GetYourGuide", d: "Ahí está la masterclass de té del 6 nov.", e: "🎟️" },
+  { n: "Google Translate", d: "Descargad el cingalés para usarlo sin conexión; la cámara traduce carteles.", e: "🔤" },
+  { n: "XE Currency", d: "Cambio de LKR al momento (esta app también convierte en Gastos).", e: "💱" }
+];
 
-function showStatus(msg, color='#C8973A'){
-  const el=document.getElementById('syncStatus');
-  if(!el)return;
-  el.textContent=msg;
-  el.style.color=color;
-  el.style.opacity='1';
-  clearTimeout(el._t);
-  el._t=setTimeout(()=>el.style.opacity='0', 3500);
+const FRASES = [
+  { es: "Hola / adiós", si: "ආයුබෝවන්", r: "Ayubowan" },
+  { es: "Gracias", si: "ස්තුතියි", r: "Istuti" },
+  { es: "Muchas gracias", si: "බොහොම ස්තුතියි", r: "Bohoma istuti" },
+  { es: "Sí / No", si: "ඔව් / නැහැ", r: "Ow / Naa" },
+  { es: "Vale, bien", si: "හරි", r: "Hari" },
+  { es: "¿Cuánto cuesta?", si: "මේක කීයද?", r: "Meeka keeyada?" },
+  { es: "Muy rico", si: "හරිම රසයි", r: "Harima rasai" },
+  { es: "Menos picante, por favor", si: "සැර අඩු කරන්න", r: "Sera adu karanna" },
+  { es: "Agua", si: "වතුර", r: "Wathura" },
+  { es: "¿Dónde está…?", si: "… කොහෙද?", r: "… koheda?" },
+  { es: "Hola (en tamil)", si: "வணக்கம்", r: "Vanakkam" },
+  { es: "Gracias (en tamil)", si: "நன்றி", r: "Nandri" }
+];
+
+const INFO = [
+  { e: "🕒", q: "Hora", d: "Sri Lanka va 4 h 30 min por delante de España en noviembre." },
+  { e: "💵", q: "Dinero", d: "Rupia de Sri Lanka (LKR). Muchas actividades ponen el precio en dólares pero aceptan rupias. Cajeros en todos los pueblos de la ruta." },
+  { e: "🪷", q: "Templos", d: "Hombros y rodillas cubiertos, descalzos y sin gorra. No hagáis fotos de espaldas a una estatua de Buda." },
+  { e: "🛵", q: "Conducir", d: "Se circula por la izquierda. Casco obligatorio. Cuidado con perros, vacas y autobuses al adelantar." },
+  { e: "🛺", q: "Tuk-tuks", d: "Pactad el precio antes de subir o pedidlo por PickMe." },
+  { e: "💧", q: "Agua", d: "No bebáis del grifo. Agua embotellada o filtrada en el hotel." },
+  { e: "🔌", q: "Enchufes", d: "230 V, enchufes tipos D y G." },
+  { e: "🍛", q: "Propinas", d: "Muchos restaurantes añaden un 10 % de servicio; si no, se deja algo similar. A guías y conductores, propina aparte." }
+];
+
+/* ============================ utilidades ============================ */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const LS = {
+  get(k, def) { try { const v = localStorage.getItem("sl-" + k); return v == null ? def : JSON.parse(v); } catch (e) { return def; } },
+  set(k, v) { try { localStorage.setItem("sl-" + k, JSON.stringify(v)); } catch (e) {} }
+};
+const SL_OFF = 330;                                            // Sri Lanka: UTC+5:30
+const slNow = () => new Date(Date.now() + SL_OFF * 60000);       // usar getters UTC
+const iso = d => d.toISOString().slice(0, 10);
+const hoyISO = () => iso(slNow());
+const dISO = s => new Date(s + "T00:00:00Z");
+const diffDias = (a, b) => Math.round((dISO(b) - dISO(a)) / 86400000);
+const DSEM = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const DSEM3 = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
+const MES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const fLarga = s => { const d = dISO(s); return `${DSEM[d.getUTCDay()][0].toUpperCase() + DSEM[d.getUTCDay()].slice(1)}, ${d.getUTCDate()} de ${MES[d.getUTCMonth()]}`; };
+const fCorta = s => { const d = dISO(s); return `${d.getUTCDate()} ${MES[d.getUTCMonth()].slice(0, 3)}`; };
+const fSem = s => { const d = dISO(s); return `${DSEM[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MES[d.getUTCMonth()].slice(0, 3)}`; };
+const parada = id => PARADAS.find(p => p.id === id);
+const paradaDe = f => PARADAS.find(p => f >= p.desde && f < p.hasta) || PARADAS[PARADAS.length - 1];
+const mapsURL = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + ", Sri Lanka");
+const telURL = t => "tel:" + t.replace(/\s/g, "");
+const waURL = t => "https://wa.me/" + t.replace(/\D/g, "");
+const hm = m => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+const aMin = t => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("on"), 1900); }
+function falta(f) {
+  const n = diffDias(hoyISO(), f);
+  if (n === 0) return "Hoy"; if (n === 1) return "Mañana"; if (n === -1) return "Ayer";
+  return n > 0 ? `En ${n} días` : `Hace ${-n} días`;
 }
 
-// ─── SAVE — siempre guarda TODO el array destinations ───
-function save(){
-  if(!destinations.length){ showStatus('⚠ Nada que guardar','#D4714A'); return; }
-  clearTimeout(window._saveTimer);
-  showStatus('💾 Guardando…');
-  window._saveTimer=setTimeout(async()=>{
-    try{
-      const body = JSON.stringify({ destinations: destinations });
-      const res=await fetch(FB_URL,{
-        method:'PUT',
-        headers:{'Content-Type':'application/json'},
-        body: body
-      });
-      if(res.ok){ showStatus('✓ Guardado ('+destinations.length+' destinos)','#8ED4A0'); }
-      else { showStatus('⚠ Error HTTP '+res.status,'#D4714A'); }
-    }catch(e){ showStatus('⚠ Sin conexión','#D4714A'); }
-  }, 1000);
+/* Salida y puesta de sol (ecuación solar estándar) en hora de Sri Lanka */
+function sol(f, lat, lon) {
+  const rad = Math.PI / 180, J = dISO(f).getTime() / 86400000 + 2440587.5 + 0.5;
+  const n = Math.round(J - 2451545 + 0.0008), Js = n - lon / 360;
+  const M = (357.5291 + 0.98560028 * Js) % 360;
+  const C = 1.9148 * Math.sin(M * rad) + 0.02 * Math.sin(2 * M * rad) + 0.0003 * Math.sin(3 * M * rad);
+  const L = (M + C + 180 + 102.9372) % 360;
+  const Jt = 2451545 + Js + 0.0053 * Math.sin(M * rad) - 0.0069 * Math.sin(2 * L * rad);
+  const dec = Math.asin(Math.sin(L * rad) * Math.sin(23.4397 * rad));
+  const w = Math.acos((Math.sin(-0.833 * rad) - Math.sin(lat * rad) * Math.sin(dec)) / (Math.cos(lat * rad) * Math.cos(dec))) / rad;
+  const aHora = j => { const d = new Date((j - 2440587.5) * 86400000 + SL_OFF * 60000); return hm(d.getUTCHours() * 60 + d.getUTCMinutes()); };
+  return [aHora(Jt - w / 360), aHora(Jt + w / 360)];
 }
 
-// ─── LOAD ───
-async function load(){
-  showStatus('⟳ Cargando…');
-  try{
-    const res=await fetch(FB_URL+'?t='+Date.now());
-    if(res.ok){
-      const data=await res.json();
-      if(data && Array.isArray(data.destinations) && data.destinations.length > 0){
-        destinations = data.destinations;
-        showStatus('✓ '+destinations.length+' destinos cargados','#8ED4A0');
-      } else {
-        destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
-        showStatus('☁ Primera vez, iniciando…');
-        await fetch(FB_URL,{
-          method:'PUT',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ destinations: destinations })
-        });
-        showStatus('✓ Datos iniciales subidos','#8ED4A0');
-      }
-    } else {
-      destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
-      showStatus('⚠ Error de red, usando datos locales','#D4714A');
-    }
-  }catch(e){
-    destinations = JSON.parse(JSON.stringify(DEFAULT_DESTINATIONS));
-    showStatus('⚠ Sin conexión, datos locales','#D4714A');
+/* ============================ estado ============================ */
+let tab = LS.get("tab", "hoy");
+let diaSel = null;                      // índice de DIAS
+let resTab = "hoteles", kitTab = "preparar";
+const st = {
+  hechos: LS.get("hechos", {}), extra: LS.get("extra", {}), diario: LS.get("diario", {}),
+  res: LS.get("res", {}), gastos: LS.get("gastos", []), ppto: LS.get("ppto", 0),
+  todo: LS.get("todo", {}), equip: LS.get("equip", {}), seguro: LS.get("seguro", ""),
+  nombres: LS.get("nombres", ["Javi", "Pareja"]), cambio: LS.get("cambio", { LKR: 372.96, USD: 1.1243, fecha: "2026-10-21", fuente: "referencia" }),
+  tiempo: LS.get("tiempo", {})
+};
+const guardar = k => LS.set(k, st[k]);
+
+/* ============================ cabecera ============================ */
+function cabecera() {
+  const h = hoyISO(), n = diffDias(h, VIAJE.inicio), fin = diffDias(h, VIAJE.fin);
+  let pill = "";
+  if (n > 0) pill = n === 1 ? "Mañana" : `${n} días`;
+  else if (fin >= 0) pill = `Día ${diffDias(VIAJE.inicio, h) + 1}`;
+  else pill = "Viaje hecho";
+  $("#pill").textContent = pill;
+  const hoyP = (n > 0 ? PARADAS[0] : fin < 0 ? null : paradaDe(h));
+  const actual = diaSel != null ? DIAS[diaSel].p : hoyP?.id;
+  $("#chips").innerHTML = PARADAS.map(p => `<button class="chip ${p.id === actual && tab === "hoy" ? "on" : ""}" style="--c:${p.color}" data-parada="${p.id}">${esc(p.nombre)}</button>`).join("");
+}
+
+/* ============================ HOY ============================ */
+function diaInicial() {
+  const h = hoyISO();
+  if (h < VIAJE.inicio) return 0;
+  if (h > VIAJE.fin) return DIAS.length - 1;
+  return DIAS.findIndex(d => d.f === h);
+}
+function hoy() {
+  if (diaSel == null) diaSel = diaInicial();
+  const D = DIAS[diaSel], P = parada(D.p), h = hoyISO();
+  const n = diffDias(h, VIAJE.inicio);
+  const [sa, pu] = sol(D.f, P.lat, P.lon);
+  const ahora = slNow(), madrid = new Date().toLocaleTimeString("es-ES", { timeZone: "Europe/Madrid", hour: "2-digit", minute: "2-digit" });
+  const tw = st.tiempo[P.id];
+  const badge = `Día ${diaSel + 1} de ${DIAS.length}` + (n > 0 ? ` · faltan ${n} días` : D.f === h ? " · hoy" : "");
+  let html = `
+  <div class="hero" id="hero" style="background-image:${P.grad}">
+    <div class="tl"><button class="glass" data-guia="${P.id}">Guía</button>${tw?.now != null ? `<span class="glass">${wxIco(tw.code)} ${Math.round(tw.now)}°</span>` : ""}</div>
+    <div class="sinh">${esc(P.si)}</div><div class="big">${P.emoji}</div>
+    <span class="badge">${badge}</span>
+    <h2>${esc(P.nombre)}</h2>
+    <div class="date">${fLarga(D.f)}</div>
+    <div class="meta"><span>Sri Lanka ${hm(ahora.getUTCHours() * 60 + ahora.getUTCMinutes())}</span><span>Madrid ${madrid}</span><span>☀︎ ${sa} – ${pu}</span></div>
+  </div>
+  <div class="card" style="padding:0"><div class="strip" id="strip">${DIAS.map((d, i) => {
+    const dd = dISO(d.f), c = parada(d.p).color;
+    return `<button class="dd ${i === diaSel ? "on" : ""} ${d.f === h ? "hoy" : ""}" data-dia="${i}"><div class="w">${DSEM3[dd.getUTCDay()]}</div><div class="n">${dd.getUTCDate()}</div><div class="dot" style="background:${i === diaSel ? "#0E1A14" : c}"></div></button>`;
+  }).join("")}</div></div>`;
+
+  // Antes del viaje: lo pendiente
+  if (h < VIAJE.inicio) {
+    const pend = POR_HACER.filter(t => !st.todo[t.id]).sort((a, b) => a.fecha.localeCompare(b.fecha));
+    if (pend.length) html += `<div class="card"><div class="row"><h2>Antes de salir</h2><span class="sp"></span><span class="count">${pend.length}</span></div>
+      ${pend.slice(0, 3).map(todoHTML).join("")}
+      ${pend.length > 3 ? `<button class="btn dash" data-go="kit">Ver las ${pend.length} tareas</button>` : ""}</div>`;
   }
-  // Quitar mensaje de carga
-  const msg = document.getElementById('loadingMsg');
-  if(msg) msg.remove();
+
+  // Agenda del día
+  const extra = st.extra[D.f] || [];
+  const items = [...D.items.map((it, i) => ({ ...it, k: `${D.f}-${i}` })), ...extra.map((it, i) => ({ ...it, k: `${D.f}-x${i}`, x: i }))]
+    .sort((a, b) => (a.t || "99").localeCompare(b.t || "99"));
+  const nowMin = ahora.getUTCHours() * 60 + ahora.getUTCMinutes();
+  let nowK = null;
+  if (D.f === h) { for (const it of items) if (it.t && aMin(it.t) <= nowMin) nowK = it.k; }
+  const fc = tw?.dias?.[D.f];
+  html += `<div class="card">
+    <div class="dayhd"><div class="dnum"><small>Día</small><b>${String(diaSel + 1).padStart(2, "0")}</b></div>
+      <div class="sp"><h3>${fSem(D.f)}</h3><div class="mu sm">${esc(D.tit)}</div>
+        ${fc ? `<span class="wx">${wxIco(fc.code)} ${Math.round(fc.max)}° / ${Math.round(fc.min)}° · lluvia ${fc.rain ?? "–"} %</span>` : ""}</div>
+      <span class="tipo">${esc(D.tipo)}</span></div>
+    ${items.map(it => itemHTML(it, it.k === nowK)).join("")}
+    <button class="btn dash" data-add="${D.f}">Añadir a la agenda</button>
+  </div>
+  <button class="lnk" data-share="${diaSel}">Compartir el plan del día</button>`;
+
+  // Hotel de esta noche
+  const hot = RESERVAS.hoteles.find(x => D.f >= x.fechas[0] && D.f < x.fechas[1]);
+  if (hot) html += `<div class="kick">Esta noche</div>${hotelHTML(hot)}`;
+
+  html += `<div class="card"><h2>Diario del día</h2>
+    <textarea class="inp" id="diarioT" placeholder="Lo mejor de hoy, lo que no queréis olvidar…">${esc(st.diario[D.f] || "")}</textarea>
+    <div class="xs mu" style="margin-top:6px">Se guarda solo en este móvil mientras escribís.</div></div>`;
+  $("#s-hoy").innerHTML = html;
+  fotoHero(P);
+  const on = $("#strip .on"); if (on) on.scrollIntoView({ inline: "center", block: "nearest" });
+  $("#diarioT").oninput = e => { st.diario[D.f] = e.target.value; guardar("diario"); };
+}
+function itemHTML(it, now) {
+  const done = st.hechos[it.k];
+  const tags = [];
+  if (it.r) tags.push(`<span class="tag ${it.r}">${{ reservado: "Reservado", pagado: "Pagado", pendiente: "Pendiente" }[it.r]}</span>`);
+  if (it.p) tags.push(`<span class="tag precio">${esc(it.p)}</span>`);
+  if (it.m) tags.push(`<a class="tag" href="${mapsURL(it.m)}" target="_blank" rel="noopener">📍 Mapa</a>`);
+  if (it.tel) tags.push(`<a class="tag" href="${waURL(it.tel)}" target="_blank" rel="noopener">WhatsApp</a>`);
+  if (it.mail) tags.push(`<a class="tag" href="mailto:${esc(it.mail)}">Email</a>`);
+  if (it.x != null) tags.push(`<button class="tag" data-delx="${it.k}">Quitar</button>`);
+  const dur = it.fin ? `<small>${it.fin}</small>` : "";
+  return `<div class="it ${done ? "done" : ""} ${now ? "now" : ""}">
+    <div class="h">${it.t || ""}${dur}</div><div class="ic">${it.e || "•"}</div>
+    <div class="tx"><b>${esc(it.q)}</b>${it.d ? `<p>${esc(it.d)}</p>` : ""}${tags.length ? `<div class="tags">${tags.join("")}</div>` : ""}</div>
+    <button class="chk ${done ? "on" : ""}" data-hecho="${it.k}" aria-label="Hecho"></button></div>`;
+}
+function fotoHero(P) {           // si subís img/<parada>.jpg y lo añadís a FOTOS, se usa como fondo
+  if (!FOTOS.includes(P.id)) return;
+  const img = new Image();
+  img.onload = () => { const h = $("#hero"); if (h) { h.style.backgroundImage = `url(img/${P.id}.jpg)`; $(".big", h).style.display = "none"; } };
+  img.src = `img/${P.id}.jpg`;
 }
 
-// ─── DAYS BAR ───
-function renderDaysBar(){
-  const bar=document.getElementById('daysBar');
-  bar.innerHTML='';
-  if(!destinations.length)return;
-  const mn=Math.min(...destinations.map(d=>d.dateFrom));
-  const mx=Math.max(...destinations.map(d=>d.dateTo));
-  for(let d=mn;d<=mx;d++){
-    const dest=destinations.find(x=>d>=x.dateFrom&&d<x.dateTo)||(d===mx?destinations.find(x=>x.dateTo===mx):null);
-    const t=document.createElement('div');
-    t.className='day-tick';
-    t.title=dest?dest.name:'';
-    t.style.background=dest?dest.color+'28':'rgba(255,255,255,.04)';
-    t.style.border=dest?`1px solid ${dest.color}50`:'1px solid rgba(255,255,255,.07)';
-    t.style.color=dest?dest.color:'rgba(255,255,255,.3)';
-    t.innerHTML=`<span class="day-num">${d}</span><span class="day-label">Nov</span>`;
-    bar.appendChild(t);
+/* ============================ VIAJE ============================ */
+function viaje() {
+  const h = hoyISO(), n = diffDias(h, VIAJE.inicio);
+  const pts = [AEROPUERTO, ...PARADAS];
+  const linea = pts.map((p, i) => `${i ? "L" : "M"}${p.x},${p.y}`).join("");
+  const lado = { sigiriya: "r", nuwara: "l", ella: "r", yala: "r", hiriketiya: "r", ahangama: "l" };
+  let html = `<div class="kick">Ruta del viaje</div>
+  <h2 class="h2" style="font-size:1.9rem;margin:0 4px 6px">Las 6 paradas de <em style="color:var(--gold2)">Sri Lanka</em></h2>
+  <p class="mu" style="margin:0 4px 14px">${n > 0 ? `Faltan ${n} días para salir · ` : ""}1 a 15 de noviembre. Toca una parada para ver su guía.</p>
+  <div class="card"><svg class="mapa" viewBox="-4 -4 258 420">
+    <path class="isla" d="${LK_PATH}"/>
+    <path d="M${PARADAS.at(-1).x},${PARADAS.at(-1).y}Q60,340 ${AEROPUERTO.x},${AEROPUERTO.y}" fill="none" stroke="#A8C4A0" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>
+    <path d="${linea}" fill="none" stroke="#E8B96A" stroke-width="1.4" stroke-dasharray="3 3" opacity=".8"/>
+    <circle cx="${AEROPUERTO.x}" cy="${AEROPUERTO.y}" r="4" fill="#F2E8D5"/><text x="${AEROPUERTO.x - 4}" y="${AEROPUERTO.y + 13}">Colombo ✈︎</text>
+    ${PARADAS.map((p, i) => {
+      const r = lado[p.id] === "r";
+      return `<g data-guia="${p.id}" style="cursor:pointer"><circle cx="${p.x}" cy="${p.y}" r="7.5" fill="${p.color}" stroke="#0E1A14" stroke-width="1.5"/>
+      <text x="${p.x}" y="${p.y + 3}" text-anchor="middle" style="fill:#0E1A14;font-size:8px">${i + 1}</text>
+      <text x="${r ? p.x + 11 : p.x - 11}" y="${p.y + (p.id === "hiriketiya" ? -4 : p.id === "ahangama" ? -6 : 1)}" text-anchor="${r ? "start" : "end"}">${esc(p.nombre)}</text>
+      <text class="si" x="${r ? p.x + 11 : p.x - 11}" y="${p.y + (p.id === "hiriketiya" ? 5 : p.id === "ahangama" ? 3 : 10)}" text-anchor="${r ? "start" : "end"}">${esc(p.si)}</text></g>`;
+    }).join("")}
+  </svg><div class="leg"><span>● Paradas</span><span style="color:var(--gold2)">┄ Ida</span><span>┄ Vuelta</span><span>${DIAS.length} días · 14 noches</span></div></div>
+  <div class="card"><h2>Paradas del itinerario</h2>
+  ${PARADAS.map((p, i) => {
+    const noches = diffDias(p.desde, p.hasta);
+    return `<div class="stop" data-guia="${p.id}" style="cursor:pointer"><div class="num" style="background:${p.color}">${i + 1}</div>
+      <div class="sp"><h3>${esc(p.nombre)} <span class="mu" style="font-weight:400">${esc(p.si)}</span></h3>
+        <div class="sm" style="color:${p.color};font-weight:700">${dISO(p.desde).getUTCDate()} a ${dISO(p.hasta).getUTCDate()} nov · ${noches} ${noches === 1 ? "noche" : "noches"}</div>
+        <div class="mu sm">${esc(p.hotel)}</div>
+        <div class="chipsm">${p.ver.map(v => `<span>${esc(v)}</span>`).join("")}</div>
+        <div class="xs" style="color:${p.color};font-weight:800;letter-spacing:.08em;margin-top:8px">VER GUÍA</div></div>
+      <div class="pic" data-pic="${p.id}" style="background:${p.grad}">${p.emoji}</div></div>`;
+  }).join("")}</div>`;
+  $("#s-viaje").innerHTML = html;
+  PARADAS.filter(p => FOTOS.includes(p.id)).forEach(p => { const im = new Image(); im.onload = () => { const el = $(`[data-pic="${p.id}"]`); if (el) { el.style.backgroundImage = `url(img/${p.id}.jpg)`; el.textContent = ""; } }; im.src = `img/${p.id}.jpg`; });
+}
+function guia(id) {
+  const P = parada(id), dias = DIAS.map((d, i) => ({ ...d, i })).filter(d => d.p === id);
+  const tw = st.tiempo[id];
+  abrir(`<div class="row"><div style="font-size:2.2rem">${P.emoji}</div><div><h2 class="h2">${esc(P.nombre)}</h2><div class="mu sm">${esc(P.lema)}</div></div></div>
+    <div class="hint" style="margin-top:14px">${esc(P.notas)}</div>
+    <div class="kick">Días aquí</div>
+    ${dias.map(d => `<div class="card" style="padding:14px;box-shadow:none"><div class="row"><b>${fSem(d.f)}</b><span class="sp"></span>${tw?.dias?.[d.f] ? `<span class="xs mu">${wxIco(tw.dias[d.f].code)} ${Math.round(tw.dias[d.f].max)}°</span>` : ""}</div>
+      <div class="mu sm">${esc(d.tit)}</div>
+      <div class="chipsm">${d.items.map(it => `<span>${it.e} ${esc(it.q)}</span>`).join("")}</div>
+      <button class="btn full" style="margin-top:10px" data-irdia="${d.i}">Abrir el día</button></div>`).join("")}
+    <div class="btns"><a class="btn pri" href="${mapsURL(P.hotel + " " + P.nombre)}" target="_blank" rel="noopener">Hotel en el mapa</a></div>`);
+}
+
+/* ============================ RESERVAS ============================ */
+const ESTADOS = ["", "pendiente", "reservado", "pagado"];
+const EST_TXT = { "": "Sin marcar", pendiente: "Pendiente", reservado: "Reservado", pagado: "Pagado" };
+const resDe = r => ({ ...r, ...(st.res[r.id] || {}) });
+function hotelHTML(r0) {
+  const r = resDe(r0), P = parada(r.p), noches = diffDias(r.fechas[0], r.fechas[1]);
+  return `<div class="card rc"><div class="top"><span class="city" style="color:${P.color}">${esc(P.nombre)}</span><span class="sp"></span>
+    ${r.estado ? `<span class="tag ${r.estado}">${EST_TXT[r.estado]}</span>` : ""}<span class="mono">${fCorta(r.fechas[0])} – ${fCorta(r.fechas[1])}</span></div>
+    <h3 style="font-size:1.12rem">${esc(r.nombre)}</h3>
+    <div class="mu sm" style="margin-top:6px">${noches} ${noches === 1 ? "noche" : "noches"}${r.loc ? ` · Localizador <b style="color:var(--tx)">${esc(r.loc)}</b>` : ""}${r.d ? ". " + esc(r.d) : ""}</div>
+    ${r.notas ? `<div class="sm" style="margin-top:6px">${esc(r.notas)}</div>` : ""}
+    ${r.precio ? `<div style="margin-top:8px;font-weight:700">${esc(r.precio)}</div>` : ""}
+    <div class="btns"><a class="btn pri" href="${mapsURL(r.m || r.nombre)}" target="_blank" rel="noopener">📍 Maps</a>
+      <button class="btn" data-docver="${r.id}">📎 Reserva</button><button class="btn" data-editres="${r.id}">Editar</button></div></div>`;
+}
+function resHTML(r0) {
+  const r = resDe(r0), P = parada(r.p);
+  return `<div class="card rc"><div class="top"><span class="city" style="color:${P.color}">${esc(P.nombre)}</span><span class="sp"></span>
+    <button class="tag ${r.estado}" data-estado="${r.id}">${EST_TXT[r.estado]}</button><span class="mono">${fCorta(r.fecha)} · ${r.hora}</span></div>
+    <h3>${esc(r.nombre)}</h3>
+    ${r.d || r.loc ? `<div class="mu sm" style="margin-top:4px">${esc(r.d || "")}${r.loc ? ` Localizador <b style="color:var(--tx)">${esc(r.loc)}</b>` : ""}</div>` : ""}
+    ${r.notas ? `<div class="sm" style="margin-top:4px">${esc(r.notas)}</div>` : ""}
+    <div class="tags">${r.precio ? `<span class="tag precio">${esc(r.precio)}</span>` : ""}
+      ${r.m ? `<a class="tag" href="${mapsURL(r.m)}" target="_blank" rel="noopener">📍 Mapa</a>` : ""}
+      ${r.tel ? `<a class="tag" href="${waURL(r.tel)}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
+      ${r.mail ? `<a class="tag" href="mailto:${esc(r.mail)}">Email</a>` : ""}
+      <button class="tag" data-docver="${r.id}">📎 Reserva</button><button class="tag" data-editres="${r.id}">Editar</button></div></div>`;
+}
+function reservas() {
+  const todas = [...RESERVAS.hoteles, ...RESERVAS.transporte, ...RESERVAS.actividades].map(resDe);
+  const pend = todas.filter(r => r.estado === "pendiente").length;
+  let html = `<div class="card"><h2 style="font-size:1.7rem">Reservas</h2>
+    <p class="mu sm">Hoteles, traslados y actividades. Toca el estado para cambiarlo y adjunta el PDF o la captura de cada reserva.</p>
+    ${pend ? `<div class="hint" style="margin:12px 0 0">${pend} ${pend === 1 ? "reserva pendiente" : "reservas pendientes"} de cerrar.</div>` : ""}
+    <div class="seg">${[["hoteles", "Hoteles"], ["transporte", "Transporte"], ["actividades", "Actividades"]].map(([k, t]) => `<button class="${resTab === k ? "on" : ""}" data-restab="${k}">${t}</button>`).join("")}</div></div>`;
+  if (resTab === "hoteles") html += RESERVAS.hoteles.map(hotelHTML).join("");
+  else html += [...RESERVAS[resTab]].sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora)).map(resHTML).join("");
+  $("#s-reservas").innerHTML = html;
+}
+function editarRes(id) {
+  const base = [...RESERVAS.hoteles, ...RESERVAS.transporte, ...RESERVAS.actividades].find(r => r.id === id), r = resDe(base);
+  abrir(`<h2 class="h2">${esc(r.nombre)}</h2>
+    <label>Estado<div class="seg mini" id="eE">${ESTADOS.map(e => `<button type="button" data-v="${e}" class="${r.estado === e ? "on" : ""}">${EST_TXT[e]}</button>`).join("")}</div></label>
+    <label>Localizador<input class="inp" id="eL" value="${esc(r.loc || "")}" placeholder="Código de la reserva"></label>
+    <label>Precio<input class="inp" id="eP" value="${esc(r.precio || "")}" placeholder="Ej. 120 $"></label>
+    <label>Notas<textarea class="inp" id="eN" placeholder="Teléfono, hora de check-in, lo que haga falta…">${esc(r.notas || "")}</textarea></label>
+    <div class="btns"><button class="btn" data-cerrar>Cancelar</button><button class="btn pri" id="eOk">Guardar</button></div>`);
+  let est = r.estado;
+  $("#eE").onclick = e => { const b = e.target.closest("button"); if (!b) return; est = b.dataset.v; [...$("#eE").children].forEach(x => x.classList.toggle("on", x === b)); };
+  $("#eOk").onclick = () => {
+    st.res[id] = { ...(st.res[id] || {}), estado: est, loc: $("#eL").value.trim(), precio: $("#eP").value.trim() || base.precio, notas: $("#eN").value.trim() };
+    guardar("res"); cerrar(); pintar(); toast("Guardado");
+  };
+}
+
+/* Documentos adjuntos (IndexedDB, solo en este móvil) */
+const DB = { db: null,
+  open() { return this.db ? Promise.resolve(this.db) : new Promise((ok, ko) => { const q = indexedDB.open("sl-docs", 1); q.onupgradeneeded = () => q.result.createObjectStore("f"); q.onsuccess = () => ok(this.db = q.result); q.onerror = () => ko(q.error); }); },
+  async get(k) { const db = await this.open(); return new Promise(ok => { const q = db.transaction("f").objectStore("f").get(k); q.onsuccess = () => ok(q.result); q.onerror = () => ok(null); }); },
+  async put(k, v) { const db = await this.open(); return new Promise((ok, ko) => { const t = db.transaction("f", "readwrite"); t.objectStore("f").put(v, k); t.oncomplete = ok; t.onerror = () => ko(t.error); }); },
+  async del(k) { const db = await this.open(); return new Promise(ok => { const t = db.transaction("f", "readwrite"); t.objectStore("f").delete(k); t.oncomplete = ok; }); }
+};
+async function docs(id, titulo) {
+  const f = await DB.get(id).catch(() => null);
+  abrir(`<h2 class="h2">${esc(titulo)}</h2><p class="mu sm">Foto o PDF guardado solo en este móvil. Se abre sin conexión.</p>
+    ${f ? `<div class="hint" style="margin-top:12px">📎 ${esc(f.name)}</div><div class="btns"><button class="btn pri" id="dV">Abrir</button><button class="btn" id="dB">Quitar</button></div>` : ""}
+    <div class="btns"><label class="btn ${f ? "" : "pri"}" style="margin:0;color:inherit">${f ? "Cambiar archivo" : "Adjuntar archivo"}<input type="file" id="dF" accept="image/*,application/pdf" hidden></label></div>`);
+  $("#dF").onchange = async e => { const x = e.target.files[0]; if (!x) return; await DB.put(id, { name: x.name, type: x.type, blob: x }); toast("Adjuntado"); cerrar(); };
+  if (f) {
+    $("#dV").onclick = () => { const u = URL.createObjectURL(f.blob); window.open(u, "_blank") || (location.href = u); };
+    $("#dB").onclick = async () => { await DB.del(id); toast("Quitado"); cerrar(); };
   }
 }
 
-// ─── TIMELINE ───
-function renderTimeline(){
-  // remember open panels
-  openPanels=new Set();
-  document.querySelectorAll('.plans-panel.open').forEach(p=>openPanels.add(p.id.replace('panel-','')));
-
-  const tl=document.getElementById('timeline');
-  tl.innerHTML='';
-  const sorted=[...destinations].sort((a,b)=>a.dateFrom-b.dateFrom);
-
-  sorted.forEach((dest,i)=>{
-    if(i>0){
-      const conn=document.createElement('div');
-      conn.className='connector';
-      conn.innerHTML=`<span class="connector-text">día ${dest.dateFrom} · traslado</span>`;
-      tl.appendChild(conn);
-    }
-    const card=document.createElement('div');
-    card.className='destination';
-    card.dataset.id=dest.id;
-
-    const node=document.createElement('div');
-    node.className='timeline-node';
-    node.style.background=dest.color;
-    node.style.boxShadow=`0 0 0 3px ${dest.color}30`;
-
-    let badge='';
-    if(dest.status==='optional')  badge=`<span class="badge badge-optional">Opcional</span>`;
-    if(dest.status==='uncertain') badge=`<span class="badge badge-uncertain">Por confirmar</span>`;
-    if(dest.status==='confirmed') badge=`<span class="badge badge-confirmed">Confirmado</span>`;
-
-    const hdr=document.createElement('div');
-    hdr.className='dest-header';
-    hdr.style.background=`linear-gradient(135deg,${dest.color}0C,transparent)`;
-    const dLabel=dest.dateFrom===dest.dateTo?`Día ${dest.dateFrom} Nov`:`${dest.dateFrom} — ${dest.dateTo} Nov`;
-    const pCount=(dest.plans||[]).length;
-    const nCount=(dest.notes||[]).length;
-    const countBadges=(pCount>0?`<span style="font-size:.6rem;opacity:.55">${pCount} plan${pCount>1?'es':''}</span>`:'')
-                     +(nCount>0?`<span style="font-size:.6rem;opacity:.55">${nCount} nota${nCount>1?'s':''}</span>`:'');
-    hdr.innerHTML=`
-      <div class="dest-icon">${dest.emoji}</div>
-      <div class="dest-meta">
-        <div class="dest-dates"><span>${dLabel}</span>${badge}</div>
-        <div class="dest-name">${esc(dest.name)}</div>
-        <div class="dest-desc">${esc(dest.desc)}${countBadges?'&ensp;'+countBadges:''}</div>
-      </div>
-      <div class="dest-actions">
-        <button class="btn-icon edit-btn" title="Editar destino" data-id="${dest.id}">✏️</button>
-        <div class="dest-toggle" id="toggle-${dest.id}">▼</div>
-      </div>`;
-
-    const panel=document.createElement('div');
-    panel.className='plans-panel'+(openPanels.has(dest.id)?' open':'');
-    panel.id=`panel-${dest.id}`;
-
-    const inner=document.createElement('div');
-    inner.className='plans-inner';
-    inner.style.borderColor=dest.color+'40';
-    inner.id=`inner-${dest.id}`;
-    renderInner(inner,dest);
-    panel.appendChild(inner);
-
-    hdr.addEventListener('click',e=>{if(e.target.closest('.edit-btn'))return;togglePanel(dest.id);});
-    hdr.querySelector('.edit-btn').addEventListener('click',e=>{e.stopPropagation();openEditModal(dest.id);});
-
-    if(openPanels.has(dest.id)) hdr.querySelector('.dest-toggle').classList.add('open');
-
-    card.appendChild(node);
-    card.appendChild(hdr);
-    card.appendChild(panel);
-    tl.appendChild(card);
-  });
-}
-
-// ─── INNER (tabs) ───
-function renderInner(container,dest){
-  if(!dest.plans) dest.plans=[];
-  if(!dest.notes) dest.notes=[];
-  const pc=dest.plans.length, nc=dest.notes.length;
-  container.innerHTML=`
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="plans-${dest.id}">📋 Planes${pc>0?` <sup style="color:var(--gold)">${pc}</sup>`:''}
-      </button>
-      <button class="tab-btn" data-tab="notes-${dest.id}">📝 Notas${nc>0?` <sup style="color:var(--gold)">${nc}</sup>`:''}
-      </button>
-    </div>
-    <div class="tab-content active" id="plans-${dest.id}">${plansHTML(dest)}</div>
-    <div class="tab-content" id="notes-${dest.id}">${notesHTML(dest)}</div>`;
-
-  container.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      container.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      container.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-  });
-  bindPlanEvents(container,dest);
-  bindNoteEvents(container,dest);
-}
-
-function plansHTML(dest){
-  const plans = dest.plans || [];
-  let list=plans.length===0
-    ?`<div class="empty-plans">Sin planes aún — ¡añade el primero!</div>`
-    :plans.map((p,i)=>`
-      <div class="plan-item">
-        <div class="plan-bullet" style="background:${dest.color}"></div>
-        <div class="plan-text">${esc(p)}</div>
-        <button class="plan-delete" data-idx="${i}" data-id="${dest.id}" title="Eliminar">✕</button>
-      </div>`).join('');
-  return `<div id="plan-list-${dest.id}">${list}</div>
-    <div class="add-plan-row">
-      <input class="add-plan-input" id="plan-input-${dest.id}" placeholder="Nueva actividad, lugar o tarea…"/>
-      <button class="add-plan-btn" style="background:${dest.color}" data-id="${dest.id}">+ Añadir</button>
-    </div>`;
-}
-
-function notesHTML(dest){
-  const notes = dest.notes || [];
-  let list=notes.length===0
-    ?`<div class="empty-plans">Sin notas — añade logística, consejos, presupuesto…</div>`
-    :notes.map((n,i)=>{
-      const cat=NOTE_CATS.find(c=>c.key===n.cat)||NOTE_CATS[5];
-      return `<div class="note-item">
-        <div class="note-icon">${cat.icon}</div>
-        <div class="note-body">
-          <div class="note-cat">${cat.label}</div>
-          <div class="note-text">${esc(n.text)}</div>
-        </div>
-        <button class="note-delete" data-idx="${i}" data-id="${dest.id}" title="Eliminar">✕</button>
-      </div>`;
-    }).join('');
-  const opts=NOTE_CATS.map(c=>`<option value="${c.key}">${c.icon} ${c.label}</option>`).join('');
-  return `<div class="notes-grid" id="notes-list-${dest.id}">${list}</div>
-    <div class="add-note-area">
-      <div class="note-input-row">
-        <select class="note-cat-select" id="note-cat-${dest.id}">${opts}</select>
-        <input class="note-text-input" id="note-input-${dest.id}" placeholder="Añadir nota, consejo, recordatorio…"/>
-        <button class="add-note-btn" data-id="${dest.id}">+ Nota</button>
-      </div>
-    </div>`;
-}
-
-function bindPlanEvents(c,dest){
-  c.querySelector(`.add-plan-btn[data-id="${dest.id}"]`)?.addEventListener('click',()=>addPlan(dest.id));
-  c.querySelector(`#plan-input-${dest.id}`)?.addEventListener('keydown',e=>{if(e.key==='Enter')addPlan(dest.id);});
-  c.querySelectorAll(`.plan-delete[data-id="${dest.id}"]`).forEach(b=>b.addEventListener('click',()=>deletePlan(dest.id,+b.dataset.idx)));
-}
-function bindNoteEvents(c,dest){
-  c.querySelector(`.add-note-btn[data-id="${dest.id}"]`)?.addEventListener('click',()=>addNote(dest.id));
-  c.querySelector(`#note-input-${dest.id}`)?.addEventListener('keydown',e=>{if(e.key==='Enter')addNote(dest.id);});
-  c.querySelectorAll(`.note-delete[data-id="${dest.id}"]`).forEach(b=>b.addEventListener('click',()=>deleteNote(dest.id,+b.dataset.idx)));
-}
-
-function addPlan(id){
-  const inp=document.getElementById(`plan-input-${id}`);
-  const txt=inp.value.trim();if(!txt)return;
-  destinations.find(d=>d.id===id).plans.push(txt);inp.value='';
-  refreshInner(id);save();renderDaysBar();
-}
-function deletePlan(id,idx){destinations.find(d=>d.id===id).plans.splice(idx,1);refreshInner(id);save();}
-function addNote(id){
-  const catEl=document.getElementById(`note-cat-${id}`);
-  const inp=document.getElementById(`note-input-${id}`);
-  const txt=inp.value.trim();if(!txt)return;
-  destinations.find(d=>d.id===id).notes.push({cat:catEl.value,text:txt});inp.value='';
-  refreshInner(id);save();
-}
-function deleteNote(id,idx){destinations.find(d=>d.id===id).notes.splice(idx,1);refreshInner(id);save();}
-
-function refreshInner(id){
-  const dest=destinations.find(d=>d.id===id);
-  const inner=document.getElementById(`inner-${id}`);
-  if(!inner)return;
-  const activeTab=inner.querySelector('.tab-btn.active')?.dataset.tab;
-  renderInner(inner,dest);
-  if(activeTab){
-    inner.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    inner.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-    const btn=inner.querySelector(`.tab-btn[data-tab="${activeTab}"]`);
-    const cont=document.getElementById(activeTab);
-    if(btn)btn.classList.add('active');
-    if(cont)cont.classList.add('active');
+/* ============================ GASTOS ============================ */
+const CATS = [["comida", "Comida", "🍛"], ["transporte", "Transporte", "🛺"], ["actividades", "Actividades", "🎟️"], ["alojamiento", "Alojamiento", "🏠"], ["compras", "Compras", "🛍️"], ["otros", "Otros", "✨"]];
+let g = { mon: LS.get("gmon", "LKR"), cat: "comida", pago: 0 };
+const aEUR = (v, mon) => mon === "EUR" ? v : v / st.cambio[mon];
+const eur = v => v.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+const num = v => v.toLocaleString("es-ES", { maximumFractionDigits: 2 });
+function gastos() {
+  const c = st.cambio, tot = st.gastos.reduce((s, x) => s + x.eur, 0);
+  const h = hoyISO(), diasTrans = Math.min(DIAS.length, Math.max(1, diffDias(VIAJE.inicio, h) + 1));
+  const quedan = Math.max(1, DIAS.length - Math.max(0, diffDias(VIAJE.inicio, h)));
+  const porCat = CATS.map(([k, t, e]) => [t, e, st.gastos.filter(x => x.cat === k).reduce((s, x) => s + x.eur, 0)]).filter(x => x[2] > 0).sort((a, b) => b[2] - a[2]);
+  const pag = [0, 1].map(i => st.gastos.filter(x => x.pago === i).reduce((s, x) => s + x.eur, 0)) , comp = st.gastos.filter(x => x.pago === 2).reduce((s, x) => s + x.eur, 0);
+  const dif = (pag[0] - pag[1]) / 2;
+  const N = st.nombres;
+  let html = `<div class="card"><h2 style="font-size:1.7rem">Gastos</h2><p class="mu sm">Apuntad cada gasto en el momento, también sin conexión.</p></div>
+  <div class="card"><div class="kick" style="margin:0 0 6px">Nuevo gasto</div>
+    <div class="amt"><input id="gI" inputmode="decimal" placeholder="0"><div class="seg mini" id="gM">${["LKR", "USD", "EUR"].map(m => `<button class="${g.mon === m ? "on" : ""}" data-mon="${m}">${m}</button>`).join("")}</div></div>
+    <div class="xs mu" id="gE">1 € = ${num(c.LKR)} LKR = ${num(c.USD)} $</div>
+    <input class="inp" id="gC" placeholder="Concepto (tuk-tuk, cena en Ella…)">
+    <div class="cats" id="gK">${CATS.map(([k, t, e]) => `<button class="${g.cat === k ? "on" : ""}" data-cat="${k}">${e} ${t}</button>`).join("")}</div>
+    <div class="seg" id="gP">${[N[0], N[1], "A medias"].map((n, i) => `<button class="${g.pago === i ? "on" : ""}" data-pago="${i}">${i < 2 ? "Paga " : ""}${esc(n)}</button>`).join("")}</div>
+    <button class="btn pri full" style="margin-top:14px;padding:13px" id="gOk">Añadir gasto</button></div>
+  <div class="card"><h2>Resumen</h2>
+    <div class="stat" style="margin-top:10px"><div><span class="xs mu">Total</span><b>${eur(tot)}</b></div><div><span class="xs mu">Media por día</span><b>${eur(tot / diasTrans)}</b></div></div>
+    ${porCat.map(([t, e, v]) => `<div style="margin-top:12px"><div class="row sm"><span>${e} ${t}</span><span class="sp"></span><b>${eur(v)}</b></div><div class="bar"><i style="width:${(v / tot * 100).toFixed(1)}%"></i></div></div>`).join("")}
+    ${st.gastos.length ? `<div class="hr"></div><div class="sm">${esc(N[0])} ha pagado <b>${eur(pag[0])}</b> · ${esc(N[1])} <b>${eur(pag[1])}</b>${comp ? ` · a medias <b>${eur(comp)}</b>` : ""}</div>
+    <div class="sm" style="margin-top:4px;color:var(--gold2);font-weight:700">${Math.abs(dif) < 0.5 ? "Estáis en paz." : `${esc(dif > 0 ? N[1] : N[0])} debe ${eur(Math.abs(dif))} a ${esc(dif > 0 ? N[0] : N[1])}.`}</div>` : `<p class="mu sm" style="margin-top:8px">Aún no hay gastos.</p>`}
+  </div>
+  <div class="card"><h2>Presupuesto</h2><p class="mu sm">Lo que queréis gastar allí aparte de lo ya pagado. La app os dice cuánto podéis gastar al día.</p>
+    <input class="inp" id="preI" inputmode="decimal" placeholder="Presupuesto total en €" value="${st.ppto || ""}">
+    ${st.ppto ? `<div class="stat" style="margin-top:10px"><div><span class="xs mu">Queda</span><b>${eur(st.ppto - tot)}</b></div><div><span class="xs mu">Al día (${quedan} días)</span><b>${eur(Math.max(0, st.ppto - tot) / quedan)}</b></div></div>
+    <div class="bar" style="margin-top:12px;height:10px"><i style="width:${Math.min(100, tot / st.ppto * 100).toFixed(1)}%;background:${tot > st.ppto ? "var(--bad)" : "var(--gold)"}"></i></div>` : ""}</div>`;
+  if (st.gastos.length) {
+    const porDia = {};
+    [...st.gastos].sort((a, b) => b.ts - a.ts).forEach(x => (porDia[x.fecha] = porDia[x.fecha] || []).push(x));
+    html += `<div class="card"><div class="row"><h2>Movimientos</h2><span class="sp"></span><button class="tag" id="gCSV">Exportar CSV</button></div>
+      ${Object.entries(porDia).map(([f, xs]) => `<div class="kick" style="margin:14px 0 2px">${fSem(f)} · ${eur(xs.reduce((s, x) => s + x.eur, 0))}</div>
+      ${xs.map(x => `<div class="gx"><div class="ic">${(CATS.find(c => c[0] === x.cat) || CATS[5])[2]}</div><div class="sp"><b class="sm">${esc(x.concepto || (CATS.find(c => c[0] === x.cat) || CATS[5])[1])}</b>
+        <div class="xs mu">${num(x.importe)} ${x.mon} · ${x.pago === 2 ? "A medias" : esc(N[x.pago])}</div></div><b class="sm">${eur(x.eur)}</b><button class="tag" data-delg="${x.id}">✕</button></div>`).join("")}`).join("")}</div>`;
   }
-  // update header count badges without full re-render
-  const d=destinations.find(x=>x.id===id);
-  const hdr=document.querySelector(`.destination[data-id="${id}"] .dest-header`);
-  if(hdr){
-    const pc=d.plans.length,nc=d.notes.length;
-    const badges=(pc>0?`<span style="font-size:.6rem;opacity:.55">${pc} plan${pc>1?'es':''}</span>`:'')+
-                 (nc>0?`<span style="font-size:.6rem;opacity:.55">${nc} nota${nc>1?'s':''}</span>`:'');
-    const descEl=hdr.querySelector('.dest-desc');
-    if(descEl) descEl.innerHTML=esc(d.desc)+(badges?'&ensp;'+badges:'');
+  html += `<p class="foot">Cambio ${st.cambio.fuente === "referencia" ? "de referencia" : "actualizado"} del ${fCorta(st.cambio.fecha)}. Cada gasto guarda su valor en euros del día en que se apuntó.</p>`;
+  $("#s-gastos").innerHTML = html;
+  const conv = () => { const v = parseFloat($("#gI").value.replace(",", ".")); $("#gE").textContent = v > 0 ? `≈ ${eur(aEUR(v, g.mon))}` : `1 € = ${num(c.LKR)} LKR = ${num(c.USD)} $`; };
+  $("#gI").oninput = conv;
+  $("#preI").onchange = e => { st.ppto = parseFloat(e.target.value.replace(",", ".")) || 0; guardar("ppto"); gastos(); };
+  $("#gOk").onclick = () => {
+    const v = parseFloat($("#gI").value.replace(",", "."));
+    if (!(v > 0)) { toast("Pon un importe"); $("#gI").focus(); return; }
+    const f = hoyISO();
+    st.gastos.push({ id: Date.now().toString(36), ts: Date.now(), fecha: f, concepto: $("#gC").value.trim(), cat: g.cat, importe: v, mon: g.mon, eur: Math.round(aEUR(v, g.mon) * 100) / 100, pago: g.pago });
+    guardar("gastos"); toast("Gasto añadido"); gastos();
+  };
+  const csv = $("#gCSV");
+  if (csv) csv.onclick = () => {
+    const filas = [["Fecha", "Concepto", "Categoría", "Importe", "Moneda", "EUR", "Pagó"], ...st.gastos.map(x => [x.fecha, x.concepto, x.cat, x.importe, x.mon, x.eur, x.pago === 2 ? "A medias" : N[x.pago]])];
+    descargar("gastos-sri-lanka.csv", filas.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\n"), "text/csv");
+  };
+}
+
+/* ============================ KIT ============================ */
+function todoHTML(t) {
+  const done = st.todo[t.id], n = diffDias(hoyISO(), t.fecha);
+  return `<div class="todo ${done ? "done" : ""} ${!done && n <= 2 ? "urg" : ""}"><button class="chk ${done ? "on" : ""}" data-todo="${t.id}"></button>
+    <div class="sp"><b>${esc(t.q)}</b><div class="mu sm">${t.d ? esc(t.d) : ""}</div>
+    <div class="tags"><span class="tag ${!done && n <= 2 ? "pendiente" : ""}">${fSem(t.fecha)} · ${falta(t.fecha)}</span>
+    ${t.web ? `<a class="tag" href="${t.web}" target="_blank" rel="noopener">Web</a>` : ""}${t.tel ? `<a class="tag" href="${waURL(t.tel)}" target="_blank" rel="noopener">WhatsApp</a>` : ""}${t.mail ? `<a class="tag" href="mailto:${t.mail}">Email</a>` : ""}</div></div></div>`;
+}
+function kit() {
+  let html = `<div class="card"><h2 style="font-size:1.7rem">Kit de viaje</h2><p class="mu sm">Preparativos, emergencias, frases y ajustes.</p>
+    <div class="seg">${[["preparar", "Preparar"], ["sos", "Ayuda"], ["frases", "Frases"], ["ajustes", "Ajustes"]].map(([k, t]) => `<button class="${kitTab === k ? "on" : ""}" data-kittab="${k}">${t}</button>`).join("")}</div></div>`;
+  if (kitTab === "preparar") {
+    const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+    if (!standalone) html += `<div class="hint">Instala la app: en iPhone, Safari → Compartir → «Añadir a pantalla de inicio». En Android, Chrome → menú ⋮ → «Añadir a pantalla de inicio». Así funciona sin conexión.</div>`;
+    const hechos = POR_HACER.filter(t => st.todo[t.id]).length;
+    html += `<div class="card"><div class="row"><h2>Antes de salir</h2><span class="sp"></span><span class="count">${hechos} de ${POR_HACER.length}</span></div>
+      <div class="prog"><i style="width:${hechos / POR_HACER.length * 100}%"></i></div>
+      ${[...POR_HACER].sort((a, b) => a.fecha.localeCompare(b.fecha)).map(todoHTML).join("")}</div>`;
+    const eh = EQUIPAJE.filter((_, i) => st.equip[i]).length;
+    html += `<div class="card"><div class="row"><h2>Maleta</h2><span class="sp"></span><span class="count">${eh} de ${EQUIPAJE.length}</span></div>
+      <div class="prog"><i style="width:${eh / EQUIPAJE.length * 100}%"></i></div>
+      ${EQUIPAJE.map((e, i) => `<div class="chkrow ${st.equip[i] ? "done" : ""}"><button class="chk ${st.equip[i] ? "on" : ""}" data-equip="${i}"></button><span>${esc(e)}</span></div>`).join("")}</div>`;
+    html += `<div class="card"><h2>Documentos</h2><p class="mu sm">Foto o PDF de pasaportes, ETA y seguro. Se guardan solo en este móvil y se abren sin conexión.</p>
+      ${[["doc-pas1", "Pasaporte de " + st.nombres[0]], ["doc-pas2", "Pasaporte de " + st.nombres[1]], ["doc-eta", "ETA de Sri Lanka"], ["doc-carnet", "Carnet y permiso internacional"], ["doc-seguro", "Póliza del seguro"], ["doc-vuelos", "Billetes de avión"]]
+        .map(([k, t]) => `<div class="chkrow"><span class="sp">${esc(t)}</span><button class="btn" data-doc="${k}" data-tit="${esc(t)}">Abrir</button></div>`).join("")}</div>`;
+  } else if (kitTab === "sos") {
+    html += `<div class="card"><h2>Emergencias</h2><div class="sos">${EMERGENCIAS.map(e => `<a href="${telURL(e.n)}" style="border-color:${e.c}55;background:${e.c}18;color:${e.c}"><b>${e.n}</b><span>${esc(e.q)}</span></a>`).join("")}</div>
+      ${CONTACTOS.map(c => `<div class="ap"><div class="sp"><b>${esc(c.q)}</b><div class="mu sm">${esc(c.d)}</div><div class="tags"><a class="tag" href="${telURL(c.tel)}">📞 ${c.tel}</a>${c.mail ? `<a class="tag" href="mailto:${c.mail}">Email</a>` : ""}</div></div></div>`).join("")}
+      <label class="xs mu" style="display:block;margin-top:12px;font-weight:700">Seguro y otros teléfonos</label>
+      <textarea class="inp" id="segT" placeholder="Compañía, número de póliza, teléfono de asistencia…">${esc(st.seguro)}</textarea><div class="xs mu" style="margin-top:6px">Se guarda solo.</div></div>
+      <div class="card"><h2>Bueno saber</h2>${INFO.map(i => `<div class="ap"><div class="ic">${i.e}</div><div><b>${esc(i.q)}</b><div class="mu sm">${esc(i.d)}</div></div></div>`).join("")}</div>
+      <div class="card"><h2>Apps útiles</h2>${APPS.map(a => `<div class="ap"><div class="ic">${a.e}</div><div><b>${esc(a.n)}</b><div class="mu sm">${esc(a.d)}</div></div></div>`).join("")}</div>`;
+  } else if (kitTab === "frases") {
+    html += `<div class="card"><h2>Frases en cingalés</h2><p class="mu sm">Toca una frase para oírla (si el móvil tiene la voz instalada) o enséñala en pantalla.</p>
+      ${FRASES.map((f, i) => `<div class="fr" data-frase="${i}" style="cursor:pointer"><span>${esc(f.es)}</span><div class="s"><b>${esc(f.si)}</b><i>${esc(f.r)}</i></div></div>`).join("")}</div>`;
+  } else {
+    html += `<div class="card"><h2>Viajeros</h2><p class="mu sm">Para repartir los gastos.</p>
+      <input class="inp" id="n0" value="${esc(st.nombres[0])}"><input class="inp" id="n1" value="${esc(st.nombres[1])}"></div>
+      <div class="card"><h2>Copia de seguridad</h2><p class="mu sm">Todo (gastos, notas, checklist) se guarda en este móvil. Exporta una copia para pasarla a otro móvil o por si acaso. Los archivos adjuntos no se incluyen.</p>
+      <div class="btns"><button class="btn pri" id="bExp">Exportar</button><label class="btn" style="margin:0;color:inherit">Importar<input type="file" id="bImp" accept="application/json" hidden></label></div></div>
+      <div class="card"><h2>Tipo de cambio</h2><p class="mu sm">1 € = ${num(st.cambio.LKR)} LKR · 1 € = ${num(st.cambio.USD)} $ (${fCorta(st.cambio.fecha)}). Se actualiza solo cuando hay conexión.</p></div>
+      <div class="card"><h2>Empezar de cero</h2><p class="mu sm">Borra gastos, notas, diario y marcas de este móvil.</p><button class="btn full" id="bReset" style="margin-top:10px;color:var(--bad)">Borrar datos</button></div>`;
   }
+  $("#s-kit").innerHTML = html;
+  const seg = $("#segT"); if (seg) seg.oninput = e => { st.seguro = e.target.value; guardar("seguro"); };
+  [0, 1].forEach(i => { const el = $("#n" + i); if (el) el.onchange = e => { st.nombres[i] = e.target.value.trim() || ["Javi", "Pareja"][i]; guardar("nombres"); toast("Guardado"); }; });
+  const ex = $("#bExp"); if (ex) ex.onclick = () => { const o = {}; Object.keys(localStorage).filter(k => k.startsWith("sl-")).forEach(k => o[k] = localStorage.getItem(k)); descargar("sri-lanka-copia.json", JSON.stringify(o), "application/json"); };
+  const im = $("#bImp"); if (im) im.onchange = async e => { try { const o = JSON.parse(await e.target.files[0].text()); Object.entries(o).forEach(([k, v]) => k.startsWith("sl-") && localStorage.setItem(k, v)); location.reload(); } catch (err) { toast("Archivo no válido"); } };
+  const rs = $("#bReset"); if (rs) rs.onclick = () => { if (confirm("¿Borrar todos los datos de este móvil?")) { Object.keys(localStorage).filter(k => k.startsWith("sl-")).forEach(k => localStorage.removeItem(k)); location.reload(); } };
 }
 
-function togglePanel(id){
-  const p=document.getElementById(`panel-${id}`);
-  const t=document.getElementById(`toggle-${id}`);
-  const open=p.classList.toggle('open');
-  t.classList.toggle('open',open);
+/* ============================ diálogo y acciones ============================ */
+function abrir(html) { $("#dlgB").innerHTML = `<div class="grab"></div>` + html; const d = $("#dlg"); if (!d.open) d.showModal(); $(".sheet").scrollTop = 0; }
+function cerrar() { const d = $("#dlg"); if (d.open) d.close(); }
+function descargar(nombre, txt, tipo) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + txt], { type: tipo })); a.download = nombre; a.click(); }
+function irTab(t) {
+  tab = t; LS.set("tab", t);
+  document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("on", s.id === "s-" + t));
+  document.querySelectorAll("nav.bot button").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+  pintar(); scrollTo(0, 0);
 }
+function pintar() { cabecera(); ({ hoy, viaje, reservas, gastos, kit })[tab](); }
 
-// ─── MODAL ───
-function buildPickers(selEmoji,selColor){
-  const ep=document.getElementById('emojiPicker');
-  ep.innerHTML='';
-  EMOJIS.forEach(e=>{
-    const b=document.createElement('button');
-    b.className='emoji-opt'+(e===selEmoji?' selected':'');
-    b.textContent=e;
-    b.onclick=()=>{ep.querySelectorAll('.emoji-opt').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');editEmoji=e;};
-    ep.appendChild(b);
-  });
-  const cp=document.getElementById('colorPicker');
-  cp.innerHTML='';
-  COLORS.forEach(c=>{
-    const b=document.createElement('button');
-    b.className='color-opt'+(c===selColor?' selected':'');
-    b.style.background=c;
-    b.title=c;
-    b.onclick=()=>{cp.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');editColor=c;};
-    cp.appendChild(b);
-  });
-}
-
-function openEditModal(id){
-  const dest=destinations.find(d=>d.id===id);
-  editingId=id; editEmoji=dest.emoji; editColor=dest.color;
-  document.getElementById('modalTitleText').textContent='Editar destino';
-  document.getElementById('editName').value=dest.name;
-  document.getElementById('editDesc').value=dest.desc;
-  document.getElementById('editFrom').value=dest.dateFrom;
-  document.getElementById('editTo').value=dest.dateTo;
-  document.getElementById('editStatus').value=dest.status;
-  document.getElementById('btnDelete').style.display='';
-  buildPickers(dest.emoji,dest.color);
-  document.getElementById('modalOverlay').classList.add('open');
-}
-
-function openNewDestModal(){
-  editingId=null; editEmoji='🏖️'; editColor='#4A8A9A';
-  document.getElementById('modalTitleText').textContent='Nuevo destino';
-  document.getElementById('editName').value='';
-  document.getElementById('editDesc').value='';
-  const last=destinations.length?Math.max(...destinations.map(d=>d.dateTo)):15;
-  document.getElementById('editFrom').value=last;
-  document.getElementById('editTo').value=last+2;
-  document.getElementById('editStatus').value='confirmed';
-  document.getElementById('btnDelete').style.display='none';
-  buildPickers(editEmoji,editColor);
-  document.getElementById('modalOverlay').classList.add('open');
-}
-
-function closeModal(){document.getElementById('modalOverlay').classList.remove('open');editingId=null;}
-
-function saveEdit(){
-  const name=document.getElementById('editName').value.trim();
-  const desc=document.getElementById('editDesc').value.trim();
-  const from=parseInt(document.getElementById('editFrom').value);
-  const to=parseInt(document.getElementById('editTo').value);
-  const status=document.getElementById('editStatus').value;
-  if(!name||isNaN(from)||isNaN(to)||from>to)return;
-  if(editingId){
-    const dest=destinations.find(d=>d.id===editingId);
-    Object.assign(dest,{name,desc,emoji:editEmoji,dateFrom:from,dateTo:to,status,color:editColor});
-  }else{
-    destinations.push({id:'dest_'+Date.now(),name,desc,emoji:editEmoji,dateFrom:from,dateTo:to,status,color:editColor,plans:[],notes:[]});
-  }
-  closeModal();save();renderDaysBar();renderTimeline();
-}
-
-function deleteDestModal(){
-  if(!editingId)return;
-  if(!confirm('¿Eliminar este destino con todos sus planes y notas?'))return;
-  destinations=destinations.filter(d=>d.id!==editingId);
-  closeModal();save();renderDaysBar();renderTimeline();
-}
-
-document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
-
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-// ─── EXPORT PDF ───
-function exportPDF(){
-  // 1. Open all panels
-  destinations.forEach(dest=>{
-    const p=document.getElementById(`panel-${dest.id}`);
-    const t=document.getElementById(`toggle-${dest.id}`);
-    if(p) p.classList.add('open');
-    if(t) t.classList.add('open');
-  });
-
-  // 2. Show ALL tab contents simultaneously for print
-  document.querySelectorAll('.tab-content').forEach(c=>{
-    c.classList.add('_print_shown');
-    c.style.setProperty('display','block','important');
-  });
-
-  // 3. Print after a short delay so DOM settles
-  setTimeout(()=>{
-    window.print();
-    // 4. Restore state after dialog
-    setTimeout(()=>{
-      document.querySelectorAll('._print_shown').forEach(c=>{
-        c.style.removeProperty('display');
-        c.classList.remove('_print_shown');
-      });
-      // hide non-active tabs again
-      document.querySelectorAll('.tab-content:not(.active)').forEach(c=>{
-        c.style.display='none';
-      });
-    }, 800);
-  }, 350);
-}
-
-load().then(()=>{
-  renderDaysBar();
-  renderTimeline();
-  // Si tras 2s sigue vacío, reintentar
-  setTimeout(()=>{
-    if(destinations.length > 0 && document.getElementById('timeline').children.length === 0){
-      renderDaysBar();
-      renderTimeline();
-    }
-  }, 2000);
+document.addEventListener("click", async e => {
+  const t = e.target.closest("[data-tab],[data-dia],[data-parada],[data-hecho],[data-add],[data-delx],[data-share],[data-guia],[data-irdia],[data-restab],[data-estado],[data-editres],[data-docver],[data-doc],[data-mon],[data-cat],[data-pago],[data-delg],[data-kittab],[data-todo],[data-equip],[data-frase],[data-go],[data-cerrar]");
+  if (!t) { if (e.target.id === "dlg") cerrar(); return; }
+  const ds = t.dataset;
+  if (ds.tab) irTab(ds.tab);
+  else if (ds.go) irTab(ds.go);
+  else if (ds.dia != null) { diaSel = +ds.dia; pintar(); }
+  else if (ds.parada) { diaSel = DIAS.findIndex(d => d.p === ds.parada); if (tab !== "hoy") irTab("hoy"); else pintar(); }
+  else if (ds.hecho) { st.hechos[ds.hecho] = !st.hechos[ds.hecho]; if (!st.hechos[ds.hecho]) delete st.hechos[ds.hecho]; guardar("hechos"); hoy(); }
+  else if (ds.add) nuevoItem(ds.add);
+  else if (ds.delx) { const [f, x] = [ds.delx.slice(0, 10), +ds.delx.split("-x")[1]]; st.extra[f].splice(x, 1); guardar("extra"); hoy(); }
+  else if (ds.share) compartir(+ds.share);
+  else if (ds.irdia != null) { cerrar(); diaSel = +ds.irdia; irTab("hoy"); }
+  else if (ds.guia) guia(ds.guia);
+  else if (ds.restab) { resTab = ds.restab; reservas(); }
+  else if (ds.estado) { const r = resDe([...RESERVAS.transporte, ...RESERVAS.actividades].find(x => x.id === ds.estado)); const nx = ESTADOS[(ESTADOS.indexOf(r.estado) + 1) % ESTADOS.length]; st.res[ds.estado] = { ...(st.res[ds.estado] || {}), estado: nx }; guardar("res"); reservas(); }
+  else if (ds.editres) editarRes(ds.editres);
+  else if (ds.docver) { const r = [...RESERVAS.hoteles, ...RESERVAS.transporte, ...RESERVAS.actividades].find(x => x.id === ds.docver); docs("res-" + r.id, r.nombre); }
+  else if (ds.doc) docs(ds.doc, ds.tit);
+  else if (ds.mon) { g.mon = ds.mon; LS.set("gmon", g.mon); [...$("#gM").children].forEach(b => b.classList.toggle("on", b === t)); $("#gI").dispatchEvent(new Event("input")); }
+  else if (ds.cat) { g.cat = ds.cat; [...$("#gK").children].forEach(b => b.classList.toggle("on", b === t)); }
+  else if (ds.pago != null) { g.pago = +ds.pago; [...$("#gP").children].forEach(b => b.classList.toggle("on", b === t)); }
+  else if (ds.delg) { if (confirm("¿Borrar este gasto?")) { st.gastos = st.gastos.filter(x => x.id !== ds.delg); guardar("gastos"); gastos(); } }
+  else if (ds.kittab) { kitTab = ds.kittab; kit(); }
+  else if (ds.todo) { st.todo[ds.todo] = !st.todo[ds.todo]; guardar("todo"); tab === "hoy" ? hoy() : kit(); }
+  else if (ds.equip != null) { st.equip[ds.equip] = !st.equip[ds.equip]; guardar("equip"); kit(); }
+  else if (ds.frase != null) { const f = FRASES[+ds.frase]; try { const u = new SpeechSynthesisUtterance(f.si); u.lang = /[஀-௿]/.test(f.si) ? "ta-LK" : "si-LK"; speechSynthesis.speak(u); } catch (err) {} abrir(`<div style="text-align:center;padding:20px 0"><div class="mu">${esc(f.es)}</div><div style="font-size:2.6rem;font-weight:700;margin:16px 0">${esc(f.si)}</div><div style="color:var(--gold2);font-size:1.2rem">${esc(f.r)}</div></div>`); }
+  else if ("cerrar" in ds) cerrar();
 });
+function nuevoItem(f) {
+  abrir(`<h2 class="h2">Añadir a la agenda</h2><div class="mu sm">${fLarga(f)}</div>
+    <label>Hora<input class="inp" id="aH" type="time"></label>
+    <label>Qué<input class="inp" id="aQ" placeholder="Ej. Cena en…"></label>
+    <label>Notas<input class="inp" id="aD" placeholder="Opcional"></label>
+    <label>Lugar para el mapa<input class="inp" id="aM" placeholder="Opcional: nombre del sitio"></label>
+    <div class="btns"><button class="btn" data-cerrar>Cancelar</button><button class="btn pri" id="aOk">Añadir</button></div>`);
+  $("#aOk").onclick = () => {
+    const q = $("#aQ").value.trim(); if (!q) { toast("Escribe qué"); return; }
+    (st.extra[f] = st.extra[f] || []).push({ t: $("#aH").value, e: "📌", q, d: $("#aD").value.trim(), m: $("#aM").value.trim() || undefined });
+    guardar("extra"); cerrar(); hoy(); toast("Añadido");
+  };
+}
+function compartir(i) {
+  const D = DIAS[i], P = parada(D.p);
+  const extra = (st.extra[D.f] || []);
+  const txt = `${P.emoji} ${fLarga(D.f)} · ${P.nombre}\n${D.tit}\n\n` + [...D.items, ...extra].sort((a, b) => (a.t || "99").localeCompare(b.t || "99")).map(it => `${it.t || "--:--"} ${it.e || ""} ${it.q}`).join("\n");
+  if (navigator.share) navigator.share({ title: "Plan del día", text: txt }).catch(() => {});
+  else navigator.clipboard?.writeText(txt).then(() => toast("Copiado"));
+}
+
+/* ============================ tiempo y cambio ============================ */
+const WX = c => c === 0 ? "☀️" : c <= 2 ? "🌤️" : c === 3 ? "☁️" : c <= 48 ? "🌫️" : c <= 57 ? "🌦️" : c <= 67 ? "🌧️" : c <= 82 ? "🌦️" : "⛈️";
+function wxIco(c) { return c == null ? "" : WX(c); }
+async function actualizarTiempo() {
+  const ult = LS.get("tiempoTs", 0); if (Date.now() - ult < 3 * 3600e3) return;
+  try {
+    const lat = PARADAS.map(p => p.lat).join(","), lon = PARADAS.map(p => p.lon).join(",");
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FColombo&forecast_days=16`);
+    const arr = [].concat(await r.json());
+    arr.forEach((o, i) => {
+      const dias = {};
+      (o.daily?.time || []).forEach((f, j) => dias[f] = { code: o.daily.weather_code[j], max: o.daily.temperature_2m_max[j], min: o.daily.temperature_2m_min[j], rain: o.daily.precipitation_probability_max[j] });
+      st.tiempo[PARADAS[i].id] = { now: o.current?.temperature_2m, code: o.current?.weather_code, dias };
+    });
+    guardar("tiempo"); LS.set("tiempoTs", Date.now());
+    if (tab === "hoy") hoy();
+  } catch (e) {}
+}
+async function actualizarCambio() {
+  if (st.cambio.fecha === hoyISO() && st.cambio.fuente !== "referencia") return;
+  try {
+    const r = await (await fetch("https://open.er-api.com/v6/latest/EUR")).json();
+    if (r.rates?.LKR && r.rates?.USD) { st.cambio = { LKR: r.rates.LKR, USD: r.rates.USD, fecha: hoyISO(), fuente: "api" }; guardar("cambio"); if (tab === "gastos") gastos(); }
+  } catch (e) {}
+}
+
+/* ============================ arranque ============================ */
+irTab(["hoy", "viaje", "reservas", "gastos", "kit"].includes(tab) ? tab : "hoy");
+setInterval(() => { if (tab === "hoy" && !$("#dlg").open && document.activeElement?.id !== "diarioT") hoy(); }, 60000);
+actualizarTiempo(); actualizarCambio();
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+  navigator.serviceWorker.addEventListener("message", e => { if (e.data?.tipo === "nueva") { const b = $("#nueva"); b.hidden = false; } });
+}
+
 </script>
 </body>
 </html>
