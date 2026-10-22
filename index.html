@@ -206,6 +206,12 @@ dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
 .sync{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;margin-left:6px;color:var(--mu2)}
 .sync::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .sync.ok{color:var(--ok)} .sync.wait{color:var(--warn)} .sync.bad{color:var(--bad)} .sync.off{color:var(--mu2)}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:12px}
+.ph{aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--bg2);border:1px solid var(--line2);display:grid;place-items:center;padding:0}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.vacia::after{content:"☁︎";color:var(--mu2);font-size:1.4rem}
+.ph.add{cursor:pointer;color:var(--mu);font-size:1.4rem;border-style:dashed;align-content:center;gap:2px}
+.ph.add span{font-size:.68rem;font-weight:600}
 
 </style>
 </head>
@@ -562,7 +568,7 @@ const st = {
   res: LS.get("res", {}), gastos: LS.get("gastos", []), ppto: LS.get("ppto", 0),
   todo: LS.get("todo", {}), equip: LS.get("equip", {}), seguro: LS.get("seguro", ""),
   nombres: LS.get("nombres", ["Javi", "Pareja"]), cambio: LS.get("cambio", { LKR: 372.96, USD: 1.1243, fecha: "2026-10-21", fuente: "referencia" }),
-  tiempo: LS.get("tiempo", {})
+  tiempo: LS.get("tiempo", {}), docs: LS.get("docs", {}), items: LS.get("items", {})
 };
 function guardar(k) { LS.set(k, st[k]); Sync.cambio(k); }
 
@@ -620,9 +626,7 @@ function hoy() {
   }
 
   // Agenda del día
-  const extra = st.extra[D.f] || [];
-  const items = [...D.items.map((it, i) => ({ ...it, k: `${D.f}-${i}` })), ...extra.map((it, i) => ({ ...it, k: `${D.f}-x${i}`, x: i }))]
-    .sort((a, b) => (a.t || "99").localeCompare(b.t || "99"));
+  const { items, ocultos } = itemsDe(D);
   const nowMin = ahora.getUTCHours() * 60 + ahora.getUTCMinutes();
   let nowK = null;
   if (D.f === h) { for (const it of items) if (it.t && aMin(it.t) <= nowMin) nowK = it.k; }
@@ -633,7 +637,9 @@ function hoy() {
         ${fc ? `<span class="wx">${wxIco(fc.code)} ${Math.round(fc.max)}° / ${Math.round(fc.min)}° · lluvia ${fc.rain ?? "–"} %</span>` : ""}</div>
       <span class="tipo">${esc(D.tipo)}</span></div>
     ${items.map(it => itemHTML(it, it.k === nowK)).join("")}
+    ${ocultos ? `<button class="lnk xs" style="padding:8px" data-restaurar="${D.f}">${ocultos} ${ocultos === 1 ? "plan oculto" : "planes ocultos"} · mostrar</button>` : ""}
     <button class="btn dash" data-add="${D.f}">Añadir a la agenda</button>
+    <div class="xs mu" style="text-align:center;margin-top:8px">Toca un plan para cambiarlo.</div>
   </div>
   <button class="lnk" data-share="${diaSel}">Compartir el plan del día</button>`;
 
@@ -643,8 +649,10 @@ function hoy() {
 
   html += `<div class="card"><h2>Diario del día</h2>
     <textarea class="inp" id="diarioT" placeholder="Lo mejor de hoy, lo que no queréis olvidar…">${esc(st.diario[D.f] || "")}</textarea>
-    <div class="xs mu" style="margin-top:6px">Se guarda solo en este móvil mientras escribís.</div></div>`;
+    ${fotosHTML(D.f)}
+    <div class="xs mu" style="margin-top:6px">${Sync.codigo ? "Texto y fotos se guardan solos y se comparten entre los dos móviles." : "Se guarda solo en este móvil."}</div></div>`;
   $("#s-hoy").innerHTML = html;
+  pintarMiniaturas($("#s-hoy"));
   fotoHero(P);
   const on = $("#strip .on"); if (on) on.scrollIntoView({ inline: "center", block: "nearest" });
   $("#diarioT").oninput = e => { st.diario[D.f] = e.target.value; guardar("diario"); };
@@ -661,7 +669,7 @@ function itemHTML(it, now) {
   const dur = it.fin ? `<small>${it.fin}</small>` : "";
   return `<div class="it ${done ? "done" : ""} ${now ? "now" : ""}">
     <div class="h">${it.t || ""}${dur}</div><div class="ic">${it.e || "•"}</div>
-    <div class="tx"><b>${esc(it.q)}</b>${it.d ? `<p>${esc(it.d)}</p>` : ""}${tags.length ? `<div class="tags">${tags.join("")}</div>` : ""}</div>
+    <div class="tx" data-edit="${it.k}" style="cursor:pointer"><b>${esc(it.q)}</b>${it.d ? `<p>${esc(it.d)}</p>` : ""}${tags.length ? `<div class="tags">${tags.join("")}</div>` : ""}</div>
     <button class="chk ${done ? "on" : ""}" data-hecho="${it.k}" aria-label="Hecho"></button></div>`;
 }
 function fotoHero(P) {           // si subís img/<parada>.jpg y lo añadís a FOTOS, se usa como fondo
@@ -715,7 +723,7 @@ function guia(id) {
     <div class="kick">Días aquí</div>
     ${dias.map(d => `<div class="card" style="padding:14px;box-shadow:none"><div class="row"><b>${fSem(d.f)}</b><span class="sp"></span>${tw?.dias?.[d.f] ? `<span class="xs mu">${wxIco(tw.dias[d.f].code)} ${Math.round(tw.dias[d.f].max)}°</span>` : ""}</div>
       <div class="mu sm">${esc(d.tit)}</div>
-      <div class="chipsm">${d.items.map(it => `<span>${it.e} ${esc(it.q)}</span>`).join("")}</div>
+      <div class="chipsm">${itemsDe(d).items.map(it => `<span>${it.e} ${esc(it.q)}</span>`).join("")}</div>
       <button class="btn full" style="margin-top:10px" data-irdia="${d.i}">Abrir el día</button></div>`).join("")}
     <div class="btns"><a class="btn pri" href="${mapsURL(P.hotel + " " + P.nombre)}" target="_blank" rel="noopener">Hotel en el mapa</a></div>`);
 }
@@ -733,7 +741,7 @@ function hotelHTML(r0) {
     ${r.notas ? `<div class="sm" style="margin-top:6px">${esc(r.notas)}</div>` : ""}
     ${r.precio ? `<div style="margin-top:8px;font-weight:700">${esc(r.precio)}</div>` : ""}
     <div class="btns"><a class="btn pri" href="${mapsURL(r.m || r.nombre)}" target="_blank" rel="noopener">📍 Maps</a>
-      <button class="btn" data-docver="${r.id}">📎 Reserva</button><button class="btn" data-editres="${r.id}">Editar</button></div></div>`;
+      <button class="btn" data-docver="${r.id}">📎 Reserva${st.docs["res-" + r.id] ? " ✓" : ""}</button><button class="btn" data-editres="${r.id}">Editar</button></div></div>`;
 }
 function resHTML(r0) {
   const r = resDe(r0), P = parada(r.p);
@@ -746,7 +754,7 @@ function resHTML(r0) {
       ${r.m ? `<a class="tag" href="${mapsURL(r.m)}" target="_blank" rel="noopener">📍 Mapa</a>` : ""}
       ${r.tel ? `<a class="tag" href="${waURL(r.tel)}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
       ${r.mail ? `<a class="tag" href="mailto:${esc(r.mail)}">Email</a>` : ""}
-      <button class="tag" data-docver="${r.id}">📎 Reserva</button><button class="tag" data-editres="${r.id}">Editar</button></div></div>`;
+      <button class="tag" data-docver="${r.id}">📎 Reserva${st.docs["res-" + r.id] ? " ✓" : ""}</button><button class="tag" data-editres="${r.id}">Editar</button></div></div>`;
 }
 function reservas() {
   const todas = [...RESERVAS.hoteles, ...RESERVAS.transporte, ...RESERVAS.actividades].map(resDe);
@@ -775,25 +783,13 @@ function editarRes(id) {
   };
 }
 
-/* Documentos adjuntos (IndexedDB, solo en este móvil) */
+/* Archivos guardados en este móvil (IndexedDB); ver archivos.js para la parte compartida */
 const DB = { db: null,
   open() { return this.db ? Promise.resolve(this.db) : new Promise((ok, ko) => { const q = indexedDB.open("sl-docs", 1); q.onupgradeneeded = () => q.result.createObjectStore("f"); q.onsuccess = () => ok(this.db = q.result); q.onerror = () => ko(q.error); }); },
   async get(k) { const db = await this.open(); return new Promise(ok => { const q = db.transaction("f").objectStore("f").get(k); q.onsuccess = () => ok(q.result); q.onerror = () => ok(null); }); },
   async put(k, v) { const db = await this.open(); return new Promise((ok, ko) => { const t = db.transaction("f", "readwrite"); t.objectStore("f").put(v, k); t.oncomplete = ok; t.onerror = () => ko(t.error); }); },
   async del(k) { const db = await this.open(); return new Promise(ok => { const t = db.transaction("f", "readwrite"); t.objectStore("f").delete(k); t.oncomplete = ok; }); }
 };
-async function docs(id, titulo) {
-  const f = await DB.get(id).catch(() => null);
-  abrir(`<h2 class="h2">${esc(titulo)}</h2><p class="mu sm">Foto o PDF guardado solo en este móvil. Se abre sin conexión.</p>
-    ${f ? `<div class="hint" style="margin-top:12px">📎 ${esc(f.name)}</div><div class="btns"><button class="btn pri" id="dV">Abrir</button><button class="btn" id="dB">Quitar</button></div>` : ""}
-    <div class="btns"><label class="btn ${f ? "" : "pri"}" style="margin:0;color:inherit">${f ? "Cambiar archivo" : "Adjuntar archivo"}<input type="file" id="dF" accept="image/*,application/pdf" hidden></label></div>`);
-  $("#dF").onchange = async e => { const x = e.target.files[0]; if (!x) return; await DB.put(id, { name: x.name, type: x.type, blob: x }); toast("Adjuntado"); cerrar(); };
-  if (f) {
-    $("#dV").onclick = () => { const u = URL.createObjectURL(f.blob); window.open(u, "_blank") || (location.href = u); };
-    $("#dB").onclick = async () => { await DB.del(id); toast("Quitado"); cerrar(); };
-  }
-}
-
 /* ============================ GASTOS ============================ */
 const CATS = [["comida", "Comida", "🍛"], ["transporte", "Transporte", "🛺"], ["actividades", "Actividades", "🎟️"], ["alojamiento", "Alojamiento", "🏠"], ["compras", "Compras", "🛍️"], ["otros", "Otros", "✨"]];
 let g = { mon: LS.get("gmon", "LKR"), cat: "comida", pago: 0 };
@@ -875,9 +871,10 @@ function kit() {
     html += `<div class="card"><div class="row"><h2>Maleta</h2><span class="sp"></span><span class="count">${eh} de ${EQUIPAJE.length}</span></div>
       <div class="prog"><i style="width:${eh / EQUIPAJE.length * 100}%"></i></div>
       ${EQUIPAJE.map((e, i) => `<div class="chkrow ${st.equip[i] ? "done" : ""}"><button class="chk ${st.equip[i] ? "on" : ""}" data-equip="${i}"></button><span>${esc(e)}</span></div>`).join("")}</div>`;
-    html += `<div class="card"><h2>Documentos</h2><p class="mu sm">Foto o PDF de pasaportes, ETA y seguro. Se guardan solo en este móvil y se abren sin conexión.</p>
+    html += `<div class="card"><h2>Documentos</h2><p class="mu sm">Foto o PDF de pasaportes, ETA, seguro y billetes. Se comparten entre los dos móviles y se abren sin conexión.</p>
       ${[["doc-pas1", "Pasaporte de " + st.nombres[0]], ["doc-pas2", "Pasaporte de " + st.nombres[1]], ["doc-eta", "ETA de Sri Lanka"], ["doc-carnet", "Carnet y permiso internacional"], ["doc-seguro", "Póliza del seguro"], ["doc-vuelos", "Billetes de avión"]]
-        .map(([k, t]) => `<div class="chkrow"><span class="sp">${esc(t)}</span><button class="btn" data-doc="${k}" data-tit="${esc(t)}">Abrir</button></div>`).join("")}</div>`;
+        .map(([k, t]) => `<div class="chkrow"><span class="sp">${esc(t)}</span><button class="btn" data-doc="${k}" data-tit="${esc(t)}">${st.docs[k] ? "Abrir ✓" : "Adjuntar"}</button></div>`).join("")}
+      ${otrosDocsHTML()}</div>`;
   } else if (kitTab === "sos") {
     html += `<div class="card"><h2>Emergencias</h2><div class="sos">${EMERGENCIAS.map(e => `<a href="${telURL(e.n)}" style="border-color:${e.c}55;background:${e.c}18;color:${e.c}"><b>${e.n}</b><span>${esc(e.q)}</span></a>`).join("")}</div>
       ${CONTACTOS.map(c => `<div class="ap"><div class="sp"><b>${esc(c.q)}</b><div class="mu sm">${esc(c.d)}</div><div class="tags"><a class="tag" href="${telURL(c.tel)}">📞 ${c.tel}</a>${c.mail ? `<a class="tag" href="mailto:${c.mail}">Email</a>` : ""}</div></div></div>`).join("")}
@@ -918,9 +915,10 @@ function irTab(t) {
 function pintar() { cabecera(); ({ hoy, viaje, reservas, gastos, kit })[tab](); }
 
 document.addEventListener("click", async e => {
-  const t = e.target.closest("[data-tab],[data-dia],[data-parada],[data-hecho],[data-add],[data-delx],[data-share],[data-guia],[data-irdia],[data-restab],[data-estado],[data-editres],[data-docver],[data-doc],[data-mon],[data-cat],[data-pago],[data-delg],[data-kittab],[data-todo],[data-equip],[data-frase],[data-go],[data-cerrar],[data-activar]");
+  const t = e.target.closest("[data-tab],[data-dia],[data-parada],[data-hecho],[data-add],[data-delx],[data-share],[data-guia],[data-irdia],[data-restab],[data-estado],[data-editres],[data-docver],[data-doc],[data-mon],[data-cat],[data-pago],[data-delg],[data-kittab],[data-todo],[data-equip],[data-frase],[data-go],[data-cerrar],[data-activar],[data-edit],[data-restaurar],[data-foto]");
   if (!t) { if (e.target.id === "dlg") cerrar(); return; }
   const ds = t.dataset;
+  if (e.target.closest("a") && ds.edit) return;            // los enlaces de dentro de un plan (Mapa, WhatsApp) van a lo suyo
   if (ds.tab) irTab(ds.tab);
   else if (ds.go) { if (ds.kit) kitTab = ds.kit; irTab(ds.go); }
   else if (ds.dia != null) { diaSel = +ds.dia; pintar(); }
@@ -945,8 +943,48 @@ document.addEventListener("click", async e => {
   else if (ds.equip != null) { st.equip[ds.equip] = !st.equip[ds.equip]; guardar("equip"); kit(); }
   else if (ds.frase != null) { const f = FRASES[+ds.frase]; try { const u = new SpeechSynthesisUtterance(f.si); u.lang = /[஀-௿]/.test(f.si) ? "ta-LK" : "si-LK"; speechSynthesis.speak(u); } catch (err) {} abrir(`<div style="text-align:center;padding:20px 0"><div class="mu">${esc(f.es)}</div><div style="font-size:2.6rem;font-weight:700;margin:16px 0">${esc(f.si)}</div><div style="color:var(--gold2);font-size:1.2rem">${esc(f.r)}</div></div>`); }
   else if ("cerrar" in ds) cerrar();
+  else if (ds.edit) editarItem(ds.edit);
+  else if (ds.restaurar) { for (const k in st.items) if (k.startsWith(ds.restaurar + "-") && st.items[k].oculto) { const { oculto, ...resto } = st.items[k]; if (Object.keys(resto).length) st.items[k] = resto; else delete st.items[k]; } guardar("items"); hoy(); }
+  else if (ds.foto) verFoto(ds.foto);
   else if ("activar" in ds) { const v = $("#hCod").value; if (v.trim().length < 10) { toast("Código no válido"); return; } Sync.activar(v); await Sync.ya(); toast(Sync.error === "codigo" ? "Código incorrecto" : "Sincronización activada"); if (Sync.error === "codigo") Sync.desactivar(); pintar(); }
 });
+/* Planes del itinerario: los de base admiten cambios (st.items) y los añadidos viven en st.extra */
+function itemsDe(D) {
+  let ocultos = 0;
+  const base = D.items.map((it, i) => { const k = `${D.f}-${i}`, o = st.items[k] || {}; if (o.oculto) ocultos++; return { ...it, ...o, k, base: it }; }).filter(it => !it.oculto);
+  const extra = (st.extra[D.f] || []).map((it, i) => ({ ...it, k: `${D.f}-x${i}`, x: i }));
+  return { items: [...base, ...extra].sort((a, b) => (a.t || "99").localeCompare(b.t || "99")), ocultos };
+}
+function editarItem(k) {
+  const f = k.slice(0, 10), D = DIAS.find(d => d.f === f); if (!D) return;
+  const it = itemsDe(D).items.find(x => x.k === k); if (!it) return;
+  const cambiado = it.x == null && st.items[k] && Object.keys(st.items[k]).length;
+  abrir(`<h2 class="h2">Cambiar plan</h2><div class="mu sm">${fLarga(f)}</div>
+    <label>Hora<input class="inp" id="iH" type="time" value="${esc(it.t || "")}"></label>
+    <label>Qué<input class="inp" id="iQ" value="${esc(it.q || "")}"></label>
+    <label>Detalle<textarea class="inp" id="iD" style="min-height:80px">${esc(it.d || "")}</textarea></label>
+    <label>Lugar para el mapa<input class="inp" id="iM" value="${esc(it.m || "")}" placeholder="Nombre del sitio"></label>
+    <label>Precio<input class="inp" id="iP" value="${esc(it.p || "")}" placeholder="Opcional"></label>
+    <div class="btns"><button class="btn" data-cerrar>Cancelar</button><button class="btn pri" id="iOk">Guardar</button></div>
+    <div class="btns"><button class="btn" id="iX" style="color:var(--bad)">${it.x != null ? "Borrar plan" : "Ocultar plan"}</button>${cambiado ? `<button class="btn" id="iR">Volver al original</button>` : ""}</div>`);
+  const val = () => ({ t: $("#iH").value, q: $("#iQ").value.trim(), d: $("#iD").value.trim(), m: $("#iM").value.trim(), p: $("#iP").value.trim() });
+  $("#iOk").onclick = () => {
+    const v = val(); if (!v.q) { toast("Escribe qué"); return; }
+    if (it.x != null) { st.extra[f][it.x] = { ...st.extra[f][it.x], ...v, m: v.m || undefined, p: v.p || undefined }; guardar("extra"); }
+    else {
+      const o = {}; for (const c of ["t", "q", "d", "m", "p"]) if ((it.base[c] || "") !== v[c]) o[c] = v[c];
+      if (Object.keys(o).length) st.items[k] = o; else delete st.items[k];
+      guardar("items");
+    }
+    cerrar(); hoy(); toast("Guardado");
+  };
+  $("#iX").onclick = () => {
+    if (it.x != null) { st.extra[f].splice(it.x, 1); guardar("extra"); }
+    else { st.items[k] = { ...(st.items[k] || {}), oculto: true }; guardar("items"); }
+    cerrar(); hoy();
+  };
+  const r = $("#iR"); if (r) r.onclick = () => { delete st.items[k]; guardar("items"); cerrar(); hoy(); toast("Restaurado"); };
+}
 function nuevoItem(f) {
   abrir(`<h2 class="h2">Añadir a la agenda</h2><div class="mu sm">${fLarga(f)}</div>
     <label>Hora<input class="inp" id="aH" type="time"></label>
@@ -963,7 +1001,7 @@ function nuevoItem(f) {
 function compartir(i) {
   const D = DIAS[i], P = parada(D.p);
   const extra = (st.extra[D.f] || []);
-  const txt = `${P.emoji} ${fLarga(D.f)} · ${P.nombre}\n${D.tit}\n\n` + [...D.items, ...extra].sort((a, b) => (a.t || "99").localeCompare(b.t || "99")).map(it => `${it.t || "--:--"} ${it.e || ""} ${it.q}`).join("\n");
+  const txt = `${P.emoji} ${fLarga(D.f)} · ${P.nombre}\n${D.tit}\n\n` + itemsDe(D).items.map(it => `${it.t || "--:--"} ${it.e || ""} ${it.q}`).join("\n");
   if (navigator.share) navigator.share({ title: "Plan del día", text: txt }).catch(() => {});
   else navigator.clipboard?.writeText(txt).then(() => toast("Copiado"));
 }
@@ -1000,7 +1038,7 @@ async function actualizarCambio() {
    conexión; cada 20 s (con la app abierta) se descargan los cambios del otro móvil.
    Para leer o escribir hace falta el código del viaje, que llega en el enlace (#c=...). */
 const NUBE = { url: "https://joirhbutezhhcfohkfui.supabase.co/rest/v1/rpc/", key: "sb_publishable_ER8_8aV6QDONzHrXinTz1g_Z2lRFvvG" };
-const MAPA_SYNC = { hechos: "hecho", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", gastos: "gasto", ppto: "ajuste", seguro: "ajuste", nombres: "ajuste" };
+const MAPA_SYNC = { hechos: "hecho", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", docs: "doc", items: "item", gastos: "gasto", ppto: "ajuste", seguro: "ajuste", nombres: "ajuste" };
 const AJUSTES = ["ppto", "seguro", "nombres"];
 
 function filasDe(k) {                         // estado -> { id: valor }
@@ -1073,10 +1111,11 @@ const Sync = {
       this.error = ""; this.ultima = Date.now(); LS.set("ultima", this.ultima);
     } catch (e) { this.error = e.message === "codigo" ? "codigo" : "red"; }
     this.enviando = false; this.pintarEstado();
+    if (this.codigo && !this.error) Archivos.subir();
   },
   aplicar(filas) {
     const tocados = new Set();
-    const k2 = { hecho: "hechos", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", gasto: "gastos" };
+    const k2 = { hecho: "hechos", extra: "extra", diario: "diario", res: "res", todo: "todo", equip: "equip", doc: "docs", item: "items", gasto: "gastos" };
     for (const f of filas) {
       if (this.cola.some(o => o.tipo === f.tipo && o.id === f.id)) continue;        // lo de este móvil aún no enviado manda
       let k;
@@ -1087,6 +1126,7 @@ const Sync = {
       tocados.add(k);
     }
     if (!tocados.size) return;
+    if (tocados.has("docs")) setTimeout(() => Archivos.precargar(), 500);
     tocados.forEach(k => { LS.set(k, st[k]); this.snap[k] = JSON.parse(JSON.stringify(filasDe(k))); });
     const escribiendo = ["TEXTAREA", "INPUT"].includes(document.activeElement?.tagName);
     if (!$("#dlg").open && !escribiendo) pintar();
@@ -1096,8 +1136,8 @@ const Sync = {
     let t = "", c = "";
     if (!this.codigo) { t = "Solo en este móvil"; c = "off"; }
     else if (this.error === "codigo") { t = "Código incorrecto"; c = "bad"; }
-    else if (navigator.onLine === false || this.error === "red") { t = this.cola.length ? `Sin conexión · ${this.cola.length} por enviar` : "Sin conexión"; c = "off"; }
-    else if (this.cola.length) { t = `Enviando ${this.cola.length}…`; c = "wait"; }
+    else if (navigator.onLine === false || this.error === "red") { t = this.cola.length ? `Sin conexión · ${this.cola.length + Archivos.cola.length} por enviar` : "Sin conexión"; c = "off"; }
+    else if (this.cola.length || Archivos.cola.length) { t = `Enviando ${this.cola.length + Archivos.cola.length}…`; c = "wait"; }
     else { t = "Sincronizado"; c = "ok"; }
     el.textContent = t; el.className = "sync " + c;
     const d = $("#syncDet"); if (d) d.textContent = t + (this.ultima && this.codigo ? ` · última vez ${new Date(this.ultima).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}` : "");
@@ -1106,7 +1146,7 @@ const Sync = {
 function enlaceViaje() { return location.origin + location.pathname + "#c=" + Sync.codigo; }
 function syncCardHTML() {
   return `<div class="card"><h2>Compartir entre móviles</h2>
-    ${Sync.codigo ? `<p class="mu sm">Gastos, diario, marcas, notas y reservas se guardan también en la nube y se ven en los dos móviles. Las fotos y PDFs adjuntos se quedan solo en cada móvil.</p>
+    ${Sync.codigo ? `<p class="mu sm">Todo lo que cambiáis (gastos, diario, fotos, documentos, planes, marcas, notas y reservas) se guarda también en la nube y se ve en los dos móviles.</p>
       <div class="hint" style="margin:12px 0 0" id="syncDet"></div>
       <div class="btns"><button class="btn pri" id="sShare">Enviar enlace a ${esc(st.nombres[1])}</button><button class="btn" id="sAhora">Sincronizar ahora</button></div>
       <button class="btn full" id="sOff" style="margin-top:8px;color:var(--mu)">Desactivar en este móvil</button>`
@@ -1125,8 +1165,179 @@ function syncCardEventos() {
   const off = $("#sOff"); if (off) off.onclick = () => { if (confirm("Este móvil dejará de compartir los cambios. Lo ya guardado se queda aquí.")) { Sync.desactivar(); kit(); } };
 }
 
+/* ============================ archivos compartidos (fotos y PDFs) ============================
+   Cada archivo se guarda en este móvil (IndexedDB) y se sube a un almacén privado de Supabase.
+   En la tabla compartida solo va su ficha (nombre, tipo, ruta); el otro móvil lo descarga
+   cuando hay conexión y lo guarda para verlo también sin conexión. */
+const FN_ARCHIVOS = "https://joirhbutezhhcfohkfui.supabase.co/functions/v1/sl-archivos";
+const MAX_MB = 25;
+const urls = {};                                          // key -> objectURL ya creado
+
+const Archivos = {
+  cola: LS.get("arch-cola", []), subiendo: false, bajando: false,
+
+  async fn(accion, ruta) {
+    const r = await fetch(FN_ARCHIVOS, { method: "POST", headers: { "Content-Type": "application/json", apikey: NUBE.key }, body: JSON.stringify({ codigo: Sync.codigo, accion, ruta }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || "http " + r.status);
+    return j;
+  },
+  async comprimir(file) {                                  // fotos a 2000 px como máximo
+    if (!/^image\/(jpeg|png|webp|heic|heif)/i.test(file.type)) return file;
+    try {
+      const bmp = await createImageBitmap(file);
+      const k = Math.min(1, 2000 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      const b = await new Promise(ok => c.toBlob(ok, "image/jpeg", 0.85));
+      return b && b.size < file.size ? new File([b], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : file;
+    } catch (e) { return file; }
+  },
+  async guardar(key, file, titulo) {
+    if (file.size > MAX_MB * 1048576) { toast(`Máximo ${MAX_MB} MB por archivo`); return false; }
+    const f = await this.comprimir(file);
+    const ext = (f.name.match(/\.(\w{1,5})$/) || [, f.type === "application/pdf" ? "pdf" : "jpg"])[1].toLowerCase();
+    const ruta = `${key}-${Date.now().toString(36)}.${ext}`.replace(/[^a-z0-9._-]/gi, "-");
+    const vieja = st.docs[key]?.ruta;
+    await DB.put(key, { name: f.name, type: f.type, blob: f, ruta, subido: false });
+    if (urls[key]) { URL.revokeObjectURL(urls[key]); delete urls[key]; }
+    st.docs[key] = { name: f.name, type: f.type, size: f.size, ruta, titulo: titulo || f.name, ts: Date.now() };
+    guardar("docs");
+    if (vieja && vieja !== ruta) this.encolarBorrado(vieja);
+    this.cola = [...this.cola.filter(k => k !== key), key]; LS.set("arch-cola", this.cola);
+    this.subir();
+    return true;
+  },
+  encolarBorrado(ruta) { const b = LS.get("arch-borrar", []); b.push(ruta); LS.set("arch-borrar", b); },
+  async subir() {
+    if (this.subiendo || !Sync.codigo || navigator.onLine === false) return;
+    this.subiendo = true;
+    try {
+      while (this.cola.length) {
+        const key = this.cola[0], rec = await DB.get(key);
+        if (rec && st.docs[key]?.ruta === rec.ruta && !rec.subido) {
+          const { url } = await this.fn("subir", rec.ruta);
+          const r = await fetch(url, { method: "PUT", headers: { "Content-Type": rec.type || "application/octet-stream", "x-upsert": "true" }, body: rec.blob });
+          if (!r.ok) throw new Error("subida " + r.status);
+          rec.subido = true; await DB.put(key, rec);
+        }
+        this.cola.shift(); LS.set("arch-cola", this.cola);
+      }
+      const borrar = LS.get("arch-borrar", []);
+      while (borrar.length) { await this.fn("borrar", borrar[0]).catch(() => {}); borrar.shift(); LS.set("arch-borrar", borrar); }
+    } catch (e) { /* se reintenta en la próxima sincronización */ }
+    this.subiendo = false;
+    Sync.pintarEstado();
+  },
+  pendientes() { return this.cola.length; },
+  async blob(key) {                                        // del móvil o, si no está, de la nube
+    const meta = st.docs[key]; if (!meta) return null;
+    const rec = await DB.get(key).catch(() => null);
+    if (rec && rec.ruta === meta.ruta) return rec.blob;
+    if (!Sync.codigo || navigator.onLine === false) return null;
+    try {
+      const { url } = await this.fn("url", meta.ruta);
+      const b = await (await fetch(url)).blob();
+      await DB.put(key, { name: meta.name, type: meta.type || b.type, blob: b, ruta: meta.ruta, subido: true });
+      return b;
+    } catch (e) { return null; }
+  },
+  async url(key) {
+    if (urls[key]) return urls[key];
+    const b = await this.blob(key);
+    return b ? (urls[key] = URL.createObjectURL(b)) : null;
+  },
+  async quitar(key) {
+    const meta = st.docs[key]; if (!meta) return;
+    delete st.docs[key]; guardar("docs");
+    await DB.del(key);
+    if (urls[key]) { URL.revokeObjectURL(urls[key]); delete urls[key]; }
+    this.cola = this.cola.filter(k => k !== key); LS.set("arch-cola", this.cola);
+    if (meta.ruta) { this.encolarBorrado(meta.ruta); this.subir(); }
+  },
+  async precargar() {                                      // deja todo descargado para verlo sin conexión
+    if (this.bajando || !Sync.codigo || navigator.onLine === false) return;
+    this.bajando = true;
+    for (const key of Object.keys(st.docs)) await this.blob(key);
+    this.bajando = false;
+  },
+  async migrar() {                                         // adjuntos de antes, que solo estaban en este móvil
+    let db; try { db = await DB.open(); } catch (e) { return; }
+    const keys = await new Promise(ok => { const q = db.transaction("f").objectStore("f").getAllKeys(); q.onsuccess = () => ok(q.result); q.onerror = () => ok([]); });
+    for (const key of keys) {
+      if (st.docs[key]) continue;
+      const rec = await DB.get(key);
+      if (rec?.blob && !rec.ruta) await this.guardar(key, new File([rec.blob], rec.name || "archivo", { type: rec.type || rec.blob.type }), rec.name);
+    }
+  },
+  iniciar() {
+    this.migrar().then(() => { this.subir(); this.precargar(); });
+    addEventListener("online", () => { this.subir(); this.precargar(); });
+  }
+};
+
+/* Ficha de un archivo (reservas y documentos) */
+async function docs(id, titulo) {
+  const meta = st.docs[id];
+  const estado = !meta ? "" : !Sync.codigo ? "Guardado solo en este móvil." : Archivos.cola.includes(id) ? "Guardado en este móvil · se subirá a la nube en cuanto haya conexión." : "Guardado en la nube y en este móvil.";
+  abrir(`<h2 class="h2">${esc(titulo)}</h2>
+    <p class="mu sm">${meta ? esc(meta.name) + (meta.size ? ` · ${(meta.size / 1048576).toFixed(1).replace(".", ",")} MB` : "") : "Foto o PDF. Se comparte entre los dos móviles y se abre sin conexión."}</p>
+    ${meta ? `<div id="dPrev" class="hint" style="margin-top:12px;text-align:center">Cargando…</div><div class="xs mu">${estado}</div>
+      <div class="btns"><a class="btn pri" id="dV" target="_blank" rel="noopener" style="pointer-events:none;opacity:.5">Abrir</a><label class="btn" style="margin:0;color:inherit">Cambiar<input type="file" id="dF" accept="image/*,application/pdf" hidden></label><button class="btn" id="dB" style="color:var(--bad)">Quitar</button></div>`
+    : `<div class="btns"><label class="btn pri" style="margin:0">Adjuntar foto o PDF<input type="file" id="dF" accept="image/*,application/pdf" hidden></label></div>`}`);
+  $("#dF").onchange = async e => { const x = e.target.files[0]; if (!x) return; toast("Guardando…"); if (await Archivos.guardar(id, x, titulo)) { toast("Adjuntado"); cerrar(); pintar(); } };
+  if (!meta) return;
+  $("#dB").onclick = async () => { if (!confirm("¿Quitar este archivo de los dos móviles?")) return; await Archivos.quitar(id); toast("Quitado"); cerrar(); pintar(); };
+  const u = await Archivos.url(id), p = $("#dPrev"); if (!p) return;
+  if (!u) { p.textContent = "No está en este móvil y ahora no se puede descargar. Prueba con conexión."; return; }
+  p.innerHTML = /^image\//.test(meta.type) ? `<img src="${u}" alt="" style="max-width:100%;max-height:50vh;border-radius:12px">` : `📄 ${esc(meta.name)}`;
+  p.style.padding = /^image\//.test(meta.type) ? "6px" : "";
+  const a = $("#dV"); a.href = u; a.style.pointerEvents = ""; a.style.opacity = "";
+}
+
+/* Fotos del diario */
+const fotosDe = f => Object.keys(st.docs).filter(k => k.startsWith(`foto-${f}-`)).sort();
+function fotosHTML(f) {
+  const ks = fotosDe(f);
+  return `<div class="fotos">${ks.map(k => `<button class="ph" data-foto="${k}"><img data-src="${k}" alt=""></button>`).join("")}
+    <label class="ph add">📷<span>Añadir fotos</span><input type="file" accept="image/*" multiple hidden data-addfotos="${f}"></label></div>`;
+}
+async function pintarMiniaturas(root = document) {
+  for (const img of root.querySelectorAll("img[data-src]")) {
+    const u = await Archivos.url(img.dataset.src);
+    if (u) img.src = u; else img.closest(".ph")?.classList.add("vacia");
+  }
+}
+document.addEventListener("change", async e => {
+  const f = e.target.dataset?.addfotos; if (!f) return;
+  const files = [...e.target.files]; if (!files.length) return;
+  toast(files.length === 1 ? "Guardando foto…" : `Guardando ${files.length} fotos…`);
+  for (const [i, x] of files.entries()) await Archivos.guardar(`foto-${f}-${Date.now().toString(36)}${i}`, x, "Foto del " + fCorta(f));
+  toast("Fotos guardadas"); pintar();
+});
+async function verFoto(k) {
+  const u = await Archivos.url(k);
+  abrir(`<div style="text-align:center">${u ? `<img src="${u}" alt="" style="max-width:100%;max-height:70vh;border-radius:14px">` : `<p class="mu">No se puede cargar sin conexión.</p>`}</div>
+    <div class="btns">${u ? `<a class="btn pri" href="${u}" target="_blank" rel="noopener" download="${esc(st.docs[k]?.name || "foto.jpg")}">Guardar</a>` : ""}<button class="btn" id="fB" style="color:var(--bad)">Quitar</button></div>`);
+  $("#fB").onclick = async () => { if (!confirm("¿Quitar esta foto de los dos móviles?")) return; await Archivos.quitar(k); cerrar(); pintar(); };
+}
+
+/* Otros documentos (Kit) */
+function otrosDocsHTML() {
+  return Object.entries(st.docs).filter(([k]) => k.startsWith("otro-")).sort((a, b) => a[1].ts - b[1].ts)
+    .map(([k, m]) => `<div class="chkrow"><span class="sp">${esc(m.titulo || m.name)}</span><button class="btn" data-doc="${k}" data-tit="${esc(m.titulo || m.name)}">Abrir ✓</button></div>`).join("") +
+    `<label class="btn dash" style="display:flex;margin-top:10px">＋ Añadir otro documento<input type="file" accept="image/*,application/pdf" hidden id="otroF"></label>`;
+}
+document.addEventListener("change", async e => {
+  if (e.target.id !== "otroF") return;
+  const x = e.target.files[0]; if (!x) return;
+  const titulo = (prompt("Nombre del documento", x.name.replace(/\.\w+$/, "")) || x.name).trim();
+  if (await Archivos.guardar("otro-" + Date.now().toString(36), x, titulo)) { toast("Guardado"); pintar(); }
+});
+
 /* ============================ arranque ============================ */
 Sync.iniciar();
+Archivos.iniciar();
 irTab(["hoy", "viaje", "reservas", "gastos", "kit"].includes(tab) ? tab : "hoy");
 setInterval(() => { if (tab === "hoy" && !$("#dlg").open && document.activeElement?.id !== "diarioT") hoy(); }, 60000);
 actualizarTiempo(); actualizarCambio();
